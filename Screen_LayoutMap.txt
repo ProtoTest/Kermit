@@ -1,0 +1,62 @@
+Start Screen - LiverAblation
+Logo - {container=':Upslope Demo.Form_HeaderForm' name='logo' type='QLabel' visible='1'}
+Minimize - {container=':Upslope Demo.Form_HeaderForm' name='minimizeButton' type='QPushButton' visible='1'}
+Close - {container=':Upslope Demo.Form_HeaderForm' name='closeButton' type='QPushButton' visible='1'}
+CaptureScreen - {container=':Upslope Demo.Form_LoadImagesTreeForm' name='captureScreenButton' text='Capture Screen' type='QPushButton' visible='1'}
+
+TipsPane - {container=':Upslope Demo.Form_LoadImagesTreeForm' name='sidePanel' type='QWidget' visible='1'}
+DataBaseButton - {container=':Upslope Demo.Form_LoadImagesTreeForm' name='databaseButton' text='Database' type='QToolButton' visible='1'}
+CDButton - {container=':Upslope Demo.Form_LoadImagesTreeForm' name='cdButton' text='CD' type='QToolButton' visible='1'}
+USBButton - {container=':Upslope Demo.Form_LoadImagesTreeForm' name='usbButton' text='USB' type='QToolButton' visible='1'}
+HDButton - {container=':Upslope Demo.Form_LoadImagesTreeForm' name='hardDriveButton' text='Hard Drive' type='QToolButton' visible='1'}
+SearchBox - {container=':Upslope Demo.Form_LoadImagesTreeForm' name='search' type='QLineEdit' visible='1'}
+PatientName_Col - {container=':customTreeWidget_QHeaderView' text='Patient Name' type='HeaderViewItem'}
+PatientID_col - {container=':customTreeWidget_QHeaderView' text='Patient ID' type='HeaderViewItem'}
+BirthDate_Col - {container=':customTreeWidget_QHeaderView' text='Birth Date' type='HeaderViewItem'}
+LastAccessed_Col - {container=':customTreeWidget_QHeaderView' text='Last Accessed' type='HeaderViewItem'}
+
+//These are the patient scans in the selected database.  The text indicated which record to select
+Col0 - {column='0' container=':Form.customTreeWidget_CustomTreeWidget' text='1.3.6.1.4.1.9328.50.3.0537' type='QModelIndex'}
+Col1 - {column='1' container=':Form.customTreeWidget_CustomTreeWidget' text='1.3.6.1.4.1.9328.50.3.0537' type='QModelIndex'}
+Col2 - {column='2' container=':Form.customTreeWidget_CustomTreeWidget' text='1.3.6.1.4.1.9328.50.3.0537' type='QModelIndex'}
+col3 - {column='3' container=':Form.customTreeWidget_CustomTreeWidget' text='Aug 15 2013' type='QModelIndex'}
+
+//This is the patient scan record used to create a new plan
+NewPlanBar - {container=':Form.customTreeWidget_CustomTreeWidget' name='frame' type='QFrame' visible='1'}
+NPB_StorageIcon - {container=':customTreeWidget.frame_QFrame' name='iconLabel' type='QLabel' visible='1'}
+NPB_ScanType - {container=':customTreeWidget.frame_QFrame' name='modalityLabel' text='CT' type='QLabel' visible='1'}
+NPB_ScanDate - {container=':customTreeWidget.frame_QFrame' name='dateLabel' text='Jan 01 2000 12:00 AM' type='QLabel' visible='1'}
+NPB_CompatibilityRating - {container=':customTreeWidget.frame_QFrame' name='ratingLabel' type='QLabel' visible='1'}
+NPB_Info - {container=':customTreeWidget.frame_QFrame' name='infoLabel' text='info' type='QLabel' visible='1'}
+NPB_CreateNewPlan - {container=':customTreeWidget.frame_QFrame' name='newPlanButton' text='Create New Plan' type='QPushButton' visible='1'}
+
+//This is the second bar in a selected patient file -- where a plan has already been created
+ExistingPlanBar - {container=':Form.customTreeWidget_CustomTreeWidget' name='frame' occurrence='2' type='QFrame' visible='1'}
+EPB_StorageIcon - {container=':customTreeWidget.frame_QFrame_2' name='iconLabel' type='QLabel' visible='1'}
+EPB_PlanType - {container=':customTreeWidget.frame_QFrame_2' name='planLabel' text='PLAN' type='QLabel' visible='1'}
+EPB_PlanDate - {container=':customTreeWidget.frame_QFrame_2' name='dateLabel' text='Aug 06 2013 11:32 AM' type='QLabel' visible='1'}
+EPB_PlanStatus - {container=':customTreeWidget.frame_QFrame_2' name='planStatusContentsLabel' text='Ready, not exported' type='QLabel' visible='1'}
+EPB_PlanAuthor - {container=':customTreeWidget.frame_QFrame_2' name='byContentsLabel' text='kevin' type='QLabel' visible='1'}
+EPB_OpenPlan - {container=':customTreeWidget.frame_QFrame_2' name='openPlanButton' text='Open Plan' type='QPushButton' visible='1'}
+
+//Footer stuff
+Help_Link? - {container=':Upslope Demo.Form_LoadImagesTreeForm' name='helpLabel' text='Help: I can\'t find what I\'m looking for.' type='QLabel' visible='1'}
+Progress_LoadImages - {name='firstTaskButton' text='Load Images' type='QPushButton' visible='1' window=':Upslope Demo_MainWindow'}
+Progress_Plan - {name='middleTaskButton' text='Plan' type='QPushButton' visible='1' window=':Upslope Demo_MainWindow'}
+Progress_Review - {name='lastTaskButton' text='Review' type='QPushButton' visible='1' window=':Upslope Demo_MainWindow'}
+
+//StatusBar - present on all screens
+User_Label - {container=':Upslope Demo.Form_StatusBarForm' name='userLabel' text='User:' type='QLabel' visible='1'}
+User_Name - {container=':Upslope Demo.Form_StatusBarForm' name='userLabel2' text='SethUrban' type='QLabel' visible='1'}
+PowerSource_Label - {container=':Upslope Demo.Form_StatusBarForm' name='userLabel2' text='SethUrban' type='QLabel' visible='1'}
+PowerSource_name - {container=':Upslope Demo.Form_StatusBarForm' name='powerSourceLabel2' text='Plugged in' type='QLabel' visible='1'}
+Version_Label - {container=':Upslope Demo.Form_StatusBarForm' name='versionLabel' text='Version:' type='QLabel' visible='1'}
+Version_name - {container=':Upslope Demo.Form_StatusBarForm' name='versionLabel2' text='130717 (not for clinical use)' type='QLabel' visible='1'}
+CurrentDate - {container=':Upslope Demo.Form_StatusBarForm' name='dateLabel' text='Aug 15, 2013' type='QLabel' visible='1'}
+CurrentTime - {container=':Upslope Demo.Form_StatusBarForm' name='timeLabel' text='3:58 PM' type='QLabel' visible='1'}
+
+
+
+
+
+
