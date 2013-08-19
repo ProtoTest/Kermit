@@ -1,0 +1,49 @@
+:Birth Date_HeaderViewItem	{container=':customTreeWidget_QHeaderView' text='Birth Date' type='HeaderViewItem'}
+:Form.130717 (not for clinical use)_QLabel	{container=':Upslope Demo.Form_StatusBarForm' name='versionLabel2' text='130717 (not for clinical use)' type='QLabel' visible='1'}
+:Form.3:58 PM_QLabel	{container=':Upslope Demo.Form_StatusBarForm' name='timeLabel' text='3:58 PM' type='QLabel' visible='1'}
+:Form.Aug 15, 2013_QLabel	{container=':Upslope Demo.Form_StatusBarForm' name='dateLabel' text='Aug 15, 2013' type='QLabel' visible='1'}
+:Form.CD_QToolButton	{container=':Upslope Demo.Form_LoadImagesTreeForm' name='cdButton' text='CD' type='QToolButton' visible='1'}
+:Form.Capture Screen_QPushButton	{container=':Upslope Demo.Form_LoadImagesTreeForm' name='captureScreenButton' text='Capture Screen' type='QPushButton' visible='1'}
+:Form.Database_QToolButton	{container=':Upslope Demo.Form_LoadImagesTreeForm' name='databaseButton' text='Database' type='QToolButton' visible='1'}
+:Form.Hard Drive_QToolButton	{container=':Upslope Demo.Form_LoadImagesTreeForm' name='hardDriveButton' text='Hard Drive' type='QToolButton' visible='1'}
+:Form.Help: I can't find what I'm looking for._QLabel	{container=':Upslope Demo.Form_LoadImagesTreeForm' name='helpLabel' text='Help: I can\\'t find what I\\'m looking for.' type='QLabel' visible='1'}
+:Form.Plugged in_QLabel	{container=':Upslope Demo.Form_StatusBarForm' name='powerSourceLabel2' text='Plugged in' type='QLabel' visible='1'}
+:Form.Power source:_QLabel	{container=':Upslope Demo.Form_StatusBarForm' name='powerSourceLabel' text='Power source:' type='QLabel' visible='1'}
+:Form.SethUrban_QLabel	{container=':Upslope Demo.Form_StatusBarForm' name='userLabel2' text='SethUrban' type='QLabel' visible='1'}
+:Form.USB_QToolButton	{container=':Upslope Demo.Form_LoadImagesTreeForm' name='usbButton' text='USB' type='QToolButton' visible='1'}
+:Form.User:_QLabel	{container=':Upslope Demo.Form_StatusBarForm' name='userLabel' text='User:' type='QLabel' visible='1'}
+:Form.Version:_QLabel	{container=':Upslope Demo.Form_StatusBarForm' name='versionLabel' text='Version:' type='QLabel' visible='1'}
+:Form.closeButton_QPushButton	{container=':Upslope Demo.Form_HeaderForm' name='closeButton' type='QPushButton' visible='1'}
+:Form.customTreeWidget_CustomTreeWidget	{container=':Upslope Demo.Form_LoadImagesTreeForm' name='customTreeWidget' type='CustomTreeWidget' visible='1'}
+:Form.logo_QLabel	{container=':Upslope Demo.Form_HeaderForm' name='logo' type='QLabel' visible='1'}
+:Form.minimizeButton_QPushButton	{container=':Upslope Demo.Form_HeaderForm' name='minimizeButton' type='QPushButton' visible='1'}
+:Form.search_QLineEdit	{container=':Upslope Demo.Form_LoadImagesTreeForm' name='search' type='QLineEdit' visible='1'}
+:Form.sidePanel_QWidget	{container=':Upslope Demo.Form_LoadImagesTreeForm' name='sidePanel' type='QWidget' visible='1'}
+:Last Accessed_HeaderViewItem	{container=':customTreeWidget_QHeaderView' text='Last Accessed' type='HeaderViewItem'}
+:Patient ID_HeaderViewItem	{container=':customTreeWidget_QHeaderView' text='Patient ID' type='HeaderViewItem'}
+:Patient Name_HeaderViewItem	{container=':customTreeWidget_QHeaderView' text='Patient Name' type='HeaderViewItem'}
+:Upslope Demo.Form_HeaderForm	{name='HeaderForm' type='HeaderForm' visible='1' window=':Upslope Demo_MainWindow' windowTitle='Form'}
+:Upslope Demo.Form_LoadImagesTreeForm	{name='LoadImagesTreeForm' type='LoadImagesTreeForm' visible='1' window=':Upslope Demo_MainWindow' windowTitle='Form'}
+:Upslope Demo.Form_StatusBarForm	{name='StatusBarForm' type='StatusBarForm' visible='1' window=':Upslope Demo_MainWindow' windowTitle='Form'}
+:Upslope Demo.Load Images_QPushButton	{name='firstTaskButton' text='Load Images' type='QPushButton' visible='1' window=':Upslope Demo_MainWindow'}
+:Upslope Demo.Plan_QPushButton	{name='middleTaskButton' text='Plan' type='QPushButton' visible='1' window=':Upslope Demo_MainWindow'}
+:Upslope Demo.Review_QPushButton	{name='lastTaskButton' text='Review' type='QPushButton' visible='1' window=':Upslope Demo_MainWindow'}
+:Upslope Demo_MainWindow	{type='MainWindow' unnamed='1' visible='1' windowTitle='Upslope Demo'}
+:customTreeWidget.1.3.6.1.4.1.9328.50.3.0537_QModelIndex	{column='0' container=':Form.customTreeWidget_CustomTreeWidget' text='1.3.6.1.4.1.9328.50.3.0537' type='QModelIndex'}
+:customTreeWidget.1.3.6.1.4.1.9328.50.3.0537_QModelIndex_2	{column='1' container=':Form.customTreeWidget_CustomTreeWidget' text='1.3.6.1.4.1.9328.50.3.0537' type='QModelIndex'}
+:customTreeWidget.Aug 15 2013_QModelIndex	{column='3' container=':Form.customTreeWidget_CustomTreeWidget' text='Aug 15 2013' type='QModelIndex'}
+:customTreeWidget.frame_QFrame	{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' type='QFrame' visible='1'}
+:customTreeWidget.frame_QFrame_2	{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' occurrence='2' type='QFrame' visible='1'}
+:customTreeWidget_QHeaderView	{container=':Form.customTreeWidget_CustomTreeWidget' type='QHeaderView' unnamed='1' visible='1'}
+:customTreeWidget_QModelIndex	{column='2' container=':Form.customTreeWidget_CustomTreeWidget' text='' type='QModelIndex'}
+:frame.Aug 06 2013 11:32 AM_QLabel	{container=':customTreeWidget.frame_QFrame_2' name='dateLabel' text='Aug 06 2013 11:32 AM' type='QLabel' visible='1'}
+:frame.CT_QLabel	{container=':customTreeWidget.frame_QFrame' name='modalityLabel' text='CT' type='QLabel' visible='1'}
+:frame.Create New Plan_QPushButton	{container=':customTreeWidget.frame_QFrame' name='newPlanButton' text='Create New Plan' type='QPushButton' visible='1'}
+:frame.Jan 01 2000 12:00 AM_QLabel	{container=':customTreeWidget.frame_QFrame' name='dateLabel' text='Jan 01 2000 12:00 AM' type='QLabel' visible='1'}
+:frame.Open Plan_QPushButton	{container=':customTreeWidget.frame_QFrame_2' name='openPlanButton' text='Open Plan' type='QPushButton' visible='1'}
+:frame.PLAN_QLabel	{container=':customTreeWidget.frame_QFrame_2' name='planLabel' text='PLAN' type='QLabel' visible='1'}
+:frame.Ready, not exported_QLabel	{container=':customTreeWidget.frame_QFrame_2' name='planStatusContentsLabel' text='Ready, not exported' type='QLabel' visible='1'}
+:frame.iconLabel_QLabel	{container=':customTreeWidget.frame_QFrame_2' name='iconLabel' type='QLabel' visible='1'}
+:frame.info_QLabel	{container=':customTreeWidget.frame_QFrame' name='infoLabel' text='info' type='QLabel' visible='1'}
+:frame.kevin_QLabel	{container=':customTreeWidget.frame_QFrame_2' name='byContentsLabel' text='kevin' type='QLabel' visible='1'}
+:frame.ratingLabel_QLabel	{container=':customTreeWidget.frame_QFrame' name='ratingLabel' type='QLabel' visible='1'}
