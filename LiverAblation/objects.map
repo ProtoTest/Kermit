@@ -1,18 +1,6 @@
-:Form.Database_QToolButton	{container=':Upslope Demo.Form_LoadImagesTreeForm' name='databaseButton' text='Database' type='QToolButton' visible='1'}
-:Form.Form_VolumeRenderingViewWidget	{container=':Upslope Demo.Form_ReviewTargetForm' name='ViewWidget' type='VolumeRenderingViewWidget' visible='1' windowTitle='Form'}
 :Form.customTreeWidget_CustomTreeWidget	{container=':Upslope Demo.Form_LoadImagesTreeForm' name='customTreeWidget' type='CustomTreeWidget' visible='1'}
-:Form.logo_QLabel	{container=':Upslope Demo.Form_HeaderForm' name='logo' type='QLabel' visible='1'}
-:Form.qvtkWidget_QVTKWidget	{container=':Form.Form_VolumeRenderingViewWidget' name='qvtkWidget' type='QVTKWidget' visible='1'}
 :Form.search_QLineEdit	{container=':Upslope Demo.Form_LoadImagesTreeForm' name='search' type='QLineEdit' visible='1'}
-:Form.widget_7_QWidget	{container=':Upslope Demo.Form_LoadImagesTreeForm' name='widget_7' type='QWidget' visible='1'}
-:Form_QTabBar	{container=':Upslope Demo.Form_SecondaryHeaderForm' type='QTabBar' unnamed='1' visible='1'}
-:Upslope Demo.Form_HeaderForm	{name='HeaderForm' type='HeaderForm' visible='1' window=':Upslope Demo_MainWindow' windowTitle='Form'}
 :Upslope Demo.Form_LoadImagesTreeForm	{name='LoadImagesTreeForm' type='LoadImagesTreeForm' visible='1' window=':Upslope Demo_MainWindow' windowTitle='Form'}
-:Upslope Demo.Form_ReviewTargetForm	{name='ReviewTargetForm' type='ReviewTargetForm' visible='1' window=':Upslope Demo_MainWindow' windowTitle='Form'}
-:Upslope Demo.Form_SecondaryHeaderForm	{name='SecondaryHeaderForm' type='SecondaryHeaderForm' visible='1' window=':Upslope Demo_MainWindow' windowTitle='Form'}
 :Upslope Demo_MainWindow	{type='MainWindow' unnamed='1' visible='1' windowTitle='Upslope Demo'}
-:customTreeWidget.COVIDIEN PHANTOM 2_QModelIndex	{column='0' container=':Form.customTreeWidget_CustomTreeWidget' text='COVIDIEN PHANTOM 2' type='QModelIndex'}
-:customTreeWidget.frame_QFrame	{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' type='QFrame' visible='1'}
-:customTreeWidget.frame_QFrame_2	{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' occurrence='2' type='QFrame' visible='1'}
-:frame.Create New Plan_QPushButton	{container=':customTreeWidget.frame_QFrame' name='newPlanButton' text='Create New Plan' type='QPushButton' visible='1'}
-:frame.Open Plan_QPushButton	{container=':customTreeWidget.frame_QFrame_2' name='openPlanButton' text='Open Plan' type='QPushButton' visible='1'}
+:customTreeWidget.frame_QFrame	{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' occurrence='2' type='QFrame' visible='1'}
+:frame.Open Plan_QPushButton	{container=':customTreeWidget.frame_QFrame' name='openPlanButton' text='Open Plan' type='QPushButton' visible='1'}
