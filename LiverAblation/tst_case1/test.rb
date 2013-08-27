@@ -14,12 +14,16 @@ def main
 
   startApplication("LiverAblation")
   
-  logFile = TestLogger.new("testOne")
-  logFile.AppendLog("Here's a command")
-  logFile.AppendLog("Some other crazy shit shere")
+  #logFile = TestLogger.new("fromRubyMine")
+  #logFile.AppendLog("Here's a command")
+  #logFile.AppendLog("Some other crazy shit shere")
+  #logFile.CompleteLog()
   #logFile.setInitialLogFile()
-  #test = MainScreen.new
-  #test.searchforRecord()
+  logFile = TestLogger.new("tst_Case1")
+  test = MainScreen.new(logFile).searchforRecord()
+  
+  
+  
    
 end
 

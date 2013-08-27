@@ -5,12 +5,13 @@ require findFile("scripts", "ScreenObject.rb")
 class MainScreen < BaseScreenObject
   
   
-  def initialize
+  def initialize(logFile)
     @searchField = Element.new(":Form.search_QLineEdit")
+    initLog(logFile)
   end
   
   def searchforRecord
     enterText(@searchField, "search text")
-    return MainScreen.new
+    return MainScreen
   end
 end

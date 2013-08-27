@@ -3,4 +3,5 @@
 :Upslope Demo.Form_LoadImagesTreeForm	{name='LoadImagesTreeForm' type='LoadImagesTreeForm' visible='1' window=':Upslope Demo_MainWindow' windowTitle='Form'}
 :Upslope Demo_MainWindow	{type='MainWindow' unnamed='1' visible='1' windowTitle='Upslope Demo'}
 :customTreeWidget.frame_QFrame	{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' occurrence='2' type='QFrame' visible='1'}
+:customTreeWidget.frame_QFrame_4	{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' occurrence='23' type='QFrame' visible='1'}
 :frame.Open Plan_QPushButton	{container=':customTreeWidget.frame_QFrame' name='openPlanButton' text='Open Plan' type='QPushButton' visible='1'}
