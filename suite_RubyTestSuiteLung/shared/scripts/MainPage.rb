@@ -23,20 +23,20 @@ class MainPage < MainContainerPage
     @captureScreenButton = Element.new(":Form.Capture Screen_QPushButton")
     
     # Text Entry
-    @searchBox = TextElement.new(":Form.search_QLineEdit")
+    @searchBox = TextInputElement.new(":Form.search_QLineEdit")
     
     # Table Headers
     @patientNameHeaderView = Element.new(":Patient Name_HeaderViewItem")
     @patientIDHeaderView = Element.new(":Patient ID_HeaderViewItem")
     @birthDateHeaderView = Element.new(":Birth Date_HeaderViewItem")
     @lastAccessHeaderView = Element.new(":Last Accessed_HeaderViewItem")
-    
     # Table Data
     @patient0 = Element.new(":customTreeWidget.1.3.6.1.4.1.9328.50.3.0537_QModelIndex")
     
     def doShit(element)
       Test.log("MainPage::doShit: " + element.symName)
     end
+    
   end
   
   
