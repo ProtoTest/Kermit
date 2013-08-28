@@ -3,11 +3,13 @@ class TestLogger
   attr_reader :fileName
   attr_reader :testName
 
-  def initialize(testName)
+  def initialize
     @testLogLocation = "C:\\Users\\SethUrban\\Documents\\SquishTestLogs\\"
-    @testName = testName
+    @testName = getTestName()
     @fileType = ".txt"
     @fileName = ""
+    @seperator = ":**:"
+    @testInfo = ""
 
     setInitialLogFile()
     @@htmlHeader = "<html><body><h1>Test Log File</h1><br><h2>" + @testName +"</h2><br>"
@@ -24,22 +26,25 @@ class TestLogger
     @fileName = @testLogLocation + @testName + @fileType
 
     #write the file
-    @Header = "TEST COMMAND\t\tSCREENSHOT\t\tTIME\n-------------------------------------------------------"
+    #@testInfo = TestInfo() #this will only work from within squish
+    @Header = "TEST COMMAND\t\tSCREENSHOT\t\tMEMORY\t\tTIME\n-------------------------------------------------------"
     @testlog = File.open(@fileName, "w")
+    #@testlog.puts(@testInfo)
     @testlog.puts(@Header)
     @testlog.close
   end
 
   def AppendLog(command, screenShot = "ns")
+    
     now = Time.new
     #builds a string out of dates for logging
     timeDel = "."
     nowString = now.day.to_s + timeDel + now.month.to_s + timeDel +  now.year.to_s + " " + now.hour.to_s + timeDel + now.min.to_s + timeDel + now.sec.to_s + ":" + now.usec.to_s
 
+    #the application Context is a squish API function
+    ctx = currentApplicationContext()
     #this is the string that will be added to the logFile
-    tab = "::"
-    commWrapper = "<"
-    logString = command + tab + screenShot + tab + nowString
+    logString = command + @seperator + screenShot + @seperator + ctx.usedMemory.to_s + @seperator + nowString
 
 
     @testlog = File.open(@fileName, "a")  #the 'a' opens the file in append mode, placing the cursor at the end of the file
@@ -60,7 +65,7 @@ class TestLogger
     _limit = _logLines.length - 1
     for counter in 0.._limit
       if counter > 1 #this will ignore the first two lines
-        _items = _logLines[counter].split('::')
+        _items = _logLines[counter].split(@seperator)
         _itemLimit = _items.length - 1
         for count in 0.._itemLimit
           _tableRow += "<td>" + _items[count] + "</td>"
@@ -98,16 +103,33 @@ class TestLogger
 </script>"
 
     _tableCSS = "<style type=\"text/css\">
-table.tftable {font-size:12px;color:#333333;width:100%;border-width: 1px;border-color: #729ea5;border-collapse: collapse;}
-table.tftable th {font-size:12px;background-color:#acc8cc;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;text-align:left;}
-table.tftable tr {background-color:#d4e3e5;}
-table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;}
-</style>"
+      table.tftable {font-size:12px;color:#333333;width:100%;border-width: 1px;border-color: #729ea5;border-collapse: collapse;}
+      table.tftable th {font-size:12px;background-color:#acc8cc;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;text-align:left;}
+      table.tftable tr {background-color:#d4e3e5;}
+      table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;}
+      </style>"
     _tableTag = "<table id=\"tfhover\" class=\"tftable\" border=\"1\">"
-    _tableHead = "<tr><th>TestCommand</th><th>ScreenShot</th><th>Time</th></tr>"
+    _tableHead = "<tr><th>TestCommand</th><th>ScreenShot</th><th>Memory</th><th>Time</th></tr>"
 
     @@htmlPage = _tableScript + _tableCSS + _tableTag + _tableHead
 
   end
+
+  def TestInfo
+    ctx = currentApplicationContext()
+    nl = "\n"
+    @testInfo = ctx.commandLine + nl + ctx.usedMemory.to_s
+    return @testInfo
+  end
+
+  def getTestName
+      _testPath = Squishinfo.testCase
+      _testArr = _testPath.split("\\")
+      _testIndex = (_testArr.length - 1)
+      return _testArr[_testIndex]
+
+  end
+
+
 
 end
