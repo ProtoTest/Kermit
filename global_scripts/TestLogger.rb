@@ -4,7 +4,7 @@ class TestLogger
   attr_reader :testName
 
   def initialize
-    @testLogLocation = "C:\\Users\\SethUrban\\Documents\\SquishTestLogs\\"
+    @testLogLocation = ENV['USERPROFILE'] + "\\Documents\\SquishTestLogs\\"
     @testName = getTestName()
     @fileType = ".txt"
     @fileName = ""
@@ -18,6 +18,7 @@ class TestLogger
   end
 
   def setInitialLogFile
+    Dir.mkdir(@testLogLocation)
     now = Time.new
     @testLogLocation += @testName + "_" + now.strftime("%I_%M_%S") + "\\"
     @testName += now.strftime("%I_%M_%S")

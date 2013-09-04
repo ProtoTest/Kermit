@@ -4,7 +4,7 @@ require 'squish'
 include Squish
 
 class Element
-  attr_reader :name, :symbolicName, :realName, :elementObject
+  attr_reader :name, :symbolicName, :realName, :children
   
   def initialize(name, objectString)
     begin
@@ -22,8 +22,9 @@ class Element
         raise "objectString is not a valid object string representation"
       end
     
-      @elementObject = findObject(@symbolicName)
-      @properties = Squish::Object.properties(@elementObject)
+      elementObject = waitForObject(@symbolicName)
+      @properties = Squish::Object.properties(elementObject)
+      @children = Squish::Object.children(elementObject)
     rescue Exception => e
       Test.fail(objectString + ": " + e.message)
     end      
@@ -33,19 +34,21 @@ class Element
     if @properties[propName]
       return @properties[propName]
     else
-      Test.fail(propName + "property does not exist for element: " + @symbolicName)
+      Test.log(propName + "property does not exist for element: " + @symbolicName)
       return nil
     end
   end
 
   def click
-    mouseClick(@elementObject)
+    mouseClick(waitForObject(@symbolicName))  if Squish::Object.exists(@symbolicName)
   end
   
-  def doubleClick
-    doubleClick(@elementObject)
+  def dClick
+    doubleClick(waitForObject(@symbolicName)) if Squish::Object.exists(@symbolicName)
   end
   
+  
+    
   def to_s
     "[name, symbolicName, realName]: " + @name + ", " + @symbolicName + ", " + @realName
   end

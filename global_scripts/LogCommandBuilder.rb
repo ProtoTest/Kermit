@@ -8,6 +8,11 @@ class LogCommandBuilder
     return _return
   end
 
+  def dClick(element)
+    _return = "MouseDoubleClick on: \"" + element.symName + "\""
+    return _return
+  end
+
   def type(element, someText)
     _return = "Type \"" + someText + "\" into: \"" + element.symName + "\""
     return _return

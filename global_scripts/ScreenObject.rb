@@ -21,9 +21,14 @@ class BaseScreenObject
       @@logFile.AppendLog(@@logCmd.type(element, someText))
     end
     
-    def clickButton(element)      
+    def click(element)      
       mouseClick(waitForObject(element.symName))
       @@logFile.AppendLog(@@logCmd.click(element))     
+    end
+    
+    def dClick(element)
+      doubleClick(waitForObject(element.symName))
+      @@logFile.AppendLog(@@logCmd.dClick(element))
     end
     
   def moveTarget(element, direct, amount)
