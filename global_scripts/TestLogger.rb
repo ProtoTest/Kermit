@@ -18,7 +18,7 @@ class TestLogger
   end
 
   def setInitialLogFile
-    Dir.mkdir(@testLogLocation)
+    Dir.mkdir(@testLogLocation) if not File.exist?(@testLogLocation)
     now = Time.new
     @testLogLocation += @testName + "_" + now.strftime("%I_%M_%S") + "\\"
     @testName += now.strftime("%I_%M_%S")
