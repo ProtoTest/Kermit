@@ -3,6 +3,18 @@ require 'squish'
 
 include Squish
 
+OBJECT_WAIT_TIMEOUT= 5000
+
+########################################################################################
+#
+#  Element
+#     Encapsulates a QT object details (i.e., real name, symbolic name, object children,
+#       object properties
+#
+#  @author  Matt Siwiec
+#  @notes
+#
+########################################################################################
 class Element
   attr_reader :name, :symbolicName, :realName, :children
   
@@ -22,7 +34,7 @@ class Element
         raise "objectString is not a valid object string representation"
       end
     
-      elementObject = waitForObject(@symbolicName)
+      elementObject = waitForObject(@symbolicName, OBJECT_WAIT_TIMEOUT)
       @properties = Squish::Object.properties(elementObject)
       @children = Squish::Object.children(elementObject)
     rescue Exception => e
@@ -40,11 +52,11 @@ class Element
   end
 
   def click
-    mouseClick(waitForObject(@symbolicName))  if Squish::Object.exists(@symbolicName)
+    mouseClick(waitForObject(@symbolicName, OBJECT_WAIT_TIMEOUT))  if Squish::Object.exists(@symbolicName)
   end
   
   def dClick
-    doubleClick(waitForObject(@symbolicName)) if Squish::Object.exists(@symbolicName)
+    doubleClick(waitForObject(@symbolicName, OBJECT_WAIT_TIMEOUT)) if Squish::Object.exists(@symbolicName)
   end
   
   
