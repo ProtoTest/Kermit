@@ -3,6 +3,7 @@ require 'squish'
 include Squish
 
 require findFile("scripts", "Element.rb")
+require findFile("scripts", "AddTargetScreen.rb")
 
 ########################################################################################
 #
@@ -97,14 +98,24 @@ end
 #
 ########################################################################################
 class PatientDetails
-  attr_reader :CTRow, :planRows
+  attr_reader :planRows
   
   def initialize
     @CTRow = CTRow.new(":customTreeWidget.frame_QFrame")
     @planRows = getPlanRows 
   end
   
+  # Clicks on the create new plan button 
+  def createNewPlan
+    @CTRow.createPlanButton.click
+    return AddTargetScreen.new
+  end
 
+  # Double clicks the patient's CT scan to open it
+  def openCTScan 
+    @CTRow.dClick
+  end
+  
   private
   
   def getPlanRows
@@ -147,10 +158,11 @@ class Patient
   end
   
   # Returns the patient details (CT Row, Plan Rows)
-  def getDetails
+  def openPatientDetails
     mouseClick(waitForObject(@patientElement.symbolicName))  if Squish::Object.exists(@patientElement.symbolicName)
     return PatientDetails.new
   end
+  
 end
 
 
@@ -164,7 +176,7 @@ end
 #
 ########################################################################################
 class PatientTable
-  attr_reader :tableHeader, :patientList
+  attr_reader :patientList
 
   def initialize
     @tableHeader = TableHeader.new
