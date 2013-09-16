@@ -3,7 +3,8 @@ require 'squish'
 include Squish
 
 require findFile("scripts", "Element.rb")
-require findFile("scripts", "AddTargetScreen.rb")
+require findFile("scripts", "BaseScreenObject.rb")
+require findFile("scripts", "EditTargetScreen.rb")
 
 ########################################################################################
 #
@@ -15,7 +16,6 @@ require findFile("scripts", "AddTargetScreen.rb")
 #
 ########################################################################################
 class TableHeader
-  attr_reader :patientNameHeaderView, :patientIDHeaderView, :birthDateHeaderView, :lastAccessHeaderView
   
   def initialize
     # Table Headers
@@ -36,21 +36,22 @@ end
 #
 ########################################################################################
 class CTRow < Element
-  attr_reader :icon, :date, :type, :compatibilityLabel, :ratingLabel, :infoLink, :createPlanButton
 
   def initialize(objectString)
-    super "PatientRow", objectString
+    super("PatientRow", objectString)
     
     #CT Row Children
       #QHboxLayout, iconLabel, modalityLabel(type), dateLabel, compatibilityLabel, ratingLabel, infoLabel(link), newPlanButton
     
-    @icon = Element.new("Row Icon Label", ObjectMap.symbolicName(@children[1]))
-    @type = Element.new("Row_Type_Label", ObjectMap.symbolicName(@children[2]))
-    @date = Element.new("Date Label", ObjectMap.symbolicName(@children[3]))
-    @compatibilityLabel = Element.new("Compatibility Label", ObjectMap.symbolicName(@children[4]))
-    @ratingLabel = Element.new("Rating Label", ObjectMap.symbolicName(@children[5]))
-    @infoLink = Element.new("Info Link", ObjectMap.symbolicName(@children[6]))
-    @createPlanButton = Element.new("Button", ObjectMap.symbolicName(@children[7]))
+    objectChildren = getChildren
+    
+    @icon = Element.new("Row Icon Label", ObjectMap.symbolicName(objectChildren[1]))
+    @type = Element.new("Row_Type_Label", ObjectMap.symbolicName(objectChildren[2]))
+    @date = Element.new("Date Label", ObjectMap.symbolicName(objectChildren[3]))
+    @compatibilityLabel = Element.new("Compatibility Label", ObjectMap.symbolicName(objectChildren[4]))
+    @ratingLabel = Element.new("Rating Label", ObjectMap.symbolicName(objectChildren[5]))
+    @infoLink = Element.new("Info Link", ObjectMap.symbolicName(objectChildren[6]))
+    @createPlanButton = Element.new("Button", ObjectMap.symbolicName(objectChildren[7]))
     
   end
 end
@@ -65,24 +66,25 @@ end
 #
 ########################################################################################
 class PlanRow  < Element
-  attr_reader :icon, :type, :date, :planStatusLabel, :planStatusContentsLabel, :byLabel, :byContentsLabel, :openPlanButton
 
   def initialize(objectString)
 
-    super "PlanRow", objectString
+    super("PlanRow", objectString)
     
     #Plan Row Children
       #QHboxLayout, iconLabel, planLabel(type), dateLabel, planStausLabel, planStatusContentsLabel,
       #byLabel, byContentsLabel, openPlanButton
     
-    @icon = Element.new("Row Icon Label", ObjectMap.symbolicName(@children[1]))
-    @type = Element.new("Row_Type_Label", ObjectMap.symbolicName(@children[2]))
-    @date = Element.new("Date Label", ObjectMap.symbolicName(@children[3]))
-    @planStatusLabel = Element.new("Compatibility Label", ObjectMap.symbolicName(@children[4]))
-    @planStatusContentsLabel = Element.new("Rating Label", ObjectMap.symbolicName(@children[5]))
-    @byLabel = Element.new("Info Link", ObjectMap.symbolicName(@children[6]))
-    @byContentsLabel = Element.new("Info Link", ObjectMap.symbolicName(@children[7]))
-    @openPlanButton = Element.new("Button", ObjectMap.symbolicName(@children[8]))    
+    objectChildren = getChildren
+    
+    @icon = Element.new("Row Icon Label", ObjectMap.symbolicName(objectChildren[1]))
+    @type = Element.new("Row_Type_Label", ObjectMap.symbolicName(objectChildren[2]))
+    @date = Element.new("Date Label", ObjectMap.symbolicName(objectChildren[3]))
+    @planStatusLabel = Element.new("Compatibility Label", ObjectMap.symbolicName(objectChildren[4]))
+    @planStatusContentsLabel = Element.new("Rating Label", ObjectMap.symbolicName(objectChildren[5]))
+    @byLabel = Element.new("Info Link", ObjectMap.symbolicName(objectChildren[6]))
+    @byContentsLabel = Element.new("Info Link", ObjectMap.symbolicName(objectChildren[7]))
+    @openPlanButton = Element.new("Button", ObjectMap.symbolicName(objectChildren[8]))    
   end  
 end
 
@@ -97,8 +99,7 @@ end
 #             to open the sub-tree of patient details            
 #
 ########################################################################################
-class PatientDetails
-  attr_reader :planRows
+class PatientDetails < BaseScreenObject
   
   def initialize
     @CTRow = CTRow.new(":customTreeWidget.frame_QFrame")
@@ -107,13 +108,25 @@ class PatientDetails
   
   # Clicks on the create new plan button 
   def createNewPlan
-    @CTRow.createPlanButton.click
-    return AddTargetScreen.new
+    click(@CTRow.createPlanButton)
+    return EditTargetScreen.new
   end
 
   # Double clicks the patient's CT scan to open it
   def openCTScan 
-    @CTRow.dClick
+    dClick(@CTRow)
+    verifyCTImageDisplayed
+  end
+  
+  def verifyCTImageDisplayed
+    ctImage = Element.new("CT Image", ":Form.qvtkWidget_QVTKWidget_3")
+  end
+  
+  def openAndTimeCTScanImage(timer)
+    timer.start
+    openCTScan
+    timer.stop
+    return PlanScreen.new
   end
   
   private
@@ -127,7 +140,7 @@ class PatientDetails
         # each patient plan row is indexed via the 'occurrence' property
         rowName = "{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' occurrence='%s' type='QFrame' visible='1'}" % startIndex
        
-        row=waitForObject(rowName, OBJECT_WAIT_TIMEOUT)
+        row = waitForObject(rowName, OBJECT_WAIT_TIMEOUT)
         rows << PlanRow.new(ObjectMap.symbolicName(row))
         startIndex += 1
         
@@ -149,7 +162,7 @@ end
 #  @notes     Provides functionality for the tester to get the patient details from the sub-tree
 #
 ########################################################################################
-class Patient
+class Patient < BaseScreenObject
   attr_reader :name
 
   def initialize(name, objectString)
@@ -159,7 +172,7 @@ class Patient
   
   # Returns the patient details (CT Row, Plan Rows)
   def openPatientDetails
-    mouseClick(waitForObject(@patientElement.symbolicName))  if Squish::Object.exists(@patientElement.symbolicName)
+    click(@patientElement)
     return PatientDetails.new
   end
   
@@ -175,7 +188,7 @@ end
 #  @notes
 #
 ########################################################################################
-class PatientTable
+class PatientTable < BaseScreenObject
   attr_reader :patientList
 
   def initialize
@@ -188,10 +201,10 @@ class PatientTable
 
   # Returns the list of patients found within the container
   def getPatientList
-    patientContainer = Element.new("Patient Container", ":Form.customTreeWidget_CustomTreeWidget")
+    patientContainer = Element.new("Patient Table Container", ":Form.customTreeWidget_CustomTreeWidget")
     patientList = Array.new
 
-    patientContainer.children.each do |x|
+    patientContainer.getChildren.each do |x|
       if x.respond_to?(:text) and x.respond_to?(:column) and (x.column==0)
         # If we are dynamically adding patients after they are loaded, the patient objects
         # need to be added to the Object Map
