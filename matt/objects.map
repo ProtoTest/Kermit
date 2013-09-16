@@ -3,18 +3,27 @@
 :Form.Add a Target_QPushButton	{container=':Upslope.Form_AddTargetsForm' name='addTargetButton' text='Add a Target' type='QPushButton' visible='1'}
 :Form.CD_QToolButton	{container=':Upslope.Form_LoadImagesTreeForm' name='cdButton' text='CD' type='QToolButton' visible='1'}
 :Form.Capture Screen_QPushButton	{container=':Upslope.Form_LoadImagesTreeForm' name='captureScreenButton' text='Capture Screen' type='QPushButton' visible='1'}
+:Form.Capture Screen_QPushButton_2	{container=':Upslope.Form_SecondaryHeaderForm' name='captureScreenButton' text='Capture Screen' type='QPushButton' visible='1'}
 :Form.Change Views_QPushButton	{container=':Upslope.Form_SecondaryHeaderForm' name='changeViewsButton' text='Change Views' type='QPushButton' visible='1'}
 :Form.Database_QToolButton	{container=':Upslope.Form_LoadImagesTreeForm' name='databaseButton' text='Database' type='QToolButton' visible='1'}
+:Form.Delete Ablation Zone_QPushButton	{container=':Form_EditAblationZoneDetailsForm' name='deleteAblationZoneButton' text='Delete Ablation Zone' type='QPushButton' visible='1'}
+:Form.Delete Entry Point_QPushButton	{container=':Form_SetEntryPointForm' name='deleteEntryPointButton' text='Delete Entry Point' type='QPushButton' visible='1'}
+:Form.Delete Target_QPushButton	{container=':Form_EditTargetDetailsForm' name='deleteTargetButton' text='Delete Target' type='QPushButton' visible='1'}
 :Form.Form_MIPViewWidget	{container=':Upslope.Form_AddTargetsForm' name='ViewWidget' type='MIPViewWidget' visible='1' windowTitle='Form'}
 :Form.Form_MPRViewWidget	{container=':Form_EditTargetDetailsForm' name='ViewWidget' occurrence='2' type='MPRViewWidget' visible='1' windowTitle='Form'}
 :Form.Form_MPRViewWidget_2	{container=':Form_EditTargetDetailsForm' name='ViewWidget' type='MPRViewWidget' visible='1' windowTitle='Form'}
 :Form.Form_MPRViewWidget_3	{container=':Form_EditTargetDetailsForm' name='ViewWidget' occurrence='3' type='MPRViewWidget' visible='1' windowTitle='Form'}
+:Form.Form_VolumeRenderingViewWidget	{container=':Upslope.Form_ReviewTargetForm' name='ViewWidget' type='VolumeRenderingViewWidget' visible='1' windowTitle='Form'}
 :Form.Hard Drive_QToolButton	{container=':Upslope.Form_LoadImagesTreeForm' name='hardDriveButton' text='Hard Drive' type='QToolButton' visible='1'}
 :Form.LocalizerForm_LocalizerForm	{container=':Form.Form_MIPViewWidget' name='LocalizerForm' type='LocalizerForm' visible='1' windowTitle='LocalizerForm'}
 :Form.LocalizerForm_LocalizerForm_2	{container=':Form.Form_MPRViewWidget' name='LocalizerForm' type='LocalizerForm' visible='0' windowTitle='LocalizerForm'}
 :Form.LocalizerForm_LocalizerForm_3	{container=':Form.Form_MPRViewWidget_2' name='LocalizerForm' type='LocalizerForm' visible='0' windowTitle='LocalizerForm'}
 :Form.LocalizerForm_LocalizerForm_4	{container=':Form.Form_MPRViewWidget_3' name='LocalizerForm' type='LocalizerForm' visible='0' windowTitle='LocalizerForm'}
+:Form.Save Ablation Zone_QPushButton	{container=':Form_EditAblationZoneDetailsForm' name='saveAblationZoneButton' text='Save Ablation Zone' type='QPushButton' visible='1'}
+:Form.Save Entry Point_QPushButton	{container=':Form_SetEntryPointForm' name='saveEntryPointButton' text='Save Entry Point' type='QPushButton' visible='1'}
+:Form.Save Target_QPushButton	{container=':Form_EditTargetDetailsForm' name='saveTargetButton' text='Save Target' type='QPushButton' visible='1'}
 :Form.USB_QToolButton	{container=':Upslope.Form_LoadImagesTreeForm' name='usbButton' text='USB' type='QToolButton' visible='1'}
+:Form.Volume Rendering_QLabel	{container=':Form.Form_VolumeRenderingViewWidget' name='viewLabel' text='Volume Rendering' type='QLabel' visible='1'}
 :Form.closeButton_QPushButton	{container=':Upslope.Form_HeaderForm' name='closeButton' type='QPushButton' visible='1'}
 :Form.contents_QWidget	{container=':Form_EditTargetDetailsForm' name='contents' type='QWidget' visible='1'}
 :Form.customTreeWidget_CustomTreeWidget	{container=':Upslope.Form_LoadImagesTreeForm' name='customTreeWidget' type='CustomTreeWidget' visible='1'}
@@ -23,9 +32,12 @@
 :Form.minimizeButton_QPushButton	{container=':Upslope.Form_HeaderForm' name='minimizeButton' type='QPushButton' visible='1'}
 :Form.qvtkWidget_QVTKWidget	{container=':Form.Form_MPRViewWidget' name='qvtkWidget' type='QVTKWidget' visible='1'}
 :Form.qvtkWidget_QVTKWidget_2	{container=':Form.Form_MPRViewWidget_3' name='qvtkWidget' type='QVTKWidget' visible='1'}
+:Form.qvtkWidget_QVTKWidget_3	{container=':Form.Form_MIPViewWidget' name='qvtkWidget' type='QVTKWidget' visible='1'}
 :Form.search_QLineEdit	{container=':Upslope.Form_LoadImagesTreeForm' name='search' type='QLineEdit' visible='1'}
 :Form.statusBarWidget_QWidget	{container=':Upslope.Form_StatusBarForm' name='statusBarWidget' type='QWidget' visible='1'}
+:Form_EditAblationZoneDetailsForm	{name='EditAblationZoneDetailsForm' type='EditAblationZoneDetailsForm' visible='1' window=':_AddTargetDialog' windowTitle='Form'}
 :Form_EditTargetDetailsForm	{name='EditTargetDetailsForm' type='EditTargetDetailsForm' visible='1' window=':_AddTargetDialog' windowTitle='Form'}
+:Form_SetEntryPointForm	{name='SetEntryPointForm' type='SetEntryPointForm' visible='1' window=':_AddTargetDialog' windowTitle='Form'}
 :Last Accessed_HeaderViewItem	{container=':customTreeWidget_QHeaderView' text='Last Accessed' type='HeaderViewItem'}
 :LocalizerForm.Form_ScoutImageForm	{container=':Form.LocalizerForm_LocalizerForm_4' name='bottom' type='ScoutImageForm' visible='0' windowTitle='Form'}
 :LocalizerForm.Localizer_QLabel	{container=':Form.LocalizerForm_LocalizerForm_4' name='label' text='Localizer' type='QLabel' visible='0'}
@@ -43,6 +55,7 @@
 :Upslope.Form_HeaderForm	{name='HeaderForm' type='HeaderForm' visible='1' window=':Upslope_MainWindow' windowTitle='Form'}
 :Upslope.Form_LoadImagesTreeForm	{name='LoadImagesTreeForm' type='LoadImagesTreeForm' visible='1' window=':Upslope_MainWindow' windowTitle='Form'}
 :Upslope.Form_LoadImagesTreeForm_2	{name='LoadImagesTreeForm' type='LoadImagesTreeForm' visible='0' window=':Upslope_MainWindow' windowTitle='Form'}
+:Upslope.Form_ReviewTargetForm	{name='ReviewTargetForm' type='ReviewTargetForm' visible='1' window=':Upslope_MainWindow' windowTitle='Form'}
 :Upslope.Form_SecondaryHeaderForm	{name='SecondaryHeaderForm' type='SecondaryHeaderForm' visible='1' window=':Upslope_MainWindow' windowTitle='Form'}
 :Upslope.Form_StatusBarForm	{name='StatusBarForm' type='StatusBarForm' visible='1' window=':Upslope_MainWindow' windowTitle='Form'}
 :Upslope.Load Images_QPushButton	{name='firstTaskButton' text='Load Images' type='QPushButton' visible='1' window=':Upslope_MainWindow'}
@@ -51,6 +64,9 @@
 :Upslope.Review_QPushButton	{name='lastTaskButton' text='Review' type='QPushButton' visible='1' window=':Upslope_MainWindow'}
 :Upslope.Review_QPushButton_2	{name='nextButton' text='Review' type='QPushButton' visible='1' window=':Upslope_MainWindow'}
 :Upslope_MainWindow	{type='MainWindow' unnamed='1' visible='1' windowTitle='Upslope'}
+:WarningDialog.Cancel_QPushButton	{name='rightButton' text='Cancel' type='QPushButton' visible='1' window=':WarningDialog_WarningDialog'}
+:WarningDialog.Delete_QPushButton	{name='leftButton' text='Delete' type='QPushButton' visible='1' window=':WarningDialog_WarningDialog'}
+:WarningDialog_WarningDialog	{name='WarningDialog' type='WarningDialog' visible='1' windowTitle='WarningDialog'}
 :_AddTargetDialog	{type='AddTargetDialog' unnamed='1' visible='1'}
 :_QVTKInteractorAdapter	{occurrence='6' type='QVTKInteractorAdapter' unnamed='1'}
 :_QVTKInteractorAdapter_2	{occurrence='7' type='QVTKInteractorAdapter' unnamed='1'}
@@ -71,6 +87,7 @@
 :customTreeWidget.frame_QFrame_4	{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' occurrence='2' type='QFrame' visible='1'}
 :customTreeWidget.frame_QFrame_5	{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' occurrence='3' type='QFrame' visible='1'}
 :customTreeWidget_QHeaderView	{container=':Form.customTreeWidget_CustomTreeWidget' orientation='1' type='QHeaderView' unnamed='1' visible='1'}
+:customTreeWidget_QScrollBar	{container=':Form.customTreeWidget_CustomTreeWidget' type='QScrollBar' unnamed='1' visible='1'}
 :frame.Aug 21 2013 03:31 PM_QLabel	{container=':customTreeWidget.frame_QFrame_5' name='dateLabel' text='Aug 21 2013 03:31 PM' type='QLabel' visible='1'}
 :frame.By:_QLabel	{container=':customTreeWidget.frame_QFrame_4' name='byLabel' text='By:' type='QLabel' visible='1'}
 :frame.CT_QLabel	{container=':customTreeWidget.frame_QFrame' name='modalityLabel' text='CT' type='QLabel' visible='1'}
