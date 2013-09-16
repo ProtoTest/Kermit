@@ -2,45 +2,44 @@
 require 'squish'
 include Squish
 
+require findFile("scripts", "EditTargetScreen.rb")
+require findFile("scripts", "EditAblationScreen.rb")
+require findFile("scripts", "SetEntryPointScreen.rb")
+require findFile("scripts", "TargetDetailsScreen.rb")
 require findFile("scripts", "MainScreen.rb")
-require findFile("scripts", "MainPage.rb")
 require findFile("scripts", "PatientTable.rb")
 require findFile("scripts", "Timer.rb")
 
-def verifyAddTargetScreenDisplayed
-  addTargetButton = Element.new("Add Target", ":Form.Add a Target_QPushButton")
-end
+
 
 def main
   startApplication("LungAblation")
   
   # construct a page
-  mainPage = MainPage.new
-  pTable = PatientTable.new
+  mainScreen = MainScreen.new
 
-  Test.log("Patient list size is :" + pTable.patientList.size.to_s)
+  Test.log("Patient list size is :" + mainScreen.patientTable.patientList.size.to_s)
   
   # Store all the times to load CT images
   loadCTTimeArray = Array.new
   
   # Create a timer
   myTimer = Timer.new
-  
-  # For each patient in the patient table, load up the CT and time how long it takes.
-  pTable.patientList.each do |x|
-    patientData = x.getDetails
-    patientData.CTRow.dClick()
-    myTimer.start
-    verifyAddTargetScreenDisplayed
-    loadCTTimeArray << [x.name, myTimer.stop]
-    mainPage.loadImagesButton.click
 
+ #  For each patient in the patient table, load up the CT and time how long it takes.
+  mainScreen.patientTable.patientList.each do |patient|
+    #loadCTTimeArray << ["Disk^39", mainScreen.clickPatient("DISK^39").openAndTimeCTScanImage(myTimer)]
+    patient.openPatientDetails.openAndTimeCTScanImage(myTimer).clickAddTarget.clickSaveTarget.clickSaveAblation.clickSaveEntryPoint
+    loadCTTimeArray << [patient.name, myTimer.elapsed]
+    
+    mainScreen.clickLoadImagesRadio
+    
   end
-  
+
   loadCTTimeArray.each do |x|
     Test.log("CT Load Time: " + x.to_s)
   end
-#
+
     # 1st child
       ## TEST CASE ##
       # For each patient, Check the CT for respective DICOM data on the load images screen...What data???
@@ -59,13 +58,6 @@ def main
         #click on 'Create New Plan', click on 'Add Target', click on 'Save Target', click on 'Save Ablation Zone'
           # click on 'Save Entry Point'
         # Click on 'Load Images' link and verify the plan was created for respective DICOM data
-  
-  
-  # click some stuff
-#  mainPage.patientNameHeaderView.click
-#  mainPage.patientIDHeaderView.click
-#  mainPage.birthDateHeaderView.click
-#  mainPage.lastAccessHeaderView.click
   
 
 end
