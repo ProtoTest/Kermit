@@ -20,15 +20,15 @@ class TestLogger
   def setInitialLogFile
     Dir.mkdir(@testLogLocation) if not File.exist?(@testLogLocation)
     now = Time.new
-    @testLogLocation += @testName + "_" + now.strftime("%I_%M_%S") + "\\"
-    @testName += now.strftime("%I_%M_%S")
+    @testLogLocation += @testName + "_" + now.strftime("%Y_%m_%d_%I_%M") + "\\"
+    @testName +=  now.strftime("_%I_%M_%S")
     Dir.mkdir(@testLogLocation)
     #after the testName has been identified above build the full filepath string again in case testName was changed
     @fileName = @testLogLocation + @testName + @fileType
 
     #write the file
     #@testInfo = TestInfo() #this will only work from within squish
-    @Header = "TEST COMMAND\t\tSCREENSHOT\t\tMEMORY\t\tTIME\n-------------------------------------------------------"
+    @Header = "TEST COMMAND\t\tSCREENSHOT\t\tMEMORY\t\tTIME\n-----------------------------------------------------------------------------"
     @testlog = File.open(@fileName, "w")
     #@testlog.puts(@testInfo)
     @testlog.puts(@Header)

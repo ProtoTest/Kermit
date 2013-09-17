@@ -21,7 +21,7 @@ class MainScreen < BaseScreenObject
     @firstPatient = Element.new("FirstPatient", ":customTreeWidget.COVIDIEN PHANTOM 2_QModelIndex")
     @covidienLogo = Element.new("CovidienLogo", ":Form.logo_QLabel")
     @statusBar = Element.new("StatusBar", ":Form.statusBarWidget_QWidget")
-    @patientTable = PatientTable.new
+    #@patientTable = PatientTable.new
     @appHeaderFooter = AppHeaderFooter.new
    
   end
