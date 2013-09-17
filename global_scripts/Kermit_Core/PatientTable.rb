@@ -102,7 +102,8 @@ end
 class PatientDetails < BaseScreenObject
   
   def initialize
-    @CTRow = CTRow.new(":customTreeWidget.frame_QFrame")
+    # using real name for squish here as the symbolic names differ across liver and lung applications
+    @CTRow = CTRow.new("{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' type='QFrame' visible='1'}")
     @planRows = getPlanRows 
   end
   
@@ -139,7 +140,7 @@ class PatientDetails < BaseScreenObject
       begin
         # each patient plan row is indexed via the 'occurrence' property
         rowName = "{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' occurrence='%s' type='QFrame' visible='1'}" % startIndex
-       
+
         row = waitForObject(rowName, OBJECT_WAIT_TIMEOUT)
         rows << PlanRow.new(ObjectMap.symbolicName(row))
         startIndex += 1

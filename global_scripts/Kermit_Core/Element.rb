@@ -3,7 +3,7 @@ require 'squish'
 
 include Squish
 
-OBJECT_WAIT_TIMEOUT= 5000
+OBJECT_WAIT_TIMEOUT= 10000
 
 ########################################################################################
 #
@@ -30,7 +30,7 @@ class Element
       @realName = objectString
       @symbolicName = ObjectMap.symbolicName(@realName)
     else
-      raise "Element::init(): objectString is not a valid object string representation"
+      raise "Element::init(): objectString is not a valid Squish object string representation"
     end  
   end
     
@@ -40,7 +40,7 @@ class Element
       children = Squish::Object.children(elementObject)
       return children
     rescue Exception => e
-      Test.fail("Element::getChildren(): " + objectString + ": " + e.message)
+      Test.fail("Element::getChildren(): " + @symbolicName + ": " + e.message)
       return nil
     end
   end
@@ -57,7 +57,7 @@ class Element
         return nil
       end
     rescue Exception => e
-      Test.fail("Element::getProperty(): " + objectString + ": " + e.message)
+      Test.fail("Element::getProperty(): " + @symbolicName + ": " + e.message)
     end
   end
   
