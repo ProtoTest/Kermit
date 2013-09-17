@@ -121,6 +121,10 @@ class BaseScreenObject
     return ssName
   end
 
+  def endTest
+    @@logFile.CompleteLog()
+  end
+
 
     
 end

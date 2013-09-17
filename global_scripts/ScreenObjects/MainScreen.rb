@@ -29,8 +29,9 @@ class MainScreen < BaseScreenObject
   def searchforRecord(searchText)
     enterText(@searchField, searchText)
     return MainScreen.new
-  end
-  
+  end  
+   
+   
   def clickPatient(patientName)
     patient = nil
    @patientTable.patientList.each do |x|
