@@ -21,7 +21,7 @@ class MainScreen < BaseScreenObject
     @firstPatient = Element.new("FirstPatient", ":customTreeWidget.COVIDIEN PHANTOM 2_QModelIndex")
     @covidienLogo = Element.new("CovidienLogo", ":Form.logo_QLabel")
     @statusBar = Element.new("StatusBar", ":Form.statusBarWidget_QWidget")
-    @patientTable = PatientTable.new
+    #@patientTable = PatientTable.new
     @appHeaderFooter = AppHeaderFooter.new
    
   end
@@ -29,8 +29,9 @@ class MainScreen < BaseScreenObject
   def searchforRecord(searchText)
     enterText(@searchField, searchText)
     return MainScreen.new
-  end
-  
+  end  
+   
+   
   def clickPatient(patientName)
     patient = nil
    @patientTable.patientList.each do |x|

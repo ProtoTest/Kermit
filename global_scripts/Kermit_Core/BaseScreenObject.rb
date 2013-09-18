@@ -121,6 +121,7 @@ class BaseScreenObject
     return ssName
   end
 
+<<<<<<< HEAD
   # Takes a list of elements and verifies the objects are present and visible
   def verifyElementsPresent(elementList)
     elementList.each do |element|
@@ -131,5 +132,12 @@ class BaseScreenObject
       end
     end
   end
+=======
+  def endTest
+    @@logFile.CompleteLog()
+  end
+
+
+>>>>>>> ac76db458032ab1b24c5aa72ec2c6c3daea49900
     
 end
