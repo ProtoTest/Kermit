@@ -3,7 +3,7 @@ require 'squish'
 
 include Squish
 
-OBJECT_WAIT_TIMEOUT= 1000
+OBJECT_WAIT_TIMEOUT= 10000
 
 ########################################################################################
 #
@@ -16,7 +16,7 @@ OBJECT_WAIT_TIMEOUT= 1000
 #
 ########################################################################################
 class Element
-  attr_reader :name, :symbolicName, :realName, :locator
+  attr_reader :name, :symbolicName, :realName
   
   def initialize(name, objectString)
     @name = name
@@ -25,12 +25,10 @@ class Element
     # if '{' is the first character, then this object is initialized from its real name
     if objectString.start_with?(':')
       @symbolicName = objectString
-      #@realName = ObjectMap.realName(@symbolicName)
-      @locator = objectString
+      @realName = ObjectMap.realName(@symbolicName)
     elsif objectString.start_with?('{') and objectString.end_with?('}')
       @realName = objectString
-      #@symbolicName = ObjectMap.symbolicName(@realName)
-      @locator = objectString
+      @symbolicName = ObjectMap.symbolicName(@realName)
     else
       raise "Element::init(): objectString is not a valid Squish object string representation"
     end
@@ -39,33 +37,33 @@ class Element
     
   def getChildren
     begin
-      elementObject = waitForObject(@locator, OBJECT_WAIT_TIMEOUT)
+      elementObject = waitForObject(@symbolicName, OBJECT_WAIT_TIMEOUT)
       children = Squish::Object.children(elementObject)
       return children
     rescue Exception => e
-      Test.fail("Element::getChildren(): " + @locator + ": " + e.message)
+      Test.fail("Element::getChildren(): " + @symbolicName + ": " + e.message)
       return nil
     end
   end
   
   def getProperty(propName)
     begin
-      elementObject = waitForObject(@locator, OBJECT_WAIT_TIMEOUT)
+      elementObject = waitForObject(@symbolicName, OBJECT_WAIT_TIMEOUT)
       @properties = Squish::Object.properties(elementObject)
             
       if @properties[propName]
         return @properties[propName]
       else
-        Test.log("Element::getProperty(): " + propName + "property does not exist for element: " + @locator)
+        Test.log("Element::getProperty(): " + propName + "property does not exist for element: " + @symbolicName)
         return nil
       end
     rescue Exception => e
-      Test.fail("Element::getProperty(): " + @locator + ": " + e.message)
+      Test.fail("Element::getProperty(): " + @symbolicName + ": " + e.message)
     end
   end
   
   def to_s
-    "[name, symbolicName, realName]: " + @name + ", " + @locator #+ ", " + @realName
+    "[name, symbolicName, realName]: " + @name + ", " + @realName
   end
   
 end
