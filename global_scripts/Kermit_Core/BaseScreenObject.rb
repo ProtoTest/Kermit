@@ -121,6 +121,15 @@ class BaseScreenObject
     return ssName
   end
 
-
+  # Takes a list of elements and verifies the objects are present and visible
+  def verifyElementsPresent(elementList)
+    elementList.each do |element|
+      begin
+        waitForObject(element.symbolicName, 10000)
+      rescue Exception => e
+        Test.fail("Failed to verify <" + element.name + "> is present")
+      end
+    end
+  end
     
 end
