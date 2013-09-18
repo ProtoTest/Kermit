@@ -2,10 +2,10 @@
 require 'squish'
 include Squish
 
-require findFile("scripts", "Element.rb")
-require findFile("scripts", "BaseScreenObject.rb")
-require findFile("scripts", "EditTargetScreen.rb")
-require findFile("scripts", "PlanScreen.rb")
+require findFile("scripts", "kermit_core\\Element.rb")
+require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
+require findFile("scripts", "screen_objects\\EditTargetScreen.rb")
+require findFile("scripts", "screen_objects\\PlanScreen.rb")
 
 class DeleteTargetPopup < BaseScreenObject
   def initialize

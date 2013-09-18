@@ -8,9 +8,10 @@ include Squish
 # It will contain all the things displayed on the main entry page.
 #########################################
 # encoding: UTF-8
-require findFile("scripts", "Element.rb")
-require findFile("scripts", "BaseScreenObject.rb")
-require findFile("scripts", "AppHeaderFooter.rb")
+require findFile("scripts", "kermit_core\\Element.rb")
+require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
+require findFile("scripts", "screen_objects\\AppHeaderFooter.rb")
+require findFile("scripts", "screen_objects\\PatientTable.rb")
 
 class MainScreen < BaseScreenObject
   attr_reader :patientTable
@@ -21,7 +22,7 @@ class MainScreen < BaseScreenObject
     @firstPatient = Element.new("FirstPatient", ":customTreeWidget.COVIDIEN PHANTOM 2_QModelIndex")
     @covidienLogo = Element.new("CovidienLogo", ":Form.logo_QLabel")
     @statusBar = Element.new("StatusBar", ":Form.statusBarWidget_QWidget")
-    #@patientTable = PatientTable.new
+    @patientTable = PatientTable.new
     @appHeaderFooter = AppHeaderFooter.new
    
   end

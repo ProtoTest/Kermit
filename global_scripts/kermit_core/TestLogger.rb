@@ -20,7 +20,7 @@ class TestLogger
   def setInitialLogFile
     Dir.mkdir(@testLogLocation) if not File.exist?(@testLogLocation)
     now = Time.new
-    @testLogLocation += @testName + "_" + now.strftime("%Y_%m_%d_%I_%M") + "\\"
+    @testLogLocation += @testName + "_" + now.strftime("%Y_%m_%d-%I_%M_%S") + "\\"
     @testName +=  now.strftime("_%I_%M_%S")
     Dir.mkdir(@testLogLocation)
     #after the testName has been identified above build the full filepath string again in case testName was changed

@@ -2,7 +2,7 @@
 require 'squish'
 include Squish
 
-require findFile("scripts", "Element.rb")
+require findFile("scripts", "kermit_core\\Element.rb")
 
 class AppHeaderFooter
   attr_reader :closeButton, :minimizeButton, :loadImagesRadio, :planRadio, :reviewRadio

@@ -2,10 +2,10 @@
 require 'squish'
 include Squish
 
-require findFile("scripts", "Element.rb")
-require findFile("scripts", "BaseScreenObject.rb")
-require findFile("scripts", "SetEntryPointScreen.rb")
-require findFile("scripts", "TargetDetailsScreen.rb")
+require findFile("scripts", "kermit_core\\Element.rb")
+require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
+require findFile("scripts", "screen_objects\\SetEntryPointScreen.rb")
+require findFile("scripts", "screen_objects\\TargetDetailsScreen.rb")
 
 class SetEntryPointScreen < BaseScreenObject
   def initialize

@@ -7,8 +7,8 @@
 
 
 # encoding: UTF-8
-require findFile("scripts", "TestLogger.rb")
-require findFile("scripts", "LogCommandBuilder.rb")
+require findFile("scripts", "kermit_core\\TestLogger.rb")
+require findFile("scripts", "kermit_core\\LogCommandBuilder.rb")
 
 class BaseScreenObject
   @@logCmd = LogCommandBuilder.new  
