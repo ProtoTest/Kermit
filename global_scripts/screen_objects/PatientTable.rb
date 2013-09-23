@@ -262,13 +262,17 @@ class PatientTable < BaseScreenObject
     patientContainer = Element.new("Patient Table Container", ":Form.customTreeWidget_CustomTreeWidget")
     patientList = Array.new
 
-    patientContainer.getChildren.each do |x|
-      if x.respond_to?(:text) and x.respond_to?(:column) and (x.column==0)
-        # If we are dynamically adding patients after they are loaded, the patient objects
-        # need to be added to the Object Map
-        ObjectMap.add(x)
-        patientList << Patient.new(x.text, ObjectMap.symbolicName(x))
+    if children=patientContainer.getChildren 
+      children.each do |x|
+        if x.respond_to?(:text) and x.respond_to?(:column) and (x.column==0)
+          # If we are dynamically adding patients after they are loaded, the patient objects
+          # need to be added to the Object Map
+          ObjectMap.add(x)
+          patientList << Patient.new(x.text, ObjectMap.symbolicName(x))
+        end
       end
+    else
+      Test.fail("Where are the children?")
     end
 
     return patientList
