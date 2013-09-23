@@ -11,6 +11,7 @@ require findFile("scripts", "kermit_core\\TestLogger.rb")
 require findFile("scripts", "kermit_core\\LogCommandBuilder.rb")
 
 class BaseScreenObject
+
   @@logCmd = LogCommandBuilder.new  
   @@logFile = TestLogger.new
   
@@ -19,7 +20,7 @@ class BaseScreenObject
    
   end
 
-    
+  
   def enterText(element, someText)
     mouseClick(waitForObject(element.symbolicName))
     @@logFile.AppendLog(@@logCmd.click(element))
@@ -27,11 +28,25 @@ class BaseScreenObject
     @@logFile.AppendLog(@@logCmd.type(element, someText))
   end
   
+  # class method click
+  def self.click(element)      
+    mouseClick(waitForObject(element.symbolicName))
+    @@logFile.AppendLog(@@logCmd.click(element))     
+  end
+
+  # class method double click
+  def self.dClick(element)
+    doubleClick(waitForObject(element.symbolicName))
+    @@logFile.AppendLog(@@logCmd.dClick(element))
+  end
+
+  # instance method click
   def click(element)      
     mouseClick(waitForObject(element.symbolicName))
     @@logFile.AppendLog(@@logCmd.click(element))     
   end
   
+  # instance method double click
   def dClick(element)
     doubleClick(waitForObject(element.symbolicName))
     @@logFile.AppendLog(@@logCmd.dClick(element))

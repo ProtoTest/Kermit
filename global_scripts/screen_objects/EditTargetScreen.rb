@@ -5,7 +5,7 @@ include Squish
 require findFile("scripts", "kermit_core\\Element.rb")
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 require findFile("scripts", "screen_objects\\EditAblationScreen.rb")
-require findFile("scripts", "screen_objects\\DeleteTargetPopup.rb")
+require findFile("scripts", "screen_objects\\WarningDialogPopup.rb")
 
 class EditTargetScreen < BaseScreenObject
   def initialize
@@ -20,6 +20,6 @@ class EditTargetScreen < BaseScreenObject
   
   def clickDeleteTarget
     click(@deleteTargetBtn)
-    return DeleteTargetPopup.new
+    return WarningDialogPopup.new
   end
 end

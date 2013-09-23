@@ -3,6 +3,10 @@ require 'squish'
 
 include Squish
 
+# to get access to the logging click methods
+require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
+
+
 OBJECT_WAIT_TIMEOUT= 10000
 
 ########################################################################################
@@ -35,6 +39,18 @@ class Element
       
   end
     
+  def hasChildren?
+    children = getChildren
+    return false if children.empty? or children.nil?
+    return true
+  end
+  
+  def hasProperty?(propName)
+    property = getProperty(propName)
+    return false if property.nil?
+    return true
+  end
+
   def getChildren
     begin
       elementObject = waitForObject(@symbolicName, OBJECT_WAIT_TIMEOUT)
@@ -54,12 +70,20 @@ class Element
       if @properties[propName]
         return @properties[propName]
       else
-        Test.log("Element::getProperty(): " + propName + "property does not exist for element: " + @symbolicName)
+        # Property does not exist
         return nil
       end
     rescue Exception => e
       Test.fail("Element::getProperty(): " + @symbolicName + ": " + e.message)
     end
+  end
+  
+  def click
+    BaseScreenObject.click(self)
+  end
+  
+  def dClick
+    BaseScreenObject.dClick(self)
   end
   
   def to_s
