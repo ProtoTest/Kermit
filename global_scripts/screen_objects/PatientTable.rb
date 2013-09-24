@@ -110,7 +110,7 @@ class PlanRow  < Element
   end
 
   def openPlan
-    click(@openPlanButton)
+    @openPlanButton.click
     return PlanScreen.new
   end
 end
@@ -183,7 +183,7 @@ class PatientDetails < BaseScreenObject
       # don't care, this is used as the condition to break from the while
     end
     
-    Test.log("Found #{rows.size} rows")
+    Test.log("Found #{rows.size} plan rows")
     return rows
   end
 
@@ -240,10 +240,13 @@ class PatientTable < BaseScreenObject
   end
 
   # scroll down to row in the table
+  # 
   def scrollToRowByIndex(index)
     # 9 rows per scroll currently, depends on resolution?
-    if(index >= MAX_NUM_VISIBLE_TABLE_ROWS)
-      (index / MAX_NUM_VISIBLE_TABLE_ROWS).times do 
+    Test.log("Scrolling down to index: " + index.to_s)
+    Test.log("Scrolling " + (index/(MAX_NUM_VISIBLE_TABLE_ROWS-1)).to_s + " times")
+    if(index >= (MAX_NUM_VISIBLE_TABLE_ROWS-1))
+      (index / (MAX_NUM_VISIBLE_TABLE_ROWS-1)).times do
         @scrollbar.scrollDown
       end
     end
