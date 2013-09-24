@@ -32,6 +32,7 @@ class PlanScreen < BaseScreenObject
   
   def clickAddTarget
     click(@addTargetBtn)
+    snooze 1
     return EditTargetScreen.new
   end
 end

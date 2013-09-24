@@ -13,11 +13,13 @@ class EditAblationScreen < BaseScreenObject
   
   def clickSaveAblation
     click(@saveAblationBtn)
+    snooze 1
     return SetEntryPointScreen.new
   end
   
   def clickDeleteAblation
     click(@deleteAblationBtn)
+    snooze 1
     return EditTargetScreen.new
   end
 end

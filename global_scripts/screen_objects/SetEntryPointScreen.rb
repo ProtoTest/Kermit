@@ -15,11 +15,13 @@ class SetEntryPointScreen < BaseScreenObject
   
   def clickSaveEntryPoint
     click(@saveEntryBtn)
+    snooze 1
     return TargetDetailsScreen.new
   end
   
   def clickDeleteEntryPoint
     click(@deleteEntryBtn)
+    snooze 1
     return EditAblationScreen.new
   end
 end

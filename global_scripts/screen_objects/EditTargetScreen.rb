@@ -15,11 +15,13 @@ class EditTargetScreen < BaseScreenObject
   
   def clickSaveTarget
     click(@saveTargetBtn)
+    snooze 1
     return EditAblationScreen.new
   end
   
   def clickDeleteTarget
     click(@deleteTargetBtn)
+    snooze 1
     return WarningDialogPopup.new
   end
 end
