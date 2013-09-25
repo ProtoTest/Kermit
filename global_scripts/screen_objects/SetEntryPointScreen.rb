@@ -11,6 +11,9 @@ class SetEntryPointScreen < BaseScreenObject
   def initialize
     @saveEntryBtn = Element.new("Save Entry Point Button", ":Form.Save Entry Point_QPushButton")
     @deleteEntryBtn = Element.new("Delete Entry Point Button", ":Form.Delete Entry Point_QPushButton")
+
+    @elements = [@saveEntryBtn, @deleteEntryBtn]
+    verifyElementsPresent(@elements)
   end
   
   def clickSaveEntryPoint

@@ -28,6 +28,9 @@ class PlanScreen < BaseScreenObject
     # "Upslope_MainWindow" vs "Upslope Demo_MainWindow"
     @loadImagesBtn = Element.new("Load Images", "{name='backButton' text='Load Images' type='QPushButton' visible='1'}")
     @reviewBtn = Element.new("Review", "{name='nextButton' text='Review' type='QPushButton' visible='1'}")
+
+    @elements = [@addTargetBtn, @changeViewBtn, @captureScreenBtn, @loadImagesBtn, @reviewBtn]
+    verifyElementsPresent(@elements)
   end
   
   def clickAddTarget

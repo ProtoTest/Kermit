@@ -9,9 +9,7 @@ class TargetDetailsScreen < BaseScreenObject
   def initialize
     @titleLabel = Element.new("Title Label", ":Form.Volume Rendering_QLabel")
 
-    @elements = Array.new
-    @elements << @titleLabel
-
+    @elements = [@titleLabel]
     verifyScreenObjects
   end
   

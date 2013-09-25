@@ -9,6 +9,9 @@ class EditAblationScreen < BaseScreenObject
   def initialize
     @saveAblationBtn = Element.new("Save Ablation Button", ":Form.Save Ablation Zone_QPushButton")
     @deleteAblationBtn = Element.new("Delete Ablation Button", ":Form.Delete Ablation Zone_QPushButton")
+
+    @elements = [@saveAblationBtn, @deleteAblationBtn]
+    verifyElementsPresent(@elements)
   end
   
   def clickSaveAblation

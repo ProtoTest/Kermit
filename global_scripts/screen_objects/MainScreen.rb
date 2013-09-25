@@ -19,11 +19,13 @@ class MainScreen < BaseScreenObject
   def initialize
     
     @searchField = Element.new("SearchField", ":Form.search_QLineEdit")
-    @firstPatient = Element.new("FirstPatient", ":customTreeWidget.COVIDIEN PHANTOM 2_QModelIndex")
     @covidienLogo = Element.new("CovidienLogo", ":Form.logo_QLabel")
     @statusBar = Element.new("StatusBar", ":Form.statusBarWidget_QWidget")
     @patientTable = PatientTable.new
     @appHeaderFooter = AppHeaderFooter.new
+
+    @elements = [@searchField, @covidienLogo, @statusBar]
+    verifyElementsPresent(@elements)
    
   end
   
@@ -44,6 +46,7 @@ class MainScreen < BaseScreenObject
    
    if patient.nil?
      Test.fail("Failed to find patient " + patientName)
+     return nil
    else
      return patient.openPatientDetails
    end
@@ -51,6 +54,7 @@ class MainScreen < BaseScreenObject
 
   def clickLoadImagesRadio
     click(@appHeaderFooter.loadImagesRadio)
+    return MainScreen.new
   end
 
   def getPatientList
@@ -59,5 +63,6 @@ class MainScreen < BaseScreenObject
 
   def scrollToPatientIndex(index)
     @patientTable.scrollToRowByIndex(index)
+    return MainScreen.new
   end
 end

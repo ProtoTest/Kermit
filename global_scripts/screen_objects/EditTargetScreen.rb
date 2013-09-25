@@ -11,6 +11,9 @@ class EditTargetScreen < BaseScreenObject
   def initialize
     @saveTargetBtn = Element.new("Save Target Button", ":Form.Save Target_QPushButton")
     @deleteTargetBtn = Element.new("Delete Target Button", ":Form.Delete Target_QPushButton")
+
+    @elements = [@saveTargetBtn, @deleteTargetBtn]
+    verifyElementsPresent(@elements)
   end
   
   def clickSaveTarget

@@ -3,8 +3,9 @@ require 'squish'
 include Squish
 
 require findFile("scripts", "kermit_core\\Element.rb")
+require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 
-class AppHeaderFooter
+class AppHeaderFooter < BaseScreenObject
   attr_reader :closeButton, :minimizeButton, :loadImagesRadio, :planRadio, :reviewRadio
   attr_reader :logoLabel
   
@@ -23,5 +24,8 @@ class AppHeaderFooter
    
     # Labels
     @logoLabel = Element.new("Logo Label", ":Form.logo_QLabel")
+
+    @elements = [@closeButton, @minimizeButton, @loadImagesRadio, @planRadio, @reviewRadio, @logoLabel]
+    verifyElementsPresent(@elements)
   end
 end

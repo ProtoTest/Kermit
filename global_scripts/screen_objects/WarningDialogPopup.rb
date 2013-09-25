@@ -13,13 +13,8 @@ class WarningDialogPopup < BaseScreenObject
     @deleteBtn = Element.new("Warning Diaglog Delete Button", ":WarningDialog.Delete_QPushButton")
     @dialogTextLabel = Element.new("Warning Diaglog Text Label", "{name='warningLabel1' type='QLabel' visible='1' window=':WarningDialog_WarningDialog'}")
 
-    @elementList = Array.new
-    @elementList << @cancelBtn
-    @elementList << @deleteBtn
-    @elementList << @dialogTextLabel
-
+    @elementList = [@elementList, @cancelBtn, @deleteBtn, @dialogTextLabel]
     verifyElementsPresent(@elementList)
-    Test.log("Initialized Warning Dialog Popup")
   end
   
   def clickCancel
