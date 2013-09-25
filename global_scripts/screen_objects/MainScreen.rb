@@ -52,4 +52,12 @@ class MainScreen < BaseScreenObject
   def clickLoadImagesRadio
     click(@appHeaderFooter.loadImagesRadio)
   end
+
+  def getPatientList
+    @patientTable.patientList
+  end
+
+  def scrollToPatientIndex(index)
+    @patientTable.scrollToRowByIndex(index)
+  end
 end
