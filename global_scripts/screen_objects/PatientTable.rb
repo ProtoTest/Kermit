@@ -5,8 +5,8 @@ include Squish
 require findFile("scripts", "kermit_core\\Element.rb")
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 require findFile("scripts", "screen_objects\\EditTargetScreen.rb")
-require findFile("scripts", "screen_objects\\WarningDialogPopup.rb")
 require findFile("scripts", "screen_objects\\Scrollbar.rb")
+require findFile("scripts", "screen_objects\\WarningDialogPopup.rb")
 
 MAX_NUM_VISIBLE_TABLE_ROWS = 9
 
@@ -20,7 +20,7 @@ MAX_NUM_VISIBLE_TABLE_ROWS = 9
 #  @notes
 #
 ########################################################################################
-class TableHeader
+class TableHeader < BaseScreenObject
   
   def initialize
     # Table Headers
@@ -28,6 +28,22 @@ class TableHeader
     @patientIDHeaderView = Element.new("Patient ID Table Header", ":Patient ID_HeaderViewItem")
     @birthDateHeaderView = Element.new("Birth Date Table Header", ":Birth Date_HeaderViewItem")
     @lastAccessHeaderView = Element.new("Last Accessed Table Header", ":Last Accessed_HeaderViewItem")
+
+    def clickPatientHeader
+      click(@patientNameHeaderView)
+    end
+
+    def clickPatientIDHeader
+      click(@patientIDHeaderView)
+    end
+
+    def clickBirthDateHeader
+      click(@birthDateHeaderView)
+    end
+
+    def clickLastAccessHeader
+      click(@lastAccessHeaderView)
+    end
   end
 end
 
@@ -142,20 +158,13 @@ class PatientDetails < BaseScreenObject
   end
 
   # Double clicks the patient's CT scan to open it
-  def openCTScan 
+  def openCT 
     dClick(@CTRow)
     verifyCTImageDisplayed
   end
   
   def verifyCTImageDisplayed
     ctImage = Element.new("CT Image", ":Form.qvtkWidget_QVTKWidget_3")
-  end
-  
-  def openAndTimeCTScanImage(timer)
-    timer.start
-    openCTScan
-    timer.stop
-    return PlanScreen.new
   end
 
   def getPlanCount
@@ -216,6 +225,18 @@ class Patient < BaseScreenObject
   def closePatientDetails
     click(@patientElement)
     return MainScreen.new
+  end
+
+  def openCTScan
+    openPatientDetails.openCT
+    return PlanScreen.new
+  end
+
+  def openAndTimeCTScanImage(timer)
+    timer.start
+    openCTScan
+    timer.stop
+    return PlanScreen.new
   end
   
 end
