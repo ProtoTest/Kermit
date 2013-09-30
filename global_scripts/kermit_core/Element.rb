@@ -77,6 +77,10 @@ class Element
       Test.fail("Element::getProperty(): " + @symbolicName + ": " + e.message)
     end
   end
+
+  def getText
+    return getProperty('text')
+  end
   
   def click
     BaseScreenObject.click(self)
