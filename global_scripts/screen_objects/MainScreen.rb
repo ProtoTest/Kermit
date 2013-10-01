@@ -17,15 +17,17 @@ class MainScreen < BaseScreenObject
   attr_reader :patientTable
   
   def initialize
-    
+    # check for the out of memory popup
+    if popupOnScreen?
+      @popup.clickBtn("OK")
+    end
+
     @searchField = Element.new("SearchField", ":Form.search_QLineEdit")
-    @covidienLogo = Element.new("CovidienLogo", ":Form.logo_QLabel")
-    @statusBar = Element.new("StatusBar", ":Form.statusBarWidget_QWidget")
     @patientTable = PatientTable.new
     @appHeaderFooter = AppHeaderFooter.new
 
-    @elements = [@searchField, @covidienLogo, @statusBar]
-    verifyElementsPresent(@elements)
+    @elements = [@searchField]
+    verifyElementsPresent(@elements, self.class.name)
    
   end
   
@@ -53,16 +55,32 @@ class MainScreen < BaseScreenObject
   end
 
   def clickLoadImagesRadio
-    click(@appHeaderFooter.loadImagesRadio)
+    @appHeaderFooter.clickRadio(RadioButtons::LOAD_IMAGES)
     return MainScreen.new
   end
 
+  def clickAddTargetsRadio
+    @appHeaderFooter.clickRadio(RadioButtons::ADD_TARGETS)
+  end
+
+  def clickAddAblationZonesRadio
+    @appHeaderFooter.clickRadio(RadioButtons::ADD_ABLATION)
+  end
+
+  def clickExportRadio
+    @appHeaderFooter.clickRadio(RadioButtons::EXPORT)
+  end
+
   def getPatientList
-    @patientTable.patientList
+    return @patientTable.patientList
   end
 
   def scrollToPatientIndex(index)
     @patientTable.scrollToRowByIndex(index)
     return MainScreen.new
+  end
+
+  def openPatientDetails(patient)
+    return patient.openPatientDetails
   end
 end

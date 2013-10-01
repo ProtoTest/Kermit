@@ -18,7 +18,7 @@ require findFile("scripts", "screen_objects\\WarningDialogPopup.rb")
 
 def main
 
-  startApplication("LungAblation")
+  startApplication("LiverAblation")
 
   # construct the main page
   mainScreen = MainScreen.new

@@ -4,11 +4,11 @@ include Squish
 
 require findFile("scripts", "kermit_core\\Element.rb")
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
-require findFile("scripts", "screen_objects\\EditTargetScreen.rb")
+require findFile("scripts", "screen_objects\\AddTargets.rb")
 require findFile("scripts", "screen_objects\\Scrollbar.rb")
 require findFile("scripts", "screen_objects\\WarningDialogPopup.rb")
 
-MAX_NUM_VISIBLE_TABLE_ROWS = 9
+MAX_NUM_VISIBLE_TABLE_ROWS = 15
 
 
 ########################################################################################
@@ -63,17 +63,19 @@ class CTRow < Element
     super("PatientRow", objectString)
     
     #CT Row Children
-      #QHboxLayout, iconLabel, modalityLabel(type), dateLabel, compatibilityLabel, ratingLabel, infoLabel(link), newPlanButton
+      #QHboxLayout, iconLabel, modalityLabel(type), dateLabel, imageCountLabel, compatibilityLabel, ratingLabel, infoLabel(link), newPlanButton
     
     objectChildren = getChildren
     
+    # For elements whose text changes, need to use the real object name
     @icon = Element.new("Row Icon Label", ObjectMap.symbolicName(objectChildren[1]))
     @type = Element.new("Row_Type_Label", ObjectMap.symbolicName(objectChildren[2]))
     @date = Element.new("Date Label", ObjectMap.symbolicName(objectChildren[3]))
-    @compatibilityLabel = Element.new("Compatibility Label", ObjectMap.symbolicName(objectChildren[4]))
-    @ratingLabel = Element.new("Rating Label", ObjectMap.symbolicName(objectChildren[5]))
-    @infoLink = Element.new("Info Link", ObjectMap.symbolicName(objectChildren[6]))
-    @createPlanButton = Element.new("Button", ObjectMap.symbolicName(objectChildren[7]))
+    @imageCountLabel = Element.new("Image Count Label", "{container=':customTreeWidget.frame_QFrame' name='dateLabel' type='QLabel' visible='1'}")
+    @compatibilityLabel = Element.new("Compatibility Label", ObjectMap.symbolicName(objectChildren[5]))
+    @ratingLabel = Element.new("Rating Label", ObjectMap.symbolicName(objectChildren[6]))
+    @infoLink = Element.new("Info Link", ObjectMap.symbolicName(objectChildren[7]))
+    @createPlanButton = Element.new("Create New Plan Button", ObjectMap.symbolicName(objectChildren[8]))
 
 
     
@@ -104,11 +106,9 @@ class PlanRow  < Element
     @icon = Element.new("Row Icon Label", ObjectMap.symbolicName(objectChildren[1]))
     @type = Element.new("Row_Type_Label", ObjectMap.symbolicName(objectChildren[2]))
     @date = Element.new("Date Label", ObjectMap.symbolicName(objectChildren[3]))
-    @planStatusLabel = Element.new("Compatibility Label", ObjectMap.symbolicName(objectChildren[4]))
-    @planStatusContentsLabel = Element.new("Rating Label", ObjectMap.symbolicName(objectChildren[5]))
-    @byLabel = Element.new("Info Link", ObjectMap.symbolicName(objectChildren[6]))
-    @byContentsLabel = Element.new("Info Link", ObjectMap.symbolicName(objectChildren[7]))
-    @openPlanButton = Element.new("Button", ObjectMap.symbolicName(objectChildren[8]))    
+    @byLabel = Element.new("Info Link", ObjectMap.symbolicName(objectChildren[4]))
+    @byContentsLabel = Element.new("Info Link", ObjectMap.symbolicName(objectChildren[5]))
+    @openPlanButton = Element.new("Button", ObjectMap.symbolicName(objectChildren[6]))    
   end  
 
   def deletePlan
@@ -121,13 +121,13 @@ class PlanRow  < Element
 
     # Select the 'Delete' button from the warning dialog
     popup = WarningDialogPopup.new
-    popup.clickDelete
+    popup.clickBtn("Delete")
     return MainScreen.new
   end
 
   def openPlan
     @openPlanButton.click
-    return PlanScreen.new
+    return AddTargets.new
   end
 end
 
@@ -154,7 +154,7 @@ class PatientDetails < BaseScreenObject
   # Clicks on the create new plan button 
   def clickCreateNewPlan
     click(@CTRow.createPlanButton)
-    return PlanScreen.new
+    return AddTargets.new
   end
 
   # Double clicks the patient's CT scan to open it
@@ -183,7 +183,6 @@ class PatientDetails < BaseScreenObject
         rowName = "{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' occurrence='%s' type='QFrame'  visible='1'}" % startIndex
 
         row = waitForObject(rowName, OBJECT_WAIT_TIMEOUT)
-        #rows << PlanRow.new(ObjectMap.symbolicName(row))
         rows << PlanRow.new(rowName)
         startIndex += 1
         
@@ -229,14 +228,14 @@ class Patient < BaseScreenObject
 
   def openCTScan
     openPatientDetails.openCT
-    return PlanScreen.new
+    return AddTargets.new
   end
 
   def openAndTimeCTScanImage(timer)
     timer.start
     openCTScan
     timer.stop
-    return PlanScreen.new
+    return AddTargets.new
   end
   
 end
@@ -263,7 +262,6 @@ class PatientTable < BaseScreenObject
   # scroll down to row in the table
   # 
   def scrollToRowByIndex(index)
-    # 9 rows per scroll currently, depends on resolution?
     Test.log("Scrolling down to index: " + index.to_s)
     Test.log("Scrolling " + (index/(MAX_NUM_VISIBLE_TABLE_ROWS-1)).to_s + " times")
     if(index >= (MAX_NUM_VISIBLE_TABLE_ROWS-1))
@@ -281,9 +279,9 @@ class PatientTable < BaseScreenObject
 
   private
 
-  # Returns the list of patients found within the container
+  # Returns the list of patients(Class.Patient) found within the container
   def getPatientList
-    patientContainer = Element.new("Patient Table Container", ":Form.customTreeWidget_CustomTreeWidget")
+    patientContainer = Element.new("Patient Table Container", ":Form.customTreeWidget_CustomTreeWidget") 
     patientList = Array.new
 
     if children=patientContainer.getChildren 
