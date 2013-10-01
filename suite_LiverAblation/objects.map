@@ -33,6 +33,7 @@
 :Form.System_QToolButton	{container=':Form_LoadImagesTreeForm' name='systemButton' text='System' type='QToolButton' visible='1'}
 :Form.USB_QToolButton	{container=':Form_LoadImagesTreeForm' name='usbButton' text='USB' type='QToolButton' visible='1'}
 :Form.captureScreenButton_QPushButton	{container=':Form_HeaderForm' name='captureScreenButton' type='QPushButton' visible='1'}
+:Form.closeButton_QPushButton	{container=':Form_HeaderForm' name='closeButton' type='QPushButton' visible='1'}
 :Form.customTreeWidget_CustomTreeWidget	{container=':Form_LoadImagesTreeForm' name='customTreeWidget' type='CustomTreeWidget' visible='1'}
 :Form.measureButton_QPushButton	{container=':Form.Form_ImageToolsForm' name='measureButton' type='QPushButton' visible='1'}
 :Form.nameLineEdit_QLineEdit	{container=':stackedWidget.Form_AddTargetsSidePanelForm2' name='nameLineEdit' type='QLineEdit' visible='1'}
@@ -74,6 +75,7 @@
 :_MainWindow	{type='MainWindow' unnamed='1' visible='1'}
 :customTreeWidget.frame_QFrame	{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' type='QFrame' visible='1'}
 :customTreeWidget.frame_QFrame_2	{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' occurrence='2' type='QFrame' visible='1'}
+:customTreeWidget_QScrollBar	{container=':Form.customTreeWidget_CustomTreeWidget' type='QScrollBar' unnamed='1' visible='1'}
 :frame.263 Images_QLabel	{container=':customTreeWidget.frame_QFrame' name='imagesLabel' text='263 Images' type='QLabel' visible='1'}
 :frame.Aug 03 2001 12:00 AM_QLabel	{container=':customTreeWidget.frame_QFrame' name='dateLabel' text='Aug 03 2001 12:00 AM' type='QLabel' visible='1'}
 :frame.CT_QLabel	{container=':customTreeWidget.frame_QFrame' name='modalityLabel' text='CT' type='QLabel' visible='1'}
