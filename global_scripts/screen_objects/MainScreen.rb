@@ -31,6 +31,22 @@ class MainScreen < BaseScreenObject
    
   end
   
+  
+  ###########################
+  #This function will be used to gather all the patient info and must be called at the start of a test involving patients!
+  ###########################
+  def CustomerPatientLoop
+	@patientTable.patientList.each_with_index do |patient, index|
+		@patientTable.scrollToRowByIndex(index)
+		details = patient.openPatientDetails
+		origPlanCount = details.getPlanCount
+		
+		
+		
+		
+	end
+  end
+  
   def searchforRecord(searchText)
     enterText(@searchField, searchText)
     return MainScreen.new
@@ -53,6 +69,8 @@ class MainScreen < BaseScreenObject
      return patient.openPatientDetails
    end
   end
+  
+  
 
   def clickLoadImagesRadio
     @appHeaderFooter.clickRadio(RadioButtons::LOAD_IMAGES)
@@ -71,16 +89,16 @@ class MainScreen < BaseScreenObject
     @appHeaderFooter.clickRadio(RadioButtons::EXPORT)
   end
 
-  def getPatientList
-    return @patientTable.patientList
-  end
+   def getPatientList
+     return @patientTable.patientList
+   end
 
-  def scrollToPatientIndex(index)
-    @patientTable.scrollToRowByIndex(index)
-    return MainScreen.new
-  end
+   def scrollToPatientIndex(index)
+     @patientTable.scrollToRowByIndex(index)
+     return MainScreen.new
+   end
 
-  def openPatientDetails(patient)
-    return patient.openPatientDetails
-  end
+    def openPatientDetails(patient)
+		 return patient.openPatientDetails
+    end
 end
