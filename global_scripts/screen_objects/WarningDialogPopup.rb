@@ -33,7 +33,7 @@ class WarningDialogPopup < BaseScreenObject
     Squish::Object::exists(":WarningDialog.dialogContainer_QWidget")
   end
 
-  def verifyPopupText(title, text)
+  def verifyPopupInformation(title, text)
     verifyElementsPresent(@elementList, self.class.name)
     verifyPopupText(text)
     verifyPopupTitle(title)
@@ -43,10 +43,10 @@ class WarningDialogPopup < BaseScreenObject
 
   def clickBtn(name)
     if (btn = findElementByText(name))
-      Test.log("Clicking btn: #{name}")
+      Test.log("#{self.class.name}::#{__method__}: Clicking button: '#{name}' ")
       click(btn)
     else
-      Test.fail("Failed to find #{name} button")
+      Test.fail("#{self.class.name}::#{__method__}: Failed to find #{name} button")
     end
 
     return self
