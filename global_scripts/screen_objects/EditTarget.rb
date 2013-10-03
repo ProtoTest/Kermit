@@ -17,6 +17,7 @@ class EditTarget < BaseScreenObject
     @depth = Element.new("Depth value", "{container=':stackedWidget.Form_AddTargetsSidePanelForm2' name='depthValueLabel' type='QLabel' visible='1'}")
     @volume = Element.new("Volume value", "{container=':stackedWidget.Form_AddTargetsSidePanelForm2' name='targetVolumeValueLabel' type='QLabel' visible='1'}")
     @deleteTargetBtn = Element.new("Delete Target Button", ":Form.Delete Target_QPushButton")
+	
 
     @appHeaderFooterEdit = AppHeaderFooterEdit.new
 
@@ -53,4 +54,6 @@ class EditTarget < BaseScreenObject
 
     return popup
   end
+  
+  
 end

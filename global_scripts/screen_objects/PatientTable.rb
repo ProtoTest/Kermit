@@ -8,7 +8,7 @@ require findFile("scripts", "screen_objects\\AddTargets.rb")
 require findFile("scripts", "screen_objects\\Scrollbar.rb")
 require findFile("scripts", "screen_objects\\WarningDialogPopup.rb")
 
-MAX_NUM_VISIBLE_TABLE_ROWS = 15
+# MAX_NUM_VISIBLE_TABLE_ROWS = 15 #Moved to TestConfig.rb
 
 
 ########################################################################################
@@ -154,7 +154,7 @@ class PatientDetails < BaseScreenObject
   # Clicks on the create new plan button 
   def clickCreateNewPlan
     click(@CTRow.createPlanButton)
-    return AddTargets.new
+	return AddTargets.new #I'm not sure this needs to be it's own separate class
   end
 
   # Double clicks the patient's CT scan to open it

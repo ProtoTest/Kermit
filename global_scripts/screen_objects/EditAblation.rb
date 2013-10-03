@@ -18,11 +18,11 @@ class EditAblation < BaseScreenObject
     @diameter = Element.new("Ablation Zone Diameter", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='diameterValueLabel' type='QLabel' visible='1'}")
     @minMargin = Element.new("Ablation Zone Min Margin", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='minMarginValueLabel' type='QLabel' visible='1'}")
     @maxMargin = Element.new("Ablation Zone Max Margin", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='maxMarginValueLabel' type='QLabel' visible='1'}")
-    @needleCA20L1Btn = Element.new("Ablation Needle Button", ":Form.CA20L1_QPushButton")
+    #@needleCA20L1Btn = Element.new("Ablation Needle Button", ":Form.CA20L1_QPushButton") #this may have been removed
     @depth = Element.new("Ablation Needed Depth", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='toTargetValueLabel' type='QLabel' visible='1'}")
     
     @elements = [@deleteAblationBtn, @pwr50Btn, @pwr75Btn, @pwr100Btn, @time, @diameter]
-    @elements << [@minMargin, @maxMargin, @needleCA20L1Btn, @depth]
+    @elements << [@minMargin, @maxMargin, @depth] #removed @needleCA20L1Btn
     # one dimensional flattening of elements array
     @elements.flatten!
 

@@ -4,6 +4,7 @@ include Squish
 
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 
+#This is the status bar presented along the bottom of the screens
 class StatusBar < BaseScreenObject
   def initialize(objectString)
     # use the container object string to get the children
@@ -35,12 +36,12 @@ class StatusBar < BaseScreenObject
   end
 end
 
-module RadioButtons
-  LOAD_IMAGES = 1
-  ADD_TARGETS = 2
-  ADD_ABLATION = 3
-  EXPORT = 4
-end
+# module RadioButtons #Moved this to TestConfig.rb which should be invoked before every test  doesn't make sense here
+  # LOAD_IMAGES = 1
+  # ADD_TARGETS = 2
+  # ADD_ABLATION = 3
+  # EXPORT = 4
+# end
 
 class AppHeaderFooter < BaseScreenObject
   
@@ -66,6 +67,7 @@ class AppHeaderFooter < BaseScreenObject
     verifyElementsPresent(@elements, self.class.name)
   end
 
+  
   def clickRadio(radioBtnModuleID)
     case radioBtnModuleID
     when RadioButtons::LOAD_IMAGES

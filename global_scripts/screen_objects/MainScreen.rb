@@ -40,10 +40,31 @@ class MainScreen < BaseScreenObject
 		@patientTable.scrollToRowByIndex(index)
 		details = patient.openPatientDetails
 		origPlanCount = details.getPlanCount
+		details.clickCreateNewPlan.clickAddTarget.clickAddAblationZone.clickAddAblation  #getting stuck here and thinking it's going back to the start of the loop
+		clickLoadImagesRadio
+		details = scrollToPatientIndex(index).openPatientDetails(patient)
 		
+		Test.verify(origPlanCount+1 == details.getPlanCount, "Verify Plan count increased by one")
+		patientRowIndex = index % (MAX_NUM_VISIBLE_TABLE_ROWS - 1)
+		Test.log("patientRowIndex: #{patientRowIndex}")
+		newPlanCount = details.getPlanCount
+		Test.log("New Plan count is " + newPlanCount.to_s)
 		
+		# Scroll down to the last plan row to delete it
+		# +1 is for the CT row    
+		scrollToPatientIndex(patientRowIndex + 1 + newPlanCount)
+
+		# Delete the plan
+		details.planRows.last.deletePlan
 		
-		
+		# Open patient details to verify new row created
+		details = patient.openPatientDetails
+       
+		# Verify the plan was deleted
+		Test.verify(origPlanCount == details.getPlanCount, "Verify Plan count decreased by one")
+
+		# CLick the row again to close patient details
+		patient.closePatientDetails
 	end
   end
   
@@ -68,9 +89,9 @@ class MainScreen < BaseScreenObject
    else
      return patient.openPatientDetails
    end
-  end
+  end 
   
-  
+
 
   def clickLoadImagesRadio
     @appHeaderFooter.clickRadio(RadioButtons::LOAD_IMAGES)
