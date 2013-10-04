@@ -198,7 +198,8 @@ class PatientDetails < BaseScreenObject
       # don't care, this is used as the condition to break from the while
     end
     
-    Test.log("Found #{rows.size} plan rows")
+    #Test.log("Found #{rows.size} plan rows")
+	@@logFile.TestLog("Found #{rows.size} plan rows")
     return rows
   end
 
@@ -273,8 +274,8 @@ class PatientTable < BaseScreenObject
   # scroll down to row in the table
   # 
   def scrollToRowByIndex(index)
-    Test.log("Scrolling down to index: " + index.to_s)
-    Test.log("Scrolling " + (index/(MAX_NUM_VISIBLE_TABLE_ROWS-1)).to_s + " times")
+	@@logFile.TestLog("Scrolling down to index: " + index.to_s)
+	@@logFile.TestLog("Scrolling " + (index/(MAX_NUM_VISIBLE_TABLE_ROWS-1)).to_s + " times")
     if(index >= (MAX_NUM_VISIBLE_TABLE_ROWS-1))
       (index / (MAX_NUM_VISIBLE_TABLE_ROWS-1)).times do
         @scrollbar.scrollDown
@@ -305,7 +306,8 @@ class PatientTable < BaseScreenObject
         end
       end
     else
-      Test.fail("Where are the children?")
+      #Test.fail("Where are the children?")
+	  @@logFile.TestFail("Where are the children?")
     end
 
     return patientList

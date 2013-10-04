@@ -51,12 +51,13 @@ class MainScreen < BaseScreenObject
 		#Scroll to the patient (if needed) and open up the patient details - displaying all the available plans for this patient
 		details = scrollToPatientIndex(index).openPatientDetails(patient)
 		#Test to make sure that the original plan count is increased by one
-		Test.verify(origPlanCount+1 == details.getPlanCount, "Verify Plan count increased by one")
+		 @@logFile.TestVerify(origPlanCount+1 == details.getPlanCount, "Verify Plan count increased by one")		
 		#Determine the patient row index for the new plan
 		patientRowIndex = index % (MAX_NUM_VISIBLE_TABLE_ROWS - 1)
-		Test.log("patientRowIndex: #{patientRowIndex}")
+		
+		@@logFile.TestLog("patientRowIndex: #{patientRowIndex}")
 		newPlanCount = details.getPlanCount
-		Test.log("New Plan count is " + newPlanCount.to_s)		
+		@@logFile.TestLog("New Plan count is " + newPlanCount.to_s)		
 		# Scroll down to the last plan row to delete it
 		# +1 is for the CT row    
 		scrollToPatientIndex(patientRowIndex + 1 + newPlanCount)
@@ -65,7 +66,7 @@ class MainScreen < BaseScreenObject
 		# Open patient details to verify new row created
 		details = patient.openPatientDetails        
 		# Verify the plan was deleted
-		Test.verify(origPlanCount == details.getPlanCount, "Verify Plan count decreased by one")
+		@@logFile.TestVerify(origPlanCount == details.getPlanCount, "Verify Plan count decreased by one")
 		# CLick the row again to close patient details
 		patient.closePatientDetails
 	end
@@ -88,7 +89,7 @@ class MainScreen < BaseScreenObject
    end
    
    if patient.nil?
-     Test.fail("Failed to find patient " + patientName)
+     @@logFile.TestFail("Failed to find patient " + patientName)
      return nil
    else
      return patient.openPatientDetails

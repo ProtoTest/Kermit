@@ -1,8 +1,12 @@
-#####################################################
-# Seth Urban - 09/05/13
-# This class is used to build uniform commands to the log file
-# as strings
-#####################################################
+########################################################################################
+#
+#  Log Command builder
+#     This is used to add standard comments to the log file
+#
+#  @author  Seth Urban
+#  @notes -10/04/2013 - SU - added standard header
+#
+########################################################################################
 
 
 class LogCommandBuilder
@@ -32,5 +36,6 @@ class LogCommandBuilder
   def moveTarget(element, direct, amount)
     _return = "Moved Target in" + element.symbolicName + " "  + direct + " " + amount.to_s + " pixels"
     return _return
-  end
+  end  
+  
 end

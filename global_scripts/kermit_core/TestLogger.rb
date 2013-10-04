@@ -1,3 +1,13 @@
+########################################################################################
+#
+#  Test Logger
+#     Used to certify the actions of a particular test as it happens and build HTML output log incorporating screenshots
+#
+#  @author  Seth Urban
+#  @notes -10/04/2013 - SU - Wrapped squish Test.functions to allow to copy them to the log and present them as output
+#
+########################################################################################
+
 class TestLogger
   attr_reader :testLogLocation
   attr_reader :fileName
@@ -52,7 +62,22 @@ class TestLogger
     @testlog.puts(logString)
     @testlog.close
   end
+  
+  def TestLog(text)
+	Test.log(text)
+	AppendLog("Test.log(#{text})")
+  end
 
+  def TestVerify(condition, text)
+	Test.verify(condition, text)
+	AppendLog("Test.verify(" + condition.to_s + " " + text)
+  end
+  
+  def TestFail(text)
+	Test.fail(text)
+	AppendLog("Test.fail(#{text})")
+  end
+  
   def CompleteLog
     #This is going to read the text log for logs and screenshots and compile them into an HTML logfile
     #setup the fancy stuff

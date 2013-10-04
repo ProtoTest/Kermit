@@ -57,7 +57,8 @@ class Element
       children = Squish::Object.children(elementObject)
       return children
     rescue Exception => e
-      Test.fail("Element::getChildren(): " + @symbolicName + ": " + e.message)
+      #Test.fail("Element::getChildren(): " + @symbolicName + ": " + e.message)
+	  @@logFile.TestFail("Element::getChildren(): " + @symbolicName + ": " + e.message)
       return nil
     end
   end
@@ -74,7 +75,8 @@ class Element
         return nil
       end
     rescue Exception => e
-      Test.fail("Element::getProperty(): " + @symbolicName + ": " + e.message)
+      #Test.fail("Element::getProperty(): " + @symbolicName + ": " + e.message)
+	  @@logFile.TestFail("Element::getProperty(): " + @symbolicName + ": " + e.message)
     end
   end
 
@@ -190,6 +192,17 @@ def enterText(someText)
     end
     @@logFile.AppendLog(@@logCmd.moveTarget(element, direction, amount), snagScreenshot(element))
 end
+
+  def snagScreenshot
+    thing = waitForObject(@symbolicName)
+    image = grabWidget(thing)
+    format = "PNG"
+    ssName = element.name + "." + format
+    ssLoc = @@logFile.testLogLocation
+    image.save(ssLoc + ssName, format)
+	@@logFile.ApendLog("Taking screenshot of: " + @name + " symbolicName: " + @symbolicName + " and saving to Location: " + ssLoc)
+    return ssName
+  end
   
   
 end

@@ -56,11 +56,13 @@ class WarningDialogPopup < BaseScreenObject
 
   def clickBtn(name)
     if (btn = findElementByText(name))
-      Test.log("#{self.class.name}::#{__method__}: Clicking button: '#{name}' ")
+      #Test.log("#{self.class.name}::#{__method__}: Clicking button: '#{name}' ")
+	  @@logFile.TestLog("#{self.class.name}::#{__method__}: Clicking button: '#{name}' ")
       #click(btn)
 	  btn.click
     else
-      Test.fail("#{self.class.name}::#{__method__}: Failed to find #{name} button")
+      #Test.fail("#{self.class.name}::#{__method__}: Failed to find #{name} button")
+	  @@logFile.TestFail(("#{self.class.name}::#{__method__}: Failed to find #{name} button")
     end
 
     return self
@@ -76,11 +78,13 @@ class WarningDialogPopup < BaseScreenObject
 
   # Verifies the popup dialog text matches the parameter text
   def verifyPopupText(text)
-    Test.verify(text == @text.getText , "Verify popup text == '#{text}' ")
+    #Test.verify(text == @text.getText , "Verify popup text == '#{text}' ")
+	@@logFile.TestVerify(text == @text.getText , "Verify popup text == '#{text}' ")
   end
 
   def verifyPopupTitle(text)
-    Test.verify(text == @title.getText, "Verify popup Title == '#{text}' ")
+    #Test.verify(text == @title.getText, "Verify popup Title == '#{text}' ")
+	@@logFile.TestVerify(text == @title.getText, "Verify popup Title == '#{text}' ")
   end
 
 

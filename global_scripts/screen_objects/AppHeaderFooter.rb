@@ -88,7 +88,8 @@ class AppHeaderFooter < BaseScreenObject
       #click(@exportRadio)
 	  @exportRadio.click
     else
-      Test.fail("#{self.class.name}::clickRadio: Invalid radio button ID")
+      #Test.fail("#{self.class.name}::clickRadio: Invalid radio button ID")
+	  @@logFile.TestFail("#{self.class.name}::clickRadio: Invalid radio button ID")
     end
   end
 end
