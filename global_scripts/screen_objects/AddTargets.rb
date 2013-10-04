@@ -6,6 +6,16 @@ require findFile("scripts", "screen_objects\\AppHeaderFooterEdit.rb")
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 require findFile("scripts", "screen_objects\\EditTarget.rb")
 
+########################################################################################
+#
+#  Add Targets
+#     This screen is presented when users are expecting to add a new target to the plan
+#
+#  @author  Matt Siwiec
+#  @notes -10/04/2013 - SU - Changed all BasePageObject clicks and dclicks and enterText to reference Element directly 
+#
+########################################################################################
+
 
 class AddTargets < BaseScreenObject
   def initialize
@@ -18,7 +28,8 @@ class AddTargets < BaseScreenObject
   end
   
   def clickAddTarget
-    click(@addTargetBtn)
+    #click(@addTargetBtn)
+	@addTargetBtn.click
     snooze 1
     return EditTarget.new
   end

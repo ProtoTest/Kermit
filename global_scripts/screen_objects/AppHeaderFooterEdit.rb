@@ -2,6 +2,16 @@
 
 require findFile("scripts", "screen_objects\\AppHeaderFooter.rb")
 
+########################################################################################
+#
+#  AppHeaderFooter Edit
+#     This is an addition to the Standard AppHeaderFooter presented when users are able to edit targets and ablations
+#
+#  @author  Matt Siwiec
+#  @notes -10/04/2013 - SU - Changed all BasePageObject clicks and dclicks to reference Element directly 
+#
+########################################################################################
+
 class AppHeaderFooterEdit < AppHeaderFooter
   def initialize
   	# intialize parent class
@@ -13,10 +23,12 @@ class AppHeaderFooterEdit < AppHeaderFooter
   end
 
   def clickBackButton
-    click(@backBtn)
+    #click(@backBtn)
+	@backBtn.click
   end
 
   def clickNextButton
-    click(@nextBtn)
+    #click(@nextBtn)
+	@nextBtn.click
   end
 end

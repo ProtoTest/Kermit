@@ -5,6 +5,16 @@ include Squish
 require findFile("scripts", "screen_objects\\AppHeaderFooterEdit.rb")
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 
+########################################################################################
+#
+#  EditAblation
+#     Screen Used to Edit the Ablation Zone in a Patient Plan
+#
+#  @author  Matt Siwiec
+#  @notes -10/04/2013 - SU - Changed all BasePageObject clicks and dclicks to reference Element directly 
+#
+########################################################################################
+
 class EditAblation < BaseScreenObject
   def initialize
     @appHeaderFooterEdit = AppHeaderFooterEdit.new

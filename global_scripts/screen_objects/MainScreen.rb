@@ -33,43 +33,47 @@ class MainScreen < BaseScreenObject
   
   
   ###########################
-  #This function will be used to gather all the patient info and must be called at the start of a test involving patients!
+  #This function is used to loop through and run an endurance test.  This only iterates once. 
+  #We might want to break this out into separate screen object calls.
   ###########################
-  def CustomerPatientLoop
+  def Customer_Endurance_Loop
 	@patientTable.patientList.each_with_index do |patient, index|
+		#Scroll the the index of the patient, used if the patient index it outside the bounds of the scroll window
 		@patientTable.scrollToRowByIndex(index)
+		#Get the patient details
 		details = patient.openPatientDetails
+		#Get the number of plans from the patient record
 		origPlanCount = details.getPlanCount
-		details.clickCreateNewPlan.clickAddTarget.clickAddAblationZone.clickAddAblation  #getting stuck here and thinking it's going back to the start of the loop
+		#Add a new plan for the selected patient record
+		details.clickCreateNewPlan.clickAddTarget.clickAddAblationZone.clickAddAblation 
+		#Go back to the patient tree
 		clickLoadImagesRadio
+		#Scroll to the patient (if needed) and open up the patient details - displaying all the available plans for this patient
 		details = scrollToPatientIndex(index).openPatientDetails(patient)
-		
+		#Test to make sure that the original plan count is increased by one
 		Test.verify(origPlanCount+1 == details.getPlanCount, "Verify Plan count increased by one")
+		#Determine the patient row index for the new plan
 		patientRowIndex = index % (MAX_NUM_VISIBLE_TABLE_ROWS - 1)
 		Test.log("patientRowIndex: #{patientRowIndex}")
 		newPlanCount = details.getPlanCount
-		Test.log("New Plan count is " + newPlanCount.to_s)
-		
+		Test.log("New Plan count is " + newPlanCount.to_s)		
 		# Scroll down to the last plan row to delete it
 		# +1 is for the CT row    
 		scrollToPatientIndex(patientRowIndex + 1 + newPlanCount)
-
 		# Delete the plan
-		details.planRows.last.deletePlan
-		
+		details.planRows.last.deletePlan		
 		# Open patient details to verify new row created
-		details = patient.openPatientDetails
-       
+		details = patient.openPatientDetails        
 		# Verify the plan was deleted
 		Test.verify(origPlanCount == details.getPlanCount, "Verify Plan count decreased by one")
-
 		# CLick the row again to close patient details
 		patient.closePatientDetails
 	end
   end
   
   def searchforRecord(searchText)
-    enterText(@searchField, searchText)
+    #enterText(@searchField, searchText)
+	@searchField.enterText(searchText)
     return MainScreen.new
   end  
    

@@ -4,7 +4,17 @@ include Squish
 
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 
-#This is the status bar presented along the bottom of the screens
+########################################################################################
+#
+#  AppHeaderFooter 
+#     This is the standard App Header footer used for all the screens on the application
+#
+#  @author  Matt Siwiec
+#  @notes -10/04/2013 - SU - Changed all BasePageObject clicks and dclicks to reference Element directly 
+#
+########################################################################################
+
+#This is the status bar presented along the bottom of the screens i.e. Footer
 class StatusBar < BaseScreenObject
   def initialize(objectString)
     # use the container object string to get the children
@@ -36,13 +46,7 @@ class StatusBar < BaseScreenObject
   end
 end
 
-# module RadioButtons #Moved this to TestConfig.rb which should be invoked before every test  doesn't make sense here
-  # LOAD_IMAGES = 1
-  # ADD_TARGETS = 2
-  # ADD_ABLATION = 3
-  # EXPORT = 4
-# end
-
+#This is the header presented at the top of the screens. i.e. Header
 class AppHeaderFooter < BaseScreenObject
   
   def initialize
@@ -71,14 +75,18 @@ class AppHeaderFooter < BaseScreenObject
   def clickRadio(radioBtnModuleID)
     case radioBtnModuleID
     when RadioButtons::LOAD_IMAGES
-      click(@loadImagesRadio)
+      #click(@loadImagesRadio)
+	  @loadImagesRadio.click
       return MainScreen.new
     when RadioButtons::ADD_TARGETS
-      click(@addTargetsRadio)
+      #click(@addTargetsRadio)
+	  @addTargetsRadio.click
     when RadioButtons::ADD_ABLATION
-      click(@addAblationRadio)
+      #click(@addAblationRadio)
+	  @addAblationRadio.click
     when RadioButtons::EXPORT
-      click(@exportRadio)
+      #click(@exportRadio)
+	  @exportRadio.click
     else
       Test.fail("#{self.class.name}::clickRadio: Invalid radio button ID")
     end

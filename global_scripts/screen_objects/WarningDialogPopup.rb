@@ -5,15 +5,24 @@ include Squish
 require findFile("scripts", "kermit_core\\Element.rb")
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 
+########################################################################################
+#
+#  Warning Dialog Popup
+#     Contains all the elements for any Warning message Popup presented when deleteing patient data or on start up
+#
+#  @author  Matt Siwiec
+#  @notes - 10/03/2013 - SU - Updated elements RealID changed from {name='titleLabel' type='QLabel' visible='1' window=':WarningDialog_MessageDialog'} to {name='titleLabel' type='QLabel' visible='1' window=':MessageDialog_MessageDialog'}
+#  	10/04/2013 - SU - Added standard comment block, changed references to clicks and dclicks from BaseScreenObject to Element Class
+#
+########################################################################################
 
 class WarningDialogPopup < BaseScreenObject
-##Updated Elements here realID changed from :{name='titleLabel' type='QLabel' visible='1' window=':WarningDialog_MessageDialog'} to {name='titleLabel' type='QLabel' visible='1' window=':MessageDialog_MessageDialog'}
+
 ##Had to do a few updates to this screen to get it to work properly with the renamed window from warningDialog to MessageDialgo
   def initialize
     @title = Element.new("Popup Title", "{name='titleLabel' type='QLabel' visible='1' window=':MessageDialog_MessageDialog'}")
 
-    #@text = Element.new("Popup Text", "{name='warningLabel' type='QLabel' visible='1' window=':WarningDialog_MessageDialog'}")
-	
+    #@text = Element.new("Popup Text", "{name='warningLabel' type='QLabel' visible='1' window=':WarningDialog_MessageDialog'}")	
 
     # On some popups, the left button may not exist
     @rightBtn = Element.new("Right Button", "{name='rightButton' type='QPushButton' visible='1' window=':MessageDialog_MessageDialog'}")
@@ -48,7 +57,8 @@ class WarningDialogPopup < BaseScreenObject
   def clickBtn(name)
     if (btn = findElementByText(name))
       Test.log("#{self.class.name}::#{__method__}: Clicking button: '#{name}' ")
-      click(btn)
+      #click(btn)
+	  btn.click
     else
       Test.fail("#{self.class.name}::#{__method__}: Failed to find #{name} button")
     end

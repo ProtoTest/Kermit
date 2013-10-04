@@ -8,6 +8,16 @@ require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 require findFile("scripts", "screen_objects\\EditAblation.rb")
 require findFile("scripts", "screen_objects\\WarningDialogPopup.rb")
 
+########################################################################################
+#
+#  EditTarget
+#     This screen is presented when users are expecting to edit existing targets already on the selected plan
+#
+#  @author  Matt Siwiec
+#  @notes -10/04/2013 - SU - Changed all BasePageObject clicks and dclicks and enterText to reference Element directly 
+#
+########################################################################################
+
 class EditTarget < BaseScreenObject
   def initialize
     @targetNameEntry = Element.new("Edit target name text box", ":Form.nameLineEdit_QLineEdit")
@@ -30,12 +40,14 @@ class EditTarget < BaseScreenObject
   end
   
   def setTargetName(text)
-    enterText(@targetNameEntry, text) if not text.nil?
+    #enterText(@targetNameEntry, text) if not text.nil?
+	@targetNameEntry.enterText(text) if not text.nil?
     return self
   end
 
   def setNote(text)
-    enterText(@targetNotesEntry, text) if not text.nil?
+    #enterText(@targetNotesEntry, text) if not text.nil?
+	@targetNotesEntry.enterText(text) if not text.nil?
     return self
   end
 

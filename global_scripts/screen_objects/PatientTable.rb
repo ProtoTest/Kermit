@@ -5,11 +5,11 @@ include Squish
 require findFile("scripts", "kermit_core\\Element.rb")
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 require findFile("scripts", "screen_objects\\AddTargets.rb")
-require findFile("scripts", "screen_objects\\Scrollbar.rb")
+#require findFile("scripts", "screen_objects\\Scrollbar.rb")
 require findFile("scripts", "screen_objects\\WarningDialogPopup.rb")
 
 # MAX_NUM_VISIBLE_TABLE_ROWS = 15 #Moved to TestConfig.rb
-
+#Changed scrollbar to just element 
 
 ########################################################################################
 #
@@ -17,7 +17,7 @@ require findFile("scripts", "screen_objects\\WarningDialogPopup.rb")
 #     Stores object elements for the Patient table header
 #
 #  @author  Matt Siwiec
-#  @notes
+#  @notes 10/04/2013 - SU - Changed all BasePageObject clicks and dclicks to reference Element directly 
 #
 ########################################################################################
 class TableHeader < BaseScreenObject
@@ -30,19 +30,23 @@ class TableHeader < BaseScreenObject
     @lastAccessHeaderView = Element.new("Last Accessed Table Header", ":Last Accessed_HeaderViewItem")
 
     def clickPatientHeader
-      click(@patientNameHeaderView)
+      #click(@patientNameHeaderView)
+	  @patientNameHeaderView.click
     end
 
     def clickPatientIDHeader
-      click(@patientIDHeaderView)
+      #click(@patientIDHeaderView)
+	  @patientIDHeaderView.click	  
     end
 
     def clickBirthDateHeader
-      click(@birthDateHeaderView)
+      #click(@birthDateHeaderView)
+	  @birthDateHeaderView.click
     end
 
     def clickLastAccessHeader
-      click(@lastAccessHeaderView)
+      #click(@lastAccessHeaderView)
+	  @lastAccessHeaderView.click
     end
   end
 end
@@ -53,7 +57,7 @@ end
 #   Stores object elements of the CT row for a patient
 #
 #  @author Matt Siwiec
-#  @notes Inherits from Element
+#  @notes Inherits from Element 
 #
 ########################################################################################
 class CTRow < Element
@@ -139,7 +143,8 @@ end
 #
 #  @author    Matt Siwiec
 #  @notes     In order to get access to the rows objects, the patient name must be 'clicked'
-#             to open the sub-tree of patient details            
+#             to open the sub-tree of patient details
+#	10/04/2013 SethUrban Changed all clicks and dclicks to reference element instead of BasePageObject             
 #
 ########################################################################################
 class PatientDetails < BaseScreenObject
@@ -153,13 +158,15 @@ class PatientDetails < BaseScreenObject
   
   # Clicks on the create new plan button 
   def clickCreateNewPlan
-    click(@CTRow.createPlanButton)
+    #click(@CTRow.createPlanButton)
+	@CTRow.createPlanButton.click
 	return AddTargets.new #I'm not sure this needs to be it's own separate class
   end
 
   # Double clicks the patient's CT scan to open it
   def openCT 
-    dClick(@CTRow)
+    #dClick(@CTRow)
+	@CTRow.dclick
     verifyCTImageDisplayed
   end
   
@@ -204,6 +211,7 @@ end
 #
 #  @author    Matt Siwiec
 #  @notes     Provides functionality for the tester to get the patient details from the sub-tree
+#	10/04/2013 SethUrban Changed all clicks and dclicks to reference element instead of BasePageObject  
 #
 ########################################################################################
 class Patient < BaseScreenObject
@@ -216,13 +224,15 @@ class Patient < BaseScreenObject
   
   # Returns the patient details (CT Row, Plan Rows)
   def openPatientDetails
-    click(@patientElement)
+    #click(@patientElement)
+	@patientElement.click
     return PatientDetails.new
   end
 
   # Closes the tree for the patient
   def closePatientDetails
-    click(@patientElement)
+    #click(@patientElement)
+	@patientElement.click
     return MainScreen.new
   end
 
@@ -247,7 +257,8 @@ end
 #     Stores the components of all patients in the table
 #
 #  @author  Matt Siwiec
-#  @notes
+#  @notes 
+#	10/04/13 - SU - Removed ScrollBar Class, changed to element class	
 #
 ########################################################################################
 class PatientTable < BaseScreenObject
@@ -256,7 +267,7 @@ class PatientTable < BaseScreenObject
   def initialize
     @tableHeader = TableHeader.new
     @patientList = getPatientList
-    @scrollbar = Scrollbar.new("Patient Table Scroll bar", ":customTreeWidget_QScrollBar")
+    @scrollbar = Element.new("Patient Table Scroll bar", ":customTreeWidget_QScrollBar")
   end
 
   # scroll down to row in the table
