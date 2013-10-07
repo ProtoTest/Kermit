@@ -13,6 +13,9 @@ require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 require findFile("scripts", "screen_objects\\AppHeaderFooter.rb")
 require findFile("scripts", "screen_objects\\PatientTable.rb")
 
+#
+# TODO: create functionality to load images via, CD, USB, HDD
+#
 class MainScreen < BaseScreenObject
   attr_reader :patientTable
   
@@ -23,10 +26,15 @@ class MainScreen < BaseScreenObject
     end
 
     @searchField = Element.new("SearchField", ":Form.search_QLineEdit")
+    @systemBtn = Element.new("System Button", ":Form.System_QToolButton")
+    @cdBtn = Element.new("CD Button", ":Form.CD_QToolButton")
+    @usbBtn = Element.new("USB Button", ":Form.USB_QToolButton")
+    @hddBtn = Element.new("Hard Drive Button", ":Form.Hard Drive_QToolButton")
+
     @patientTable = PatientTable.new
     @appHeaderFooter = AppHeaderFooter.new
 
-    @elements = [@searchField]
+    @elements = [@searchField, @systemBtn, @cdBtn, @usbBtn, @hddBtn]
     verifyElementsPresent(@elements, self.class.name)
    
   end
@@ -74,8 +82,7 @@ class MainScreen < BaseScreenObject
   end
   
   def searchforRecord(searchText)
-    #enterText(@searchField, searchText)
-	@searchField.enterText(searchText)
+    @searchField.enterText(searchText)
     return MainScreen.new
   end  
    
@@ -98,16 +105,16 @@ class MainScreen < BaseScreenObject
   end 
   
 
-   def getPatientList
-     return @patientTable.patientList
-   end
+  def getPatientList
+    return @patientTable.patientList
+  end
 
-   def scrollToPatientIndex(index)
-     @patientTable.scrollToRowByIndex(index)
-     return MainScreen.new
-   end
+  def scrollToPatientIndex(index)
+    @patientTable.scrollToRowByIndex(index)
+    return MainScreen.new
+  end
 
-    def openPatientDetails(patient)
-		 return patient.openPatientDetails
-    end
+  def openPatientDetails(patient)
+    return patient.openPatientDetails
+  end
 end
