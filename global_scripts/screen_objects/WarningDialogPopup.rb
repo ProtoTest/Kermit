@@ -28,7 +28,7 @@ class WarningDialogPopup < BaseScreenObject
     @rightBtn = Element.new("Right Button", "{name='rightButton' type='QPushButton' visible='1' window=':MessageDialog_MessageDialog'}")
 
     # left button on the popup may or may not exist
-    if Squish::Object::exists("{name='leftButton' type='QPushButton' visible='1' window=':WarningDialog_MessageDialog'}")
+    if Squish::Object::exists("{name='leftButton' type='QPushButton' visible='1' window=':MessageDialog_MessageDialog'}")
       @leftBtn = Element.new("Left Button", "{name='leftButton' type='QPushButton' visible='1' window=':MessageDialog_MessageDialog'}")
     end
 
