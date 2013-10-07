@@ -70,6 +70,7 @@ class MainScreen < BaseScreenObject
 		# CLick the row again to close patient details
 		patient.closePatientDetails
 	end
+	return MainScreen.new
   end
   
   def searchforRecord(searchText)

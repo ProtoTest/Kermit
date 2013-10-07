@@ -54,25 +54,22 @@
 :Form_StatusBarForm	{name='StatusBarForm' type='StatusBarForm' visible='1' window=':_MainWindow' windowTitle='Form'}
 :Load Images_QPushButton	{name='backButton' text='Load Images' type='QPushButton' visible='1' window=':_MainWindow'}
 :Load Images_QPushButton_2	{text='Load Images' type='QPushButton' unnamed='1' visible='1' window=':_MainWindow'}
+:MessageDialog.Delete Plan_QLabel	{name='titleLabel' text='Delete Plan' type='QLabel' visible='1' window=':MessageDialog_MessageDialog'}
+:MessageDialog.Delete_QPushButton	{name='rightButton' text='Delete' type='QPushButton' visible='1' window=':MessageDialog_MessageDialog'}
+:MessageDialog.captureScreenButton_QPushButton	{name='captureScreenButton' type='QPushButton' visible='1' window=':MessageDialog_MessageDialog'}
+:MessageDialog.closeButton_QPushButton	{name='closeButton' type='QPushButton' visible='1' window=':MessageDialog_MessageDialog'}
+:MessageDialog.dialogContainer_QWidget	{name='dialogContainer' type='QWidget' visible='1' window=':MessageDialog_MessageDialog'}
+:MessageDialog_MessageDialog	{name='MessageDialog' type='MessageDialog' visible='1' windowTitle='MessageDialog'}
 :ScreenCaptureDialog.Cancel_QPushButton	{name='cancelButton' text='Cancel' type='QPushButton' visible='1' window=':ScreenCaptureDialog_ScreenCaptureDialog'}
 :ScreenCaptureDialog.Hide patient details in the screen capture_QCheckBox	{name='patientDetailsCheckBox' text='Hide patient details in the screen capture' type='QCheckBox' visible='1' window=':ScreenCaptureDialog_ScreenCaptureDialog'}
 :ScreenCaptureDialog.Save_QPushButton	{name='saveButton' text='Save' type='QPushButton' visible='1' window=':ScreenCaptureDialog_ScreenCaptureDialog'}
 :ScreenCaptureDialog.closeButton_QPushButton	{name='closeButton' type='QPushButton' visible='1' window=':ScreenCaptureDialog_ScreenCaptureDialog'}
 :ScreenCaptureDialog.fileNameEdit_QLineEdit	{name='fileNameEdit' type='QLineEdit' visible='1' window=':ScreenCaptureDialog_ScreenCaptureDialog'}
 :ScreenCaptureDialog_ScreenCaptureDialog	{name='ScreenCaptureDialog' type='ScreenCaptureDialog' visible='1' windowTitle='ScreenCaptureDialog'}
-:WarningDialog.Are you sure you want to delete the selected target?_QLabel	{name='warningLabel' text='Are you sure you want to delete the selected target?' type='QLabel' visible='1' window=':WarningDialog_MessageDialog'}
-:WarningDialog.Cancel_QPushButton	{name='leftButton' text='Cancel' type='QPushButton' visible='1' window=':WarningDialog_MessageDialog'}
-:WarningDialog.Delete Ablation Zone_QLabel	{name='titleLabel' text='Delete Ablation Zone' type='QLabel' visible='1' window=':WarningDialog_MessageDialog'}
-:WarningDialog.Delete Target_QLabel	{name='titleLabel' text='Delete Target' type='QLabel' visible='1' window=':WarningDialog_MessageDialog'}
-:WarningDialog.Delete_QPushButton	{name='rightButton' text='Delete' type='QPushButton' visible='1' window=':WarningDialog_MessageDialog'}
-:WarningDialog.Insufficient Memory_QLabel	{name='titleLabel' text='Insufficient Memory' type='QLabel' visible='1' window=':WarningDialog_MessageDialog'}
-:WarningDialog.OK_QPushButton	{name='rightButton' text='OK' type='QPushButton' visible='1' window=':WarningDialog_MessageDialog'}
-:WarningDialog.The system does not have the recommended memory for running this application._QLabel	{name='warningLabel' text='The system does not have the recommended memory for running this application.' type='QLabel' visible='1' window=':WarningDialog_MessageDialog'}
-:WarningDialog.captureScreenButton_QPushButton	{name='captureScreenButton' type='QPushButton' visible='1' window=':WarningDialog_MessageDialog'}
-:WarningDialog.closeButton_QPushButton	{name='closeButton' type='QPushButton' visible='1' window=':WarningDialog_MessageDialog'}
-:WarningDialog.dialogContainer_QWidget	{name='dialogContainer' type='QWidget' visible='1' window=':WarningDialog_MessageDialog'}
-:WarningDialog_MessageDialog	{name='MessageDialog' type='MessageDialog' visible='1' windowTitle='WarningDialog'}
-:_MainWindow	{type='MainWindow' unnamed='1' visible='1'}
+:customTreeWidget.1.3.6.1.4.1.9328.50.3.0537_QModelIndex	{column='0' container=':Form.customTreeWidget_CustomTreeWidget' text='1.3.6.1.4.1.9328.50.3.0537' type='QModelIndex'}
+:customTreeWidget.3691393543_QModelIndex	{column='0' container=':Form.customTreeWidget_CustomTreeWidget' text='3691393543' type='QModelIndex'}
+:customTreeWidget.COVIDIEN PHANTOM 2_QModelIndex	{column='0' container=':Form.customTreeWidget_CustomTreeWidget' text='COVIDIEN PHANTOM 2' type='QModelIndex'}
+:customTreeWidget.DISK^39_QModelIndex	{column='0' container=':Form.customTreeWidget_CustomTreeWidget' text='DISK^39' type='QModelIndex'}
 :customTreeWidget.frame_QFrame	{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' type='QFrame' visible='1'}
 :customTreeWidget.frame_QFrame_2	{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' occurrence='2' type='QFrame' visible='1'}
 :customTreeWidget_QScrollBar	{container=':Form.customTreeWidget_CustomTreeWidget' type='QScrollBar' unnamed='1' visible='1'}
