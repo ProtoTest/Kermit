@@ -59,7 +59,7 @@ class WarningDialogPopup < BaseScreenObject
       @@logFile.TestLog("#{self.class.name}::#{__method__}: Clicking button: '#{name}' ")
       btn.click
     else
-      @@logFile.TestFail(("#{self.class.name}::#{__method__}: Failed to find #{name} button")
+      @@logFile.TestFail("#{self.class.name}::#{__method__}: Failed to find #{name} button")
     end
 
     return self
