@@ -22,7 +22,7 @@ class WarningDialogPopup < BaseScreenObject
   def initialize
     @title = Element.new("Popup Title", "{name='titleLabel' type='QLabel' visible='1' window=':MessageDialog_MessageDialog'}")
 
-    #@text = Element.new("Popup Text", "{name='warningLabel' type='QLabel' visible='1' window=':WarningDialog_MessageDialog'}")	
+    @text = Element.new("Popup Text", "{name='warningLabel' type='QLabel' visible='1' window=':MessageDialog_MessageDialog'}")	
 
     # On some popups, the left button may not exist
     @rightBtn = Element.new("Right Button", "{name='rightButton' type='QPushButton' visible='1' window=':MessageDialog_MessageDialog'}")
@@ -56,13 +56,15 @@ class WarningDialogPopup < BaseScreenObject
 
   def clickBtn(name)
     if (btn = findElementByText(name))
-      #Test.log("#{self.class.name}::#{__method__}: Clicking button: '#{name}' ")
-	  @@logFile.TestLog("#{self.class.name}::#{__method__}: Clicking button: '#{name}' ")
-      #click(btn)
-	  btn.click
+      @@logFile.TestLog("#{self.class.name}::#{__method__}: Clicking button: '#{name}' ")
+      btn.click
     else
+<<<<<<< HEAD
       #Test.fail("#{self.class.name}::#{__method__}: Failed to find #{name} button")
 	  @@logFile.TestFail("#{self.class.name}::#{__method__}: Failed to find #{name} button")
+=======
+      @@logFile.TestFail("#{self.class.name}::#{__method__}: Failed to find #{name} button")
+>>>>>>> 8cc76bbf78f2d869c74143ee6637ea374ed7fdbc
     end
 
     return self
@@ -73,18 +75,16 @@ class WarningDialogPopup < BaseScreenObject
   end
 
   def getText
-    return @title.getText
+    return @text.getText
   end
 
   # Verifies the popup dialog text matches the parameter text
   def verifyPopupText(text)
-    #Test.verify(text == @text.getText , "Verify popup text == '#{text}' ")
-	@@logFile.TestVerify(text == @text.getText , "Verify popup text == '#{text}' ")
+    @@logFile.TestVerify(text == @text.getText , "Verify popup text == '#{text}' ")
   end
 
   def verifyPopupTitle(text)
-    #Test.verify(text == @title.getText, "Verify popup Title == '#{text}' ")
-	@@logFile.TestVerify(text == @title.getText, "Verify popup Title == '#{text}' ")
+    @@logFile.TestVerify(text == @title.getText, "Verify popup Title == '#{text}' ")
   end
 
 
