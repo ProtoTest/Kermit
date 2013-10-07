@@ -42,7 +42,7 @@ class WarningDialogPopup < BaseScreenObject
   end
   
   def onScreen?
-    Squish::Object::exists("  :MessageDialog.dialogContainer_QWidget")
+    Squish::Object::exists(":MessageDialog.dialogContainer_QWidget")
   end
 
 
@@ -59,12 +59,7 @@ class WarningDialogPopup < BaseScreenObject
       @@logFile.TestLog("#{self.class.name}::#{__method__}: Clicking button: '#{name}' ")
       btn.click
     else
-<<<<<<< HEAD
-      #Test.fail("#{self.class.name}::#{__method__}: Failed to find #{name} button")
-	  @@logFile.TestFail("#{self.class.name}::#{__method__}: Failed to find #{name} button")
-=======
       @@logFile.TestFail("#{self.class.name}::#{__method__}: Failed to find #{name} button")
->>>>>>> 8cc76bbf78f2d869c74143ee6637ea374ed7fdbc
     end
 
     return self
