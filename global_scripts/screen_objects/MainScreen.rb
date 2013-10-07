@@ -47,7 +47,7 @@ class MainScreen < BaseScreenObject
 		#Add a new plan for the selected patient record
 		details.clickCreateNewPlan.clickAddTarget.clickAddAblationZone.clickAddAblation 
 		#Go back to the patient tree
-		clickLoadImagesRadio
+		@appHeaderFooter.clickLoadImagesRadio
 		#Scroll to the patient (if needed) and open up the patient details - displaying all the available plans for this patient
 		details = scrollToPatientIndex(index).openPatientDetails(patient)
 		#Test to make sure that the original plan count is increased by one
@@ -96,24 +96,6 @@ class MainScreen < BaseScreenObject
    end
   end 
   
-
-
-  def clickLoadImagesRadio
-    @appHeaderFooter.clickRadio(RadioButtons::LOAD_IMAGES)
-    return MainScreen.new
-  end
-
-  def clickAddTargetsRadio
-    @appHeaderFooter.clickRadio(RadioButtons::ADD_TARGETS)
-  end
-
-  def clickAddAblationZonesRadio
-    @appHeaderFooter.clickRadio(RadioButtons::ADD_ABLATION)
-  end
-
-  def clickExportRadio
-    @appHeaderFooter.clickRadio(RadioButtons::EXPORT)
-  end
 
    def getPatientList
      return @patientTable.patientList

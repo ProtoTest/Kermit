@@ -71,7 +71,26 @@ class AppHeaderFooter < BaseScreenObject
     verifyElementsPresent(@elements, self.class.name)
   end
 
+   def clickLoadImagesRadio
+    clickRadio(RadioButtons::LOAD_IMAGES)
+  end
+
+  def clickAddTargetsRadio
+    clickRadio(RadioButtons::ADD_TARGETS)
+  end
+
+  def clickAddAblationZonesRadio
+    clickRadio(RadioButtons::ADD_ABLATION)
+  end
+
+  def clickExportRadio
+    clickRadio(RadioButtons::EXPORT)
+  end
+
+############################### PRIVATE AREA ####################################
   
+  private
+
   def clickRadio(radioBtnModuleID)
     case radioBtnModuleID
     when RadioButtons::LOAD_IMAGES
