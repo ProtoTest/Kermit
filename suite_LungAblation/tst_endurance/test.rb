@@ -14,8 +14,13 @@ def main
 
   startApplication("LungAblation")
 
+  # TestConfig
+  installEventHandlers()
+    
   # construct the main page
   mainScreen = MainScreen.new
+
+  
 
   mainScreen.Customer_Endurance_Loop
 

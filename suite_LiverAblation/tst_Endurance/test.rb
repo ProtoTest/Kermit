@@ -14,6 +14,9 @@ def main
 
   startApplication("LiverAblation")
 
+  # TestConfig
+  installEventHandlers()
+      
   # construct the main page
   mainScreen = MainScreen.new
 
