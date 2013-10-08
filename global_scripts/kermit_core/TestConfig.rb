@@ -16,4 +16,27 @@ module RadioButtons
   EXPORT = 4
 end
 
+#
+# install crash, hang, etc event handlers
+#
+def crashHandler
+  # perform any necessary cleanup here
+
+  # Log and fail
+  @@logFile.TestFatal("Application under test '#{currentApplicationContext().name}' crashed")
+end
+
+def timeoutHandler
+  # perform any necessary cleanup here
+
+  # Log and fail
+  @@logFile.TestFatal("Application under test '#{currentApplicationContext().name}' timed-out")
+end
+
+def installEventHandlers
+  @@logFile.TestLog("#{__method__}: Registering event handlers")
+  installEventHandler("Crash", "crashHandler")		
+  installEventHandler("Timeout", "timeoutHandler")
+end
+
 
