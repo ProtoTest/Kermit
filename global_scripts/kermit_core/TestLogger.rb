@@ -77,6 +77,11 @@ class TestLogger
 	Test.fail(text)
 	AppendLog("Test.fail(#{text})")
   end
+
+  def TestFatal(text)
+    Test.fatal(text)
+    AppendLog("Test.fatal(#{text})")
+  end
   
   def CompleteLog
     #This is going to read the text log for logs and screenshots and compile them into an HTML logfile
