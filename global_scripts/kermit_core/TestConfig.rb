@@ -4,8 +4,6 @@ require findFile("scripts", "kermit_core\\LogCommandBuilder.rb")
  @@logCmd = LogCommandBuilder.new  
  @@logFile = TestLogger.new
 
-TestSettings.logScreenshotOnFail = true
-
 MAX_NUM_VISIBLE_TABLE_ROWS = 15
 OBJECT_WAIT_TIMEOUT= 10000
 
