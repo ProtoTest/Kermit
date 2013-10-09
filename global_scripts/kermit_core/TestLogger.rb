@@ -95,10 +95,11 @@ class TestLogger
     # check to see if the verification failed, if it did, take a screenshot
     if not Test.verify(condition, text)
   	  (filename = takeScreenshot) 
-      verificationText = "FAILED"
+      AppendLog("Test.verify FAILED: #{text}", filename)
+    else
+      AppendLog("Test.verify PASSED: #{text}")
     end
 
-	  AppendLog("Test.verify #{verificationText}: #{text}", filename)
   end
   
   def TestFail(text)
