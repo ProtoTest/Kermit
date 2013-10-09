@@ -7,8 +7,6 @@ include Squish
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 
 
-# OBJECT_WAIT_TIMEOUT= 10000 --Moved to TestConfig.Rb
-
 ########################################################################################
 #
 #  Element
@@ -57,8 +55,7 @@ class Element
       children = Squish::Object.children(elementObject)
       return children
     rescue Exception => e
-      #Test.fail("Element::getChildren(): " + @symbolicName + ": " + e.message)
-	  @@logFile.TestFail("Element::getChildren(): " + @symbolicName + ": " + e.message)
+	    @@logFile.TestFail("Element::getChildren(): " + @symbolicName + ": " + e.message)
       return nil
     end
   end
@@ -75,8 +72,7 @@ class Element
         return nil
       end
     rescue Exception => e
-      #Test.fail("Element::getProperty(): " + @symbolicName + ": " + e.message)
-	  @@logFile.TestFail("Element::getProperty(): " + @symbolicName + ": " + e.message)
+      @@logFile.TestFail("Element::getProperty(): " + @symbolicName + ": " + e.message)
     end
   end
 
@@ -200,7 +196,7 @@ end
     ssName = element.name + "." + format
     ssLoc = @@logFile.testLogLocation
     image.save(ssLoc + ssName, format)
-	@@logFile.ApendLog("Taking screenshot of: " + @name + " symbolicName: " + @symbolicName + " and saving to Location: " + ssLoc)
+    @@logFile.ApendLog("Taking screenshot of: " + @name + " symbolicName: " + @symbolicName + " and saving to Location: " + ssLoc)
     return ssName
   end
   
