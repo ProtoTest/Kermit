@@ -1,3 +1,8 @@
+# encoding: UTF-8
+require 'squish'
+
+include Squish
+
 ########################################################################################
 #
 #  Test Logger
@@ -22,13 +27,16 @@ class TestLogger
     @testInfo = ""
 
     setInitialLogFile()
+    @@screenshotCount = 0
     @@htmlHeader = "<html><body><h1>Test Log File</h1><br><h2>" + @testName +"</h2><br>"
     @@htmlFooter = "</body></html>"
     @@htmlPage = ""
   end
 
   def setInitialLogFile
-    #Dir.mkdir(@testLogLocation) if not File.exist?(@testLogLocation)
+    # create the root user directory to store all log directories
+    Dir.mkdir(@testLogLocation) if not File.exist?(@testLogLocation)
+
     now = Time.new
     @testLogLocation += @testName + "_" + now.strftime("%Y_%m_%d-%I_%M_%S") + "\\"
     @testName +=  now.strftime("_%I_%M_%S")
@@ -50,7 +58,7 @@ class TestLogger
     now = Time.new
     #builds a string out of dates for logging
     timeDel = "."
-    nowString = now.day.to_s + timeDel + now.month.to_s + timeDel +  now.year.to_s + " " + now.hour.to_s + timeDel + now.min.to_s + timeDel + now.sec.to_s + ":" + now.usec.to_s
+    nowString = now.day.to_s + timeDel + now.month.to_s + timeDel +  now.year.to_s + "--" + now.hour.to_s + timeDel + now.min.to_s + timeDel + now.sec.to_s + ":" + now.usec.to_s
 
     #the application Context is a squish API function
     ctx = currentApplicationContext()
@@ -63,19 +71,39 @@ class TestLogger
     @testlog.close
   end
   
+  def takeScreenshot
+    image = grabWidget(waitForObject(":_MainWindow"))   
+    format = "PNG"
+    filename = "MainWindow_#{@@screenshotCount}.#{format}"
+    path = "#{@testLogLocation}#{filename}"
+    image.save(path, format)
+
+    @@screenshotCount = @@screenshotCount + 1  
+
+    return filename
+  end
+
   def TestLog(text)
 	Test.log(text)
 	AppendLog("Test.log(#{text})")
   end
 
   def TestVerify(condition, text)
-	Test.verify(condition, text)
-	AppendLog("Test.verify(" + condition.to_s + " " + text)
+    verificationText = ""
+    filename = nil
+
+    # check to see if the verification failed, if it did, take a screenshot
+    if not Test.verify(condition, text)
+  	  (filename = takeScreenshot) 
+      verificationText = "FAILED"
+    end
+
+	  AppendLog("Test.verify #{verificationText}: #{text}", filename)
   end
   
   def TestFail(text)
-	Test.fail(text)
-	AppendLog("Test.fail(#{text})")
+	  Test.fail(text)
+	  AppendLog("Test.fail(#{text})")
   end
 
   def TestFatal(text)
@@ -87,8 +115,6 @@ class TestLogger
     #This is going to read the text log for logs and screenshots and compile them into an HTML logfile
     #setup the fancy stuff
     setupTable()
-    _tableRowOpen = "<tr>"
-    _tableRowClose = "</tr>"
     _tableRow = ""
     #open the existing logfile and read each line into an array --remembering to skip the first two lines
     _logLines = IO.readlines(@fileName) #should do a catch here perhaps
@@ -99,9 +125,13 @@ class TestLogger
         _items = _logLines[counter].split(@seperator)
         _itemLimit = _items.length - 1
         for count in 0.._itemLimit
-          _tableRow += "<td>" + _items[count] + "</td>"
+          # check to see if the item is an actual screenshot filename, if it is, wrap it in anchor tags
+          data = _items[count]
+          data = "<a href='file:///#{@testLogLocation}#{data}'>#{data}</a>" if (count == 1) and !data.eql?('ns')
+
+          _tableRow += "<td>#{data}</td>"
         end
-        _tableRow = _tableRowOpen + _tableRow + _tableRowClose
+        _tableRow = "<tr>#{_tableRow}</tr>"
         @@htmlPage += _tableRow
         _tableRow = ""
       end
