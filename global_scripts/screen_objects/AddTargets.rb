@@ -27,10 +27,18 @@ class AddTargets < BaseScreenObject
     verifyElementsPresent(@elements, self.class.name)
   end
   
+  def clickLoadImages
+    @appHeaderFooterEdit.clickBackButton
+    return MainScreen.new
+  end
+
+  def clickAddAblationZones
+    @appHeaderFooterEdit.clickNextButton
+    return AddAblationZones.new
+  end
+
   def clickAddTarget
-    #click(@addTargetBtn)
-	@addTargetBtn.click
-    snooze 1
+    @addTargetBtn.click
     return EditTarget.new
   end
 end

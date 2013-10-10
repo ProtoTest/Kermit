@@ -25,9 +25,18 @@ class AddAblationZones < BaseScreenObject
     verifyElementsPresent(@elements, self.class.name)
   end
 
+  def clickAddTargets
+    @appHeaderFooterEdit.clickBackButton
+    return MainScreen.new
+  end
+
+  def clickExport
+    @appHeaderFooterEdit.clickNextButton
+    return Export.new
+  end
+
   def clickAddAblation
-  	#click(@addAblationBtn)
-	@addAblationBtn.click
+    @addAblationBtn.click
   	return EditAblation.new
   end
 end

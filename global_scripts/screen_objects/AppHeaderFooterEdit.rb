@@ -23,12 +23,10 @@ class AppHeaderFooterEdit < AppHeaderFooter
   end
 
   def clickBackButton
-    #click(@backBtn)
-	@backBtn.click
+	  @backBtn.click
   end
 
   def clickNextButton
-    #click(@nextBtn)
-	@nextBtn.click
+	  @nextBtn.click
   end
 end
