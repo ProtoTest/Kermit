@@ -46,7 +46,7 @@ class TestLogger
 
     #write the file
     #@testInfo = TestInfo() #this will only work from within squish
-    @Header = "TEST COMMAND\t\tSCREENSHOT\t\tMEMORY\t\tTIME\n-----------------------------------------------------------------------------"
+    @Header = "TEST COMMAND\t\tSCREENSHOT\t\tMEMORY\t\tTOTAL CPU USAGE\t\tTIME\n-----------------------------------------------------------------------------"
     @testlog = File.open(@fileName, "w")
     #@testlog.puts(@testInfo)
     @testlog.puts(@Header)
@@ -63,7 +63,7 @@ class TestLogger
     #the application Context is a squish API function
     ctx = currentApplicationContext()
     #this is the string that will be added to the logFile
-    logString = command + @seperator + screenShot + @seperator + ctx.usedMemory.to_s + @seperator + nowString
+    logString = "#{command}#{@seperator}#{screenShot}#{@seperator}#{ctx.usedMemory}#{@seperator}#{get_total_cpu_percentage}#{@seperator}#{nowString}"
 
 
     @testlog = File.open(@fileName, "a")  #the 'a' opens the file in append mode, placing the cursor at the end of the file
@@ -147,6 +147,9 @@ class TestLogger
 
   end
 
+  ##################### PRIVATE FUNCTIONALITY ########################
+  private
+
   def setupTable
     _tableScript = "<script type=\"text/javascript\">
   window.onload=function(){
@@ -171,7 +174,7 @@ class TestLogger
       table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;}
       </style>"
     _tableTag = "<table id=\"tfhover\" class=\"tftable\" border=\"1\">"
-    _tableHead = "<tr><th>TestCommand</th><th>ScreenShot</th><th>Memory</th><th>Time</th></tr>"
+    _tableHead = "<tr><th>TestCommand</th><th>ScreenShot</th><th>Memory</th><th>Total CPU %</th><th>Time</th></tr>"
 
     @@htmlPage = _tableScript + _tableCSS + _tableTag + _tableHead
 
@@ -192,6 +195,20 @@ class TestLogger
 
   end
 
+  # Returns the total CPU percentage of the windows system as a string
+  def get_total_cpu_percentage
+    pipe = IO.popen("wmic cpu get loadpercentage")
+
+    # returns a string of cpu information with a bunch of spaces and newlines, so remove 'em
+    result = pipe.readlines
+    result.delete("\n")
+    result.each do |x|
+      x.gsub!(/[ \n]/, "")
+    end
+
+    # in the end, the result array should resemble ["CPUBlahBlahBlah", "XXX"] where XXX is the CPU %
+    return result[1]
+  end
 
 
 end
