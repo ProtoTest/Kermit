@@ -100,9 +100,10 @@ class Element
   
  #Moved from BaseScreenObject
 def enterText(someText)
-    mouseClick(waitForObject(@symbolicName))
-    @@logFile.AppendLog(@@logCmd.click(self))
-    type(waitForObject(@symbolicName), someText)
+    object = waitForObject(@symbolicName)
+    object.text = someText if object.respond_to?(:text)
+    object.plainText = someText if object.respond_to?(:plainText)
+
     @@logFile.AppendLog(@@logCmd.type(self, someText))
  end
 
