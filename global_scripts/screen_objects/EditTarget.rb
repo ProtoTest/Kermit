@@ -28,32 +28,56 @@ class EditTarget < BaseScreenObject
     @volume = Element.new("Volume value", "{container=':stackedWidget.Form_AddTargetsSidePanelForm2' name='targetVolumeValueLabel' type='QLabel' visible='1'}")
     @deleteTargetBtn = Element.new("Delete Target Button", ":Form.Delete Target_QPushButton")
 	
-
     @appHeaderFooterEdit = AppHeaderFooterEdit.new
 
-    @elements = [@targetNameEntry, @targetNotesEntry, @deleteTargetBtn]
+    # used to access the individal target tabs
+    @targetTabsContainer = Element.new("Target Tabs Bar Container", "{container=':Form_MainForm' type='QTabBar' unnamed='1' visible='1'}")
+
+    @elements = [@targetNameEntry, @targetNotesEntry, @deleteTargetBtn, @targetTabsContainer]
     @elements << [@width, @height, @depth, @volume]
     # one dimensional flattening of elements array
     @elements.flatten!
 
     verifyElementsPresent(@elements, self.class.name)
+
   end
   
+  def clickTargetTabByName(name)
+    children = @targetTabsContainer.getChildren
+    children.each do |child|
+      if child.respond_to?(:text) and (child.text == name)
+        ObjectMap.add(child)
+        Element.new("Target Tab", ObjectMap.symbolicName(child)).click    
+      end
+    end
+  end
+
+  def getTargetName
+    return @targetNameEntry.text if @targetNameEntry.text
+    return ""
+  end
+
+  def getTargetNote
+    return @targetNotesEntry.text if @targetNotesEntry.text
+  end  
+
   def setTargetName(text)
-    #enterText(@targetNameEntry, text) if not text.nil?
-	@targetNameEntry.enterText(text) if not text.nil?
+    @targetNameEntry.enterText(text) if not text.nil?
     return self
   end
 
-  def setNote(text)
-    #enterText(@targetNotesEntry, text) if not text.nil?
-	@targetNotesEntry.enterText(text) if not text.nil?
+  def setTargetNote(text)
+    @targetNotesEntry.enterText(text) if not text.nil?
     return self
   end
 
-  def clickAddAblationZone
+  def clickLoadImages
+    @appHeaderFooterEdit.clickBackButton
+    return MainScreen.new
+  end
+
+  def clickAddAblationZones
     @appHeaderFooterEdit.clickNextButton
-    snooze 1
     return AddAblationZones.new
   end
   
