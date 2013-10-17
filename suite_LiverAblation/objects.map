@@ -10,6 +10,7 @@
 :Form.Delete Ablation Zone_QPushButton	{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='deleteAblationZoneButton' text='Delete Ablation Zone' type='QPushButton' visible='1'}
 :Form.Delete Target_QPushButton	{container=':stackedWidget.Form_AddTargetsSidePanelForm2' name='deleteTargetButton' text='Delete Target' type='QPushButton' visible='1'}
 :Form.Export Snapshots to USB_QPushButton	{container=':Form_ExportForm' name='exportSnapshotButton' text='Export Snapshots to USB' type='QPushButton' visible='1'}
+:Form.Form_ViewsAreaForm	{container=':Form_MainForm' name='ViewsAreaForm' type='ViewsAreaForm' visible='1' windowTitle='Form'}
 :Form.Hard Drive_QToolButton	{container=':Form_LoadImagesTreeForm' name='hardDriveButton' text='Hard Drive' type='QToolButton' visible='1'}
 :Form.System_QToolButton	{container=':Form_LoadImagesTreeForm' name='systemButton' text='System' type='QToolButton' visible='1'}
 :Form.USB_QToolButton	{container=':Form_LoadImagesTreeForm' name='usbButton' text='USB' type='QToolButton' visible='1'}
@@ -18,8 +19,10 @@
 :Form.customTreeWidget_CustomTreeWidget	{container=':Form_LoadImagesTreeForm' name='customTreeWidget' type='CustomTreeWidget' visible='1'}
 :Form.nameLineEdit_QLineEdit	{container=':stackedWidget.Form_AddTargetsSidePanelForm2' name='nameLineEdit' type='QLineEdit' visible='1'}
 :Form.notesTextEdit_QPlainTextEdit	{container=':stackedWidget.Form_AddTargetsSidePanelForm2' name='notesTextEdit' type='QPlainTextEdit' visible='1'}
+:Form.qvtkWidget_QVTKWidget	{container=':stackedWidget.Form_MIPViewWidget' name='qvtkWidget' type='QVTKWidget' visible='1'}
 :Form.search_QLineEdit	{container=':Form_LoadImagesTreeForm' name='search' type='QLineEdit' visible='1'}
 :Form.stackedWidget_QStackedWidget	{container=':Form_MainForm' name='stackedWidget' type='QStackedWidget' visible='1'}
+:Form.stackedWidget_QStackedWidget_2	{container=':Form.Form_ViewsAreaForm' name='stackedWidget' type='QStackedWidget' visible='1'}
 :Form.statusBarWidget_QWidget	{container=':Form_StatusBarForm' name='statusBarWidget' type='QWidget' visible='1'}
 :Form.tabsWidget_QWidget	{container=':Form_MainForm' name='tabsWidget' type='QWidget' visible='1'}
 :Form_ExportForm	{name='ExportForm' type='ExportForm' visible='1' window=':_MainWindow' windowTitle='Form'}
@@ -51,3 +54,4 @@
 :stackedWidget.Form_AddAblationZonesSidePanelForm2	{container=':Form.stackedWidget_QStackedWidget' name='AddAblationZonesSidePanelForm2' type='AddAblationZonesSidePanelForm2' visible='1' windowTitle='Form'}
 :stackedWidget.Form_AddTargetsSidePanelForm1	{container=':Form.stackedWidget_QStackedWidget' name='AddTargetsSidePanelForm1' type='AddTargetsSidePanelForm1' visible='1' windowTitle='Form'}
 :stackedWidget.Form_AddTargetsSidePanelForm2	{container=':Form.stackedWidget_QStackedWidget' name='AddTargetsSidePanelForm2' type='AddTargetsSidePanelForm2' visible='1' windowTitle='Form'}
+:stackedWidget.Form_MIPViewWidget	{container=':Form.stackedWidget_QStackedWidget_2' name='ViewWidget' type='MIPViewWidget' visible='1' windowTitle='Form'}
