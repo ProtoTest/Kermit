@@ -5,11 +5,7 @@ include Squish
 require findFile("scripts", "kermit_core\\Element.rb")
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 require findFile("scripts", "screen_objects\\AddTargets.rb")
-#require findFile("scripts", "screen_objects\\Scrollbar.rb")
 require findFile("scripts", "screen_objects\\WarningDialogPopup.rb")
-
-# MAX_NUM_VISIBLE_TABLE_ROWS = 15 #Moved to TestConfig.rb
-#Changed scrollbar to just element 
 
 ########################################################################################
 #
@@ -28,26 +24,22 @@ class TableHeader < BaseScreenObject
     @patientIDHeaderView = Element.new("Patient ID Table Header", ":Patient ID_HeaderViewItem")
     @birthDateHeaderView = Element.new("Birth Date Table Header", ":Birth Date_HeaderViewItem")
     @lastAccessHeaderView = Element.new("Last Accessed Table Header", ":Last Accessed_HeaderViewItem")
+  end
 
-    def clickPatientHeader
-      #click(@patientNameHeaderView)
-	  @patientNameHeaderView.click
-    end
+  def clickPatientHeader
+    @patientNameHeaderView.click
+  end
 
-    def clickPatientIDHeader
-      #click(@patientIDHeaderView)
-	  @patientIDHeaderView.click	  
-    end
+  def clickPatientIDHeader
+    @patientIDHeaderView.click	  
+  end
 
-    def clickBirthDateHeader
-      #click(@birthDateHeaderView)
-	  @birthDateHeaderView.click
-    end
+  def clickBirthDateHeader
+    @birthDateHeaderView.click
+  end
 
-    def clickLastAccessHeader
-      #click(@lastAccessHeaderView)
-	  @lastAccessHeaderView.click
-    end
+  def clickLastAccessHeader
+    @lastAccessHeaderView.click
   end
 end
 
@@ -80,9 +72,6 @@ class CTRow < Element
     @ratingLabel = Element.new("Rating Label", ObjectMap.symbolicName(objectChildren[6]))
     @infoLink = Element.new("Info Link", ObjectMap.symbolicName(objectChildren[7]))
     @createPlanButton = Element.new("Create New Plan Button", ObjectMap.symbolicName(objectChildren[8]))
-
-
-    
   end
 end
 
@@ -158,15 +147,13 @@ class PatientDetails < BaseScreenObject
   
   # Clicks on the create new plan button 
   def clickCreateNewPlan
-    #click(@CTRow.createPlanButton)
-	@CTRow.createPlanButton.click
-	return AddTargets.new #I'm not sure this needs to be it's own separate class
+    @CTRow.createPlanButton.click
+	  return AddTargets.new
   end
 
   # Double clicks the patient's CT scan to open it
   def openCT 
-    #dClick(@CTRow)
-	@CTRow.dclick
+    @CTRow.dclick
     verifyCTImageDisplayed
   end
   
@@ -197,9 +184,8 @@ class PatientDetails < BaseScreenObject
     rescue Exception => e
       # don't care, this is used as the condition to break from the while
     end
-    
-    #Test.log("Found #{rows.size} plan rows")
-	@@logFile.TestLog("Found #{rows.size} plan rows")
+
+    @@logFile.Trace("Found #{rows.size} plan rows")
     return rows
   end
 
@@ -225,15 +211,13 @@ class Patient < BaseScreenObject
   
   # Returns the patient details (CT Row, Plan Rows)
   def openPatientDetails
-    #click(@patientElement)
-	@patientElement.click
+    @patientElement.click
     return PatientDetails.new
   end
 
   # Closes the tree for the patient
   def closePatientDetails
-    #click(@patientElement)
-	@patientElement.click
+    @patientElement.click
     return MainScreen.new
   end
 
@@ -272,12 +256,11 @@ class PatientTable < BaseScreenObject
   end
 
   # scroll down to row in the table
-  # 
   def scrollToRowByIndex(index)
-	@@logFile.TestLog("Scrolling down to index: " + index.to_s)
-	@@logFile.TestLog("Scrolling " + (index/(MAX_NUM_VISIBLE_TABLE_ROWS-1)).to_s + " times")
+	  @@logFile.Trace("Scrolling down to index: #{index}")
+	  @@logFile.Trace("Scrolling #{(index/(MAX_NUM_VISIBLE_TABLE_ROWS-1)).to_i} times")
     if(index >= (MAX_NUM_VISIBLE_TABLE_ROWS-1))
-      (index / (MAX_NUM_VISIBLE_TABLE_ROWS-1)).times do
+      (index / (MAX_NUM_VISIBLE_TABLE_ROWS-1)).to_i.times do
         @scrollbar.scrollDown
       end
     end
@@ -306,8 +289,7 @@ class PatientTable < BaseScreenObject
         end
       end
     else
-      #Test.fail("Where are the children?")
-	  @@logFile.TestFail("Where are the children?")
+      @@logFile.TestFail("Where are the children?")
     end
 
     return patientList
