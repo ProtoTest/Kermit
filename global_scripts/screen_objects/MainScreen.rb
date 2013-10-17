@@ -45,41 +45,41 @@ class MainScreen < BaseScreenObject
   #We might want to break this out into separate screen object calls.
   ###########################
   def Customer_Endurance_Loop
-	@patientTable.patientList.each_with_index do |patient, index|
-		#Scroll the the index of the patient, used if the patient index it outside the bounds of the scroll window
-		@patientTable.scrollToRowByIndex(index)
-		#Get the patient details
-		details = patient.openPatientDetails
-		#Get the number of plans from the patient record
-		origPlanCount = details.getPlanCount
-		#Add a new plan for the selected patient record
-		details.clickCreateNewPlan.clickAddTarget.clickAddAblationZone.clickAddAblation 
-		#Go back to the patient tree
-		@appHeaderFooter.clickLoadImagesRadio
-		#Scroll to the patient (if needed) and open up the patient details - displaying all the available plans for this patient
-		details = scrollToPatientIndex(index).openPatientDetails(patient)
-		#Test to make sure that the original plan count is increased by one
-		 @@logFile.TestVerify(origPlanCount+1 == details.getPlanCount, "Verify Plan count increased by one")		
-		#Determine the patient row index for the new plan
-		patientRowIndex = index % (MAX_NUM_VISIBLE_TABLE_ROWS - 1)
-		
-		@@logFile.TestLog("patientRowIndex: #{patientRowIndex}")
-		newPlanCount = details.getPlanCount
-		@@logFile.TestLog("New Plan count is " + newPlanCount.to_s)		
-		# Scroll down to the last plan row to delete it
-		# +1 is for the CT row    
-		scrollToPatientIndex(patientRowIndex + 1 + newPlanCount)
-		# Delete the plan
-		details.planRows.last.deletePlan		
-		# Open patient details to verify new row created
-		details = patient.openPatientDetails        
-		# Verify the plan was deleted
-		@@logFile.TestVerify(origPlanCount == details.getPlanCount, "Verify Plan count decreased by one")
-		# CLick the row again to close patient details
-		patient.closePatientDetails
-	end
-	return MainScreen.new
-  end
+    @patientTable.patientList.each_with_index do |patient, index|
+      #Scroll the the index of the patient, used if the patient index it outside the bounds of the scroll window
+      @patientTable.scrollToRowByIndex(index)
+      #Get the patient details
+      details = patient.openPatientDetails
+      #Get the number of plans from the patient record
+      origPlanCount = details.getPlanCount
+      #Add a new plan for the selected patient record
+      details.clickCreateNewPlan.clickAddTarget.clickAddAblationZones.clickAddAblation 
+      #Go back to the patient tree
+      @appHeaderFooter.clickLoadImagesRadio
+      #Scroll to the patient (if needed) and open up the patient details - displaying all the available plans for this patient
+      details = scrollToPatientIndex(index).openPatientDetails(patient)
+      #Test to make sure that the original plan count is increased by one
+      @@logFile.TestVerify(origPlanCount+1 == details.getPlanCount, "Verify Plan count increased by one")		
+      #Determine the patient row index for the new plan
+      patientRowIndex = index % (MAX_NUM_VISIBLE_TABLE_ROWS - 1)
+
+      @@logFile.Trace("patientRowIndex: #{patientRowIndex}")
+      newPlanCount = details.getPlanCount
+      @@logFile.Trace("New Plan count is " + newPlanCount.to_s)		
+      # Scroll down to the last plan row to delete it
+      # +1 is for the CT row    
+      scrollToPatientIndex(patientRowIndex + 1 + newPlanCount)
+      # Delete the plan
+      details.planRows.last.deletePlan		
+      # Open patient details to verify new row created
+      details = patient.openPatientDetails        
+      # Verify the plan was deleted
+      @@logFile.TestVerify(origPlanCount == details.getPlanCount, "Verify Plan count decreased by one")
+      # CLick the row again to close patient details
+      patient.closePatientDetails
+    end
+  return MainScreen.new
+end
   
   def searchforRecord(searchText)
     @searchField.enterText(searchText)
