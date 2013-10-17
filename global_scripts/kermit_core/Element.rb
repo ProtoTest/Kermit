@@ -19,10 +19,10 @@ require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 ########################################################################################
 class Element
   attr_reader :name, :symbolicName, :realName
-  
+
   def initialize(name, objectString)
     @name = name
-    
+
     # if ':' is the first character, then it is a symbolic name
     # if '{' is the first character, then this object is initialized from its real name
     if objectString.start_with?(':')
@@ -34,37 +34,43 @@ class Element
     else
       raise "Element::init(): objectString is not a valid Squish object string representation"
     end
-      
+
   end
-    
+
+  # Returns true if the element has any child squish objects, false otherwise
   def hasChildren?
     children = getChildren
     return false if children.empty? or children.nil?
     return true
   end
-  
+
+  # Returns true if the element has the object property
+  # Params: propName - String representing the property to query
   def hasProperty?(propName)
     property = getProperty(propName)
     return false if property.nil?
     return true
   end
 
+  # Returns and array of squish object children for the element
   def getChildren
     begin
       elementObject = waitForObject(@symbolicName, OBJECT_WAIT_TIMEOUT)
       children = Squish::Object.children(elementObject)
       return children
     rescue Exception => e
-	    @@logFile.TestFail("Element::getChildren(): " + @symbolicName + ": " + e.message)
+	    @@logFile.TestFail("#{self.class.name}::#{__method__}(): " + @symbolicName + ": " + e.message)
       return nil
     end
   end
-  
+
+  # Returns the property value for the requested property name
+  # Param: propName - String representing the property to retrieve
   def getProperty(propName)
     begin
       elementObject = waitForObject(@symbolicName, OBJECT_WAIT_TIMEOUT)
       @properties = Squish::Object.properties(elementObject)
-            
+
       if @properties[propName]
         return @properties[propName]
       else
@@ -72,51 +78,56 @@ class Element
         return nil
       end
     rescue Exception => e
-      @@logFile.TestFail("Element::getProperty(): " + @symbolicName + ": " + e.message)
+      @@logFile.TestFail("#{self.class.name}::#{__method__}(): " + @symbolicName + ": " + e.message)
     end
   end
 
+  # Retrieve the value for the text property of the element
   def getText
     return getProperty('text')
   end
-  
-   
- #Moved from Scrollbar class into element class -SU
+
+  # For an element that is a scroll bar, click to scroll up
   def scrollUp
   	h = getProperty('height')
     w = getProperty('width')
     mouseClick(waitForObject(@symbolicName, OBJECT_WAIT_TIMEOUT), w/2, 20, 0, Qt::LEFT_BUTTON)
   end
 
+  # For an element that is a scroll bar, click to scroll down
   def scrollDown
   	h = getProperty('height')
     w = getProperty('width')
     mouseClick(waitForObject(@symbolicName, OBJECT_WAIT_TIMEOUT), w/2, h-20, 0, Qt::LEFT_BUTTON)
   end
-  
+
+  # To string representation of the element
   def to_s
     "[name, symbolicName, realName]: #{@name}, #{@symbolicName}, #{@realName}"
   end
-  
- #Moved from BaseScreenObject
-def enterText(someText)
+
+  # Set the text for the element
+  # Param: someText - String of text to set
+  def enterText(someText)
     object = waitForObject(@symbolicName)
     object.text = someText if object.respond_to?(:text)
     object.plainText = someText if object.respond_to?(:plainText)
 
     @@logFile.AppendLog(@@logCmd.type(self, someText))
- end
-
- def click      
-    mouseClick(waitForObject(@symbolicName))
-    @@logFile.AppendLog(@@logCmd.click(self))     
   end
-  
- def dClick
+
+  # Single click on the element
+  def click
+    mouseClick(waitForObject(@symbolicName))
+    @@logFile.AppendLog(@@logCmd.click(self))
+  end
+
+  # Double-click on the element
+  def dClick
     doubleClick(waitForObject(@symbolicName))
     @@logFile.AppendLog(@@logCmd.dClick(self))
   end
-  
+
   #This function is used by the move and drag functions
   def checkAmount(amount, var)
     valid = false
@@ -125,7 +136,7 @@ def enterText(someText)
     end
     return valid
   end
-  
+
   def moveTarget(direct, amount)
       direction = direct.upcase
       w = getProperty("width")
@@ -154,7 +165,7 @@ def enterText(someText)
       end
       @@logFile.AppendLog(@@logCmd.moveTarget(element, direction, amount))
   end
-  
+
   def dragTarget(direct, amount)
     direction = direct.upcase
     w = element.getProperty("width")
@@ -190,6 +201,7 @@ def enterText(someText)
     @@logFile.AppendLog(@@logCmd.moveTarget(element, direction, amount), snagScreenshot(element))
 end
 
+  # Take a screenshot of the just the element
   def snagScreenshot
     thing = waitForObject(@symbolicName)
     image = grabWidget(thing)
@@ -200,6 +212,6 @@ end
     @@logFile.ApendLog("Taking screenshot of: " + @name + " symbolicName: " + @symbolicName + " and saving to Location: " + ssLoc)
     return ssName
   end
-  
-  
+
+
 end
