@@ -18,11 +18,10 @@ require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 
 class WarningDialogPopup < BaseScreenObject
 
-##Had to do a few updates to this screen to get it to work properly with the renamed window from warningDialog to MessageDialgo
   def initialize
     @title = Element.new("Popup Title", "{name='titleLabel' type='QLabel' visible='1' window=':MessageDialog_MessageDialog'}")
 
-    @text = Element.new("Popup Text", "{name='warningLabel' type='QLabel' visible='1' window=':MessageDialog_MessageDialog'}")	
+    @text = Element.new("Popup Text", "{name='warningLabel' type='QLabel' visible='1' window=':MessageDialog_MessageDialog'}")
 
     # On some popups, the left button may not exist
     @rightBtn = Element.new("Right Button", "{name='rightButton' type='QPushButton' visible='1' window=':MessageDialog_MessageDialog'}")
@@ -40,12 +39,13 @@ class WarningDialogPopup < BaseScreenObject
     # add left button if it exists
     (@elementList << @leftBtn) if @leftBtn
   end
-  
+
+  # Returns true if the warning dialog popup is on screen, false otherwise
   def onScreen?
     Squish::Object::exists(":MessageDialog.dialogContainer_QWidget")
   end
 
-
+  # Peforms a squish Test validation on the popup title and text
   def verifyPopupInformation(title, text)
     verifyElementsPresent(@elementList, self.class.name)
     verifyPopupText(text)
@@ -54,37 +54,45 @@ class WarningDialogPopup < BaseScreenObject
     return self
   end
 
+  # Clicks the button on the popup by name
+  # Param: name - the popup button name to click
   def clickBtn(name)
     if (btn = findElementByText(name))
-      @@logFile.TestLog("#{self.class.name}::#{__method__}: Clicking button: '#{name}' ")
+      @@logFile.TestLog("#{self.class.name}::#{__method__}(): Clicking button: '#{name}' ")
       btn.click
     else
-      @@logFile.TestFail("#{self.class.name}::#{__method__}: Failed to find #{name} button")
+      @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to find #{name} button")
     end
 
     return self
   end
-  
+
+  # Returns the popup title text
   def getTitle
     return @title.getText
   end
 
+  # Returns the popup description text
   def getText
     return @text.getText
   end
 
-  # Verifies the popup dialog text matches the parameter text
+  # Verifies the popup dialog description matches the parameter 'text'
   def verifyPopupText(text)
     @@logFile.TestVerify(text == @text.getText , "Verify popup text == '#{text}' ")
   end
 
+  # Verifies the popup dialog title matches the parameter 'text'
   def verifyPopupTitle(text)
     @@logFile.TestVerify(text == @title.getText, "Verify popup Title == '#{text}' ")
   end
 
 
+############################### PRIVATE FUNCTIONALITY ####################################
+
   private
 
+  # Returns the element in the popup with text 'text'
   def findElementByText(text)
     @elementList.each do |e|
       return e if e.getText == text

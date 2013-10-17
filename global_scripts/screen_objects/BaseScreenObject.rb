@@ -18,14 +18,15 @@ class BaseScreenObject
     end
   end
 
+  # Checks to see if any popups are displayed on the screen
   def popupOnScreen?
     @popup = WarningDialogPopup.new
-    @@logFile.TestLog("Popup is displayed with title '#{@popup.getTitle}'' and text '#{@popup.getText}' ") if @popup.onScreen?
+    @@logFile.TestLog("#{self.class.name}::#{__method__}(): Popup is displayed with title '#{@popup.getTitle}'' and text '#{@popup.getText}' ") if @popup.onScreen?
     return @popup.onScreen?
   end
 
   def endTest
     @@logFile.CompleteLog()
   end
-    
+
 end

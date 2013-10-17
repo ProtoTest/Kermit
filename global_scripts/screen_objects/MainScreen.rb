@@ -18,7 +18,7 @@ require findFile("scripts", "screen_objects\\PatientTable.rb")
 #
 class MainScreen < BaseScreenObject
   attr_reader :patientTable
-  
+
   def initialize
     # check for the out of memory popup
     if popupOnScreen?
@@ -36,12 +36,12 @@ class MainScreen < BaseScreenObject
 
     @elements = [@searchField, @systemBtn, @cdBtn, @usbBtn, @hddBtn]
     verifyElementsPresent(@elements, self.class.name)
-   
+
   end
-  
-  
+
+
   ###########################
-  #This function is used to loop through and run an endurance test.  This only iterates once. 
+  #This function is used to loop through and run an endurance test.  This only iterates once.
   #We might want to break this out into separate screen object calls.
   ###########################
   def Customer_Endurance_Loop
@@ -53,67 +53,73 @@ class MainScreen < BaseScreenObject
       #Get the number of plans from the patient record
       origPlanCount = details.getPlanCount
       #Add a new plan for the selected patient record
-      details.clickCreateNewPlan.clickAddTarget.clickAddAblationZones.clickAddAblation 
+      details.clickCreateNewPlan.clickAddTarget.clickAddAblationZones.clickAddAblation
       #Go back to the patient tree
       @appHeaderFooter.clickLoadImagesRadio
       #Scroll to the patient (if needed) and open up the patient details - displaying all the available plans for this patient
       details = scrollToPatientIndex(index).openPatientDetails(patient)
       #Test to make sure that the original plan count is increased by one
-      @@logFile.TestVerify(origPlanCount+1 == details.getPlanCount, "Verify Plan count increased by one")		
+      @@logFile.TestVerify(origPlanCount+1 == details.getPlanCount, "Verify Plan count increased by one")
       #Determine the patient row index for the new plan
       patientRowIndex = index % (MAX_NUM_VISIBLE_TABLE_ROWS - 1)
 
-      @@logFile.Trace("patientRowIndex: #{patientRowIndex}")
+      @@logFile.Trace("#{self.class.name}::#{__method__}(): patientRowIndex: #{patientRowIndex}")
       newPlanCount = details.getPlanCount
-      @@logFile.Trace("New Plan count is " + newPlanCount.to_s)		
+      @@logFile.Trace("#{self.class.name}::#{__method__}(): New Plan count is " + newPlanCount.to_s)
       # Scroll down to the last plan row to delete it
-      # +1 is for the CT row    
+      # +1 is for the CT row
       scrollToPatientIndex(patientRowIndex + 1 + newPlanCount)
       # Delete the plan
-      details.planRows.last.deletePlan		
+      details.planRows.last.deletePlan
       # Open patient details to verify new row created
-      details = patient.openPatientDetails        
+      details = patient.openPatientDetails
       # Verify the plan was deleted
       @@logFile.TestVerify(origPlanCount == details.getPlanCount, "Verify Plan count decreased by one")
       # CLick the row again to close patient details
       patient.closePatientDetails
     end
-  return MainScreen.new
-end
-  
+
+    return MainScreen.new
+  end
+
+  # Enters the search text into to the search text box
+  # Param: searchText - Text to search for
   def searchforRecord(searchText)
     @searchField.enterText(searchText)
     return MainScreen.new
-  end  
-   
-   
-  def clickPatient(patientName)
-    patient = nil
-   @patientTable.patientList.each do |x|
-     if x.name == patientName
-       patient = x
-       break
-     end
-   end
-   
-   if patient.nil?
-     @@logFile.TestFail("Failed to find patient " + patientName)
-     return nil
-   else
-     return patient.openPatientDetails
-   end
-  end 
-  
+  end
 
+  # Click on the patient in the patient table
+  # Param: patientName - String representing the patient
+  def clickPatientByName(patientName)
+    patient = nil
+    @patientTable.patientList.each do |x|
+      if x.name == patientName
+        patient = x
+        break
+      end
+    end
+
+    if patient.nil?
+      @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to find patient " + patientName)
+      return nil
+    else
+      return patient.openPatientDetails
+    end
+  end
+
+  # Returns the list of patients in the table
   def getPatientList
     return @patientTable.patientList
   end
 
+  # Scroll down to the index in the patient table
   def scrollToPatientIndex(index)
     @patientTable.scrollToRowByIndex(index)
     return MainScreen.new
   end
 
+  # Click on the patient to open up their CT/Plan details
   def openPatientDetails(patient)
     return patient.openPatientDetails
   end
