@@ -73,6 +73,13 @@ class CTRow < Element
     @infoLink = Element.new("Info Link", ObjectMap.symbolicName(objectChildren[7]))
     @createPlanButton = Element.new("Create New Plan Button", ObjectMap.symbolicName(objectChildren[8]))
   end
+
+  # override base class dClick. Doing this b/c the test to time opening the CT scan
+  # is wasting ~1000+ milliseconds on moving the mouse to click on the center of the row
+  def dClick
+    # double click the date label instead
+    @date.dClick
+  end
 end
 
 ########################################################################################
@@ -154,14 +161,20 @@ class PatientDetails < BaseScreenObject
   end
 
   # Double clicks the patient's CT scan to open it
-  def openCT
-    @CTRow.dclick
-    verifyCTImageDisplayed
+  def openCT(timer=nil)
+    timer.start if not timer.nil?
+    @CTRow.dClick
+    timer.stop if !timer.nil? && CTImageDisplayed?
   end
 
   # Verifies the CT image is displayed
-  def verifyCTImageDisplayed
-    ctImage = Element.new("CT Image", ":Form.qvtkWidget_QVTKWidget_3")
+  def CTImageDisplayed?
+    begin
+      waitForObject(":Form.qvtkWidget_QVTKWidget", OBJECT_WAIT_TIMEOUT)
+      return true
+    rescue Exception => e
+      return false
+    end
   end
 
   # Returns the count of plans for the patient
@@ -230,17 +243,14 @@ class Patient < BaseScreenObject
   end
 
   # Opens up the patient's CT
-  def openCTScan
-    openPatientDetails.openCT
-    return AddTargets.new
+  def openCTScan(timer=nil)
+    openPatientDetails.openCT(timer)
   end
 
   # Opens up the patient's CT and times how long it takes to open it
   # Param: timer - the timer used to time request
   def openAndTimeCTScanImage(timer)
-    timer.start
-    openCTScan
-    timer.stop
+    openCTScan(timer)
     return AddTargets.new
   end
 
