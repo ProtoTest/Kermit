@@ -7,6 +7,9 @@ require findFile("scripts", "kermit_core\\LogCommandBuilder.rb")
 MAX_NUM_VISIBLE_TABLE_ROWS = 15
 OBJECT_WAIT_TIMEOUT= 10000
 
+# output trace log calls
+LOG_TRACE= false
+
 module RadioButtons
   LOAD_IMAGES = 1
   ADD_TARGETS = 2
