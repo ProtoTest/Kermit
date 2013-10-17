@@ -50,7 +50,6 @@ class TestLogger
     @testlog = File.open(@fileName, "w")
     #@testlog.puts(@testInfo)
     @testlog.puts(@Header)
-    @testlog.close
   end
 
   def AppendLog(command, screenShot = "ns")
@@ -65,10 +64,7 @@ class TestLogger
     #this is the string that will be added to the logFile
     logString = "#{command}#{@seperator}#{screenShot}#{@seperator}#{ctx.usedMemory}#{@seperator}#{get_total_cpu_percentage}#{@seperator}#{nowString}"
 
-
-    @testlog = File.open(@fileName, "a")  #the 'a' opens the file in append mode, placing the cursor at the end of the file
     @testlog.puts(logString)
-    @testlog.close
   end
   
   def takeScreenshot
@@ -83,9 +79,13 @@ class TestLogger
     return filename
   end
 
+  def Trace(text)
+    TestLog(text) if LOG_TRACE
+  end
+
   def TestLog(text)
-	Test.log(text)
-	AppendLog("Test.log(#{text})")
+    Test.log(text)
+    AppendLog("Test.log(#{text})")
   end
 
   def TestVerify(condition, text)
@@ -113,6 +113,9 @@ class TestLogger
   end
   
   def CompleteLog
+    # shutdown the text file handle
+    @testlog.close
+
     #This is going to read the text log for logs and screenshots and compile them into an HTML logfile
     #setup the fancy stuff
     setupTable()
@@ -150,6 +153,7 @@ class TestLogger
   ##################### PRIVATE FUNCTIONALITY ########################
   private
 
+  # insert some nice row highlight javascript and initialize the result table
   def setupTable
     _tableScript = "<script type=\"text/javascript\">
   window.onload=function(){
@@ -201,6 +205,11 @@ class TestLogger
 
     # returns a string of cpu information with a bunch of spaces and newlines, so remove 'em
     result = pipe.readlines
+
+    # Close the process pipe
+    pipe.close
+    pipe = nil
+
     result.delete("\n")
     result.each do |x|
       x.gsub!(/[ \n]/, "")
