@@ -6,16 +6,17 @@ require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 
 ########################################################################################
 #
-#  AppHeaderFooter 
+#  AppHeaderFooter
 #     This is the standard App Header footer used for all the screens on the application
 #
 #  @author  Matt Siwiec
-#  @notes -10/04/2013 - SU - Changed all BasePageObject clicks and dclicks to reference Element directly 
+#  @notes -10/04/2013 - SU - Changed all BasePageObject clicks and dclicks to reference Element directly
 #
 ########################################################################################
 
 #This is the status bar presented along the bottom of the screens i.e. Footer
 class StatusBar < BaseScreenObject
+
   def initialize(objectString)
     # use the container object string to get the children
     @container = Element.new("Status Bar container", objectString)
@@ -37,7 +38,7 @@ class StatusBar < BaseScreenObject
     @time = Element.new("Time", "{container=':Form_StatusBarForm' name='timeLabel' type='QLabel' visible='1'}")
 
     # doing this with elements to make the code easier to read by not having all of them on one line
-    @elements = [@procedureLabel, @procedure, @userLabel, @user, @networkStatusLabel, @networkStatus] 
+    @elements = [@procedureLabel, @procedure, @userLabel, @user, @networkStatusLabel, @networkStatus]
     @elements << [@powerSourceLabel, @powerSource, @versionLabel, @version, @date, @time]
     # one-dimensional flattening of element array.
     @elements.flatten!
@@ -46,17 +47,17 @@ class StatusBar < BaseScreenObject
   end
 end
 
-#This is the header presented at the top of the screens. i.e. Header
+#This is the applicatoin header and footer presented at the top and bottom of the screen
 class AppHeaderFooter < BaseScreenObject
-  
+
   def initialize
     # Labels
     @logoLabel = Element.new("Logo Label", ":Form.logo_QLabel")
- 
+
     # Buttons
     @closeBtn = Element.new("Close Button", ":Form.closeButton_QPushButton")
     @screenCaptureBtn = Element.new("Capture Screen Button", ":Form.captureScreenButton_QPushButton")
-    
+
     # for these radio buttons, need to use real-property name minus the window property
     # This is because the Liver and Lung Application main window names differ
     # "Upslope_MainWindow" vs "Upslope Demo_MainWindow" --- TODO, maybe not anymore with window being mainwindow now
@@ -71,7 +72,7 @@ class AppHeaderFooter < BaseScreenObject
     verifyElementsPresent(@elements, self.class.name)
   end
 
-   def clickLoadImagesRadio
+  def clickLoadImagesRadio
     clickRadio(RadioButtons::LOAD_IMAGES)
   end
 
@@ -87,28 +88,24 @@ class AppHeaderFooter < BaseScreenObject
     clickRadio(RadioButtons::EXPORT)
   end
 
-############################### PRIVATE AREA ####################################
-  
+############################### PRIVATE FUNCTIONALITY ####################################
+
   private
 
+  # Clicks on the radio button represented by param radioBtnModuleID
   def clickRadio(radioBtnModuleID)
     case radioBtnModuleID
     when RadioButtons::LOAD_IMAGES
-      #click(@loadImagesRadio)
-	  @loadImagesRadio.click
+      @loadImagesRadio.click
       return MainScreen.new
     when RadioButtons::ADD_TARGETS
-      #click(@addTargetsRadio)
-	  @addTargetsRadio.click
+      @addTargetsRadio.click
     when RadioButtons::ADD_ABLATION
-      #click(@addAblationRadio)
-	  @addAblationRadio.click
+      @addAblationRadio.click
     when RadioButtons::EXPORT
-      #click(@exportRadio)
-	  @exportRadio.click
+      @exportRadio.click
     else
-      #Test.fail("#{self.class.name}::clickRadio: Invalid radio button ID")
-	  @@logFile.TestFail("#{self.class.name}::clickRadio: Invalid radio button ID")
+      @@logFile.TestFail("#{self.class.name}::#{__method__}(): Invalid radio button ID")
     end
   end
 end
