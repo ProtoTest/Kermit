@@ -85,17 +85,17 @@ class Element
   def scrollUp
   	h = getProperty('height')
     w = getProperty('width')
-    mouseClick(symbolicName, w/2, 20, 0, Qt::LEFT_BUTTON)
+    mouseClick(waitForObject(@symbolicName, OBJECT_WAIT_TIMEOUT), w/2, 20, 0, Qt::LEFT_BUTTON)
   end
 
   def scrollDown
   	h = getProperty('height')
     w = getProperty('width')
-    mouseClick(symbolicName, w/2, h-20, 0, Qt::LEFT_BUTTON)
+    mouseClick(waitForObject(@symbolicName, OBJECT_WAIT_TIMEOUT), w/2, h-20, 0, Qt::LEFT_BUTTON)
   end
   
   def to_s
-    "[name, symbolicName, realName]: " + @name + ", " + @realName
+    "[name, symbolicName, realName]: #{@name}, #{@symbolicName}, #{@realName}"
   end
   
  #Moved from BaseScreenObject
