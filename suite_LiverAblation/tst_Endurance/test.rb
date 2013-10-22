@@ -16,11 +16,19 @@ def main
 
   # TestConfig
   installEventHandlers()
-      
-  # construct the main page
-  mainScreen = MainScreen.new
 
-  mainScreen.Customer_Endurance_Loop
+  # construct the main page, run the test, then end the test
+  mainScreen = nil
+
+  1.times do |i|
+    @@logFile.TestLog("STARTING ITERATION #{i}")
+    mainScreen = MainScreen.new
+    mainScreen = mainScreen.Customer_Endurance_Loop
+    @@logFile.TestLog("COMPLETED ITERATION #{i}")
+  end
+
+  # test is Done!
+  completeTest
 
     # 1st child
       ## TEST CASE ##
@@ -41,5 +49,5 @@ def main
           # click on 'Save Entry Point'
         # Click on 'Load Images' link and verify the plan was created for respective DICOM data
   
-
+        
 end
