@@ -1,7 +1,7 @@
 require findFile("scripts", "kermit_core\\TestLogger.rb")
 require findFile("scripts", "kermit_core\\LogCommandBuilder.rb")
 
- @@logCmd = LogCommandBuilder.new  
+ @@logCmd = LogCommandBuilder.new
  @@logFile = TestLogger.new
 
 MAX_NUM_VISIBLE_TABLE_ROWS = 15
@@ -17,6 +17,11 @@ module RadioButtons
   EXPORT = 4
 end
 
+# call this to finalize the test and build the HTML test log
+def completeTest
+  @@logFile.CompleteLog()
+end
+
 #
 # install crash, hang, etc event handlers
 #
@@ -25,6 +30,7 @@ def crashHandler
 
   # Log and fail
   @@logFile.TestFatal("Application under test '#{currentApplicationContext().name}' crashed")
+  completeTest
 end
 
 def timeoutHandler
@@ -32,11 +38,12 @@ def timeoutHandler
 
   # Log and fail
   @@logFile.TestFatal("Application under test '#{currentApplicationContext().name}' timed-out")
+  completeTest
 end
 
 def installEventHandlers
   @@logFile.TestLog("#{__method__}: Registering event handlers")
-  installEventHandler("Crash", "crashHandler")		
+  installEventHandler("Crash", "crashHandler")
   installEventHandler("Timeout", "timeoutHandler")
 end
 

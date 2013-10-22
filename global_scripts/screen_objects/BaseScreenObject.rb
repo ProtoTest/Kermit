@@ -25,8 +25,4 @@ class BaseScreenObject
     return @popup.onScreen?
   end
 
-  def endTest
-    @@logFile.CompleteLog()
-  end
-
 end
