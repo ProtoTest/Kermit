@@ -129,7 +129,6 @@ class PlanRow  < Element
   # Opens up the plan
   def openPlan
     @openPlanButton.click
-    return EditTarget.new
   end
 end
 
