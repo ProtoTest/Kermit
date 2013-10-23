@@ -10,6 +10,9 @@ require findFile("scripts", "screen_objects\\MainScreen.rb")
 def main
   startApplication("LiverAblation")
 
+  # TestConfig
+  installEventHandlers()
+      
   # construct a page
   mainScreen = MainScreen.new
 
