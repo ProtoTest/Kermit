@@ -14,11 +14,13 @@ require findFile("scripts", "screen_objects\\WarningDialogPopup.rb")
 #     This screen is presented when users are expecting to edit existing targets already on the selected plan
 #
 #  @author  Matt Siwiec
-#  @notes -10/04/2013 - SU - Changed all BasePageObject clicks and dclicks and enterText to reference Element directly 
+#  @notes -10/04/2013 - SU - Changed all BasePageObject clicks and dclicks and enterText to reference Element directly
 #
 ########################################################################################
 
 class EditTarget < BaseScreenObject
+  attr_reader :appHeaderFooterEdit
+
   def initialize
     @targetNameEntry = Element.new("Edit target name text box", ":Form.nameLineEdit_QLineEdit")
     @targetNotesEntry = Element.new("Edit target notes text area", ":Form.notesTextEdit_QPlainTextEdit")
@@ -27,7 +29,7 @@ class EditTarget < BaseScreenObject
     @depth = Element.new("Depth value", "{container=':stackedWidget.Form_AddTargetsSidePanelForm2' name='depthValueLabel' type='QLabel' visible='1'}")
     @volume = Element.new("Volume value", "{container=':stackedWidget.Form_AddTargetsSidePanelForm2' name='targetVolumeValueLabel' type='QLabel' visible='1'}")
     @deleteTargetBtn = Element.new("Delete Target Button", ":Form.Delete Target_QPushButton")
-	
+
     @appHeaderFooterEdit = AppHeaderFooterEdit.new
 
     # used to access the individal target tabs
@@ -41,25 +43,32 @@ class EditTarget < BaseScreenObject
     verifyElementsPresent(@elements, self.class.name)
 
   end
-  
+
   def clickTargetTabByName(name)
     children = @targetTabsContainer.getChildren
     children.each do |child|
       if child.respond_to?(:text) and (child.text == name)
         ObjectMap.add(child)
-        Element.new("Target Tab", ObjectMap.symbolicName(child)).click    
+        Element.new("Target Tab", ObjectMap.symbolicName(child)).click
+        return EditTarget.new
       end
     end
+
+    @@logFile.Fail("#{self.class.name}::#{__method__}(): Failed to find Target tab for '#{name}'")
+    return nil
   end
 
   def getTargetName
-    return @targetNameEntry.text if @targetNameEntry.text
-    return ""
+    text = @targetNameEntry.getText
+    @@logFile.Trace("#{self.class.name}::#{__method__}(): target note entry text = #{text}")
+    return text
   end
 
   def getTargetNote
-    return @targetNotesEntry.text if @targetNotesEntry.text
-  end  
+    text = @targetNotesEntry.getTextArea
+    @@logFile.Trace("#{self.class.name}::#{__method__}(): target note entry text = #{text}")
+    return text
+  end
 
   def setTargetName(text)
     @targetNameEntry.enterText(text) if not text.nil?
@@ -80,7 +89,7 @@ class EditTarget < BaseScreenObject
     @appHeaderFooterEdit.clickNextButton
     return AddAblationZones.new
   end
-  
+
   def clickDeleteTarget
     click(@deleteTargetBtn)
     snooze 1
@@ -90,6 +99,17 @@ class EditTarget < BaseScreenObject
 
     return popup
   end
-  
-  
+
+  def enterTargetInformation(name, note)
+    setTargetName(name)
+    setTargetNote(note)
+    return self
+  end
+
+  def verifyTargetInformation(name, note)
+    @@logFile.TestVerify(getTargetName == name, "Verify target name equals: #{name}")
+    @@logFile.TestVerify(getTargetNote == note, "Verify target note equals: #{note}")
+    return self
+  end
+
 end
