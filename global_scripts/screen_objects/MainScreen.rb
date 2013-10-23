@@ -45,7 +45,7 @@ class MainScreen < BaseScreenObject
   #We might want to break this out into separate screen object calls.
   ###########################
   def Customer_Endurance_Loop
-    @patientTable.patientList.each_with_index do |patient, index|
+    getPatientList.each_with_index do |patient, index|
       #Scroll the the index of the patient, used if the patient index it outside the bounds of the scroll window
       @patientTable.scrollToRowByIndex(index)
       #Get the patient details
@@ -122,5 +122,19 @@ class MainScreen < BaseScreenObject
   # Click on the patient to open up their CT/Plan details
   def openPatientDetails(patient)
     return patient.openPatientDetails
+  end
+
+
+  def openPlanForPatient(name)
+    clickPatientByName(name).planRows.first.openPlan
+    return AddTargets.new
+  end
+
+  def deletePlanForPatient(name)
+    clickPatientByName(name).planRows.first.deletePlan
+  end
+
+  def clickCreatePlanForPatient(name)
+    return clickPatientByName(name).clickCreateNewPlan
   end
 end
