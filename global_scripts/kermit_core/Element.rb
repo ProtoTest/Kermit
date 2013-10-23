@@ -87,6 +87,10 @@ class Element
     return getProperty('text')
   end
 
+  def getTextArea
+    return getProperty('plainText')
+  end
+
   # For an element that is a scroll bar, click to scroll up
   def scrollUp
   	h = getProperty('height')
