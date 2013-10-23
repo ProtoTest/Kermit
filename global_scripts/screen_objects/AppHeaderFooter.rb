@@ -66,26 +66,26 @@ class AppHeaderFooter < BaseScreenObject
     @addAblationRadio = Element.new("Review Radio", "{text='Add Ablation Zones' type='QPushButton' unnamed='1' visible='1' window=':_MainWindow'}")
     @exportRadio = Element.new("Export Radio Button", "{text='Export' type='QPushButton' unnamed='1' visible='1' window=':_MainWindow'}")
 
-    @statusBar = StatusBar.new(":Form.statusBarWidget_QWidget")
+    ###@statusBar = StatusBar.new(":Form.statusBarWidget_QWidget")
 
     @elements = [@closeBtn, @screenCaptureBtn, @loadImagesRadio, @addTargetsRadio, @addAblationRadio, @exportRadio]
     verifyElementsPresent(@elements, self.class.name)
   end
 
   def clickLoadImagesRadio
-    clickRadio(RadioButtons::LOAD_IMAGES)
+    return clickRadio(RadioButtons::LOAD_IMAGES)
   end
 
   def clickAddTargetsRadio
-    clickRadio(RadioButtons::ADD_TARGETS)
+    return clickRadio(RadioButtons::ADD_TARGETS)
   end
 
   def clickAddAblationZonesRadio
-    clickRadio(RadioButtons::ADD_ABLATION)
+    return clickRadio(RadioButtons::ADD_ABLATION)
   end
 
   def clickExportRadio
-    clickRadio(RadioButtons::EXPORT)
+    return clickRadio(RadioButtons::EXPORT)
   end
 
 ############################### PRIVATE FUNCTIONALITY ####################################
@@ -100,10 +100,13 @@ class AppHeaderFooter < BaseScreenObject
       return MainScreen.new
     when RadioButtons::ADD_TARGETS
       @addTargetsRadio.click
+      return AddTargets.new
     when RadioButtons::ADD_ABLATION
       @addAblationRadio.click
+      return AddAblationZones.new
     when RadioButtons::EXPORT
       @exportRadio.click
+      return Export.new
     else
       @@logFile.TestFail("#{self.class.name}::#{__method__}(): Invalid radio button ID")
     end
