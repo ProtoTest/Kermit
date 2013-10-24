@@ -40,9 +40,10 @@ class AddTargets < BaseScreenObject
     return AddAblationZones.new
   end
 
-  def clickAddTarget
+  # clicks on the add target button and optionally enters the target name and note (if defined)
+  def addTarget(name=nil, note=nil)
     @addTargetBtn.click
-    return EditTarget.new
+    return EditTarget.new.enterTargetInformation(name, note)
   end
 
   def clickTargetTabByName(name)
@@ -55,7 +56,7 @@ class AddTargets < BaseScreenObject
       end
     end
 
-    @@logFile.Fail("Failed to find Target tab for '#{name}'")
+    @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to find Target tab for '#{name}'")
     return nil
   end
 

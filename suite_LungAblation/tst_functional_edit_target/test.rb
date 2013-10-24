@@ -20,8 +20,9 @@ def main
   target_note = "As you can see here, automation entered a note for us"
   mainScreen = mainScreen.
     clickCreatePlanForPatient(patient_under_test).
-    clickAddTarget.
-    enterTargetInformation(target_name, target_note).
+    addTarget.
+    deleteTarget.
+    addTarget(target_name, target_note).
     clickLoadImages.
     openPlanForPatient(patient_under_test).
     clickTargetTabByName(target_name).

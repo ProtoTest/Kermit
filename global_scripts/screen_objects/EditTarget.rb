@@ -54,7 +54,7 @@ class EditTarget < BaseScreenObject
       end
     end
 
-    @@logFile.Fail("#{self.class.name}::#{__method__}(): Failed to find Target tab for '#{name}'")
+    @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to find Target tab for '#{name}'")
     return nil
   end
 
@@ -70,16 +70,6 @@ class EditTarget < BaseScreenObject
     return text
   end
 
-  def setTargetName(text)
-    @targetNameEntry.enterText(text) if not text.nil?
-    return self
-  end
-
-  def setTargetNote(text)
-    @targetNotesEntry.enterText(text) if not text.nil?
-    return self
-  end
-
   def clickLoadImages
     @appHeaderFooterEdit.clickBackButton
     return MainScreen.new
@@ -90,25 +80,46 @@ class EditTarget < BaseScreenObject
     return AddAblationZones.new
   end
 
-  def clickDeleteTarget
-    click(@deleteTargetBtn)
+  # clicks the delete target button,
+  # or optionally selects the target name tab, then clicks delete
+  def deleteTarget(name=nil)
+    clickTargetTabByName(name) if not name.nil?
+    @deleteTargetBtn.click
     snooze 1
     popup =  WarningDialogPopup.new
     popup.verifyPopupTitle("Delete Target")
     popup.verifyPopupText("Are you sure you want to delete the selected target?")
 
-    return popup
+    popup.clickBtn("Delete")
+    return AddTargets.new
   end
 
+  # Enter the target name and note into the text field and text area
   def enterTargetInformation(name, note)
-    setTargetName(name)
-    setTargetNote(note)
+    setTargetName(name) if not name.nil?
+    setTargetNote(note) if not note.nil?
     return self
   end
 
   def verifyTargetInformation(name, note)
     @@logFile.TestVerify(getTargetName == name, "Verify target name equals: #{name}")
     @@logFile.TestVerify(getTargetNote == note, "Verify target note equals: #{note}")
+    return self
+  end
+
+  ############################# PRIVATE FUNCTIONALITY #############################
+
+  private
+
+  # set the target name with param text
+  def setTargetName(text)
+    @targetNameEntry.enterText(text) if not text.nil?
+    return self
+  end
+
+  # set the target note with param text
+  def setTargetNote(text)
+    @targetNotesEntry.enterText(text) if not text.nil?
     return self
   end
 
