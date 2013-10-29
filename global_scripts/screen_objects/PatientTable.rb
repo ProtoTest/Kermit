@@ -222,10 +222,14 @@ end
 #
 ########################################################################################
 class Patient < BaseScreenObject
-  attr_reader :name
+  attr_reader :name, :id, :birthDate, :lastAccessed
 
-  def initialize(name, objectString)
-    @name = name
+  def initialize(patient_info_array, objectString)
+    @name = patient_info_array[0]
+    @id = patient_info_array[1]
+    @birthDate = patient_info_array[2]
+    @lastAccessed = patient_info_array[3]
+
     @patientElement = Element.new(name, objectString)
   end
 
@@ -251,6 +255,10 @@ class Patient < BaseScreenObject
   def openAndTimeCTScanImage(timer)
     openCTScan(timer)
     return AddTargets.new
+  end
+
+  def to_s
+    "Patient = [name:#{@name}, id:#{@id}, birthDate:#{@birthDate}, lastAccessed:#{@lastAccessed}]"
   end
 
 end
@@ -301,16 +309,25 @@ class PatientTable < BaseScreenObject
     patientList = Array.new
 
     if children=patientContainer.getChildren
-      children.each do |x|
+      children.each_with_index do |x, index|
+        # if the colum is 0, then it is the patient name
         if x.respond_to?(:text) and x.respond_to?(:column) and (x.column==0)
           # If we are dynamically adding patients after they are loaded, the patient objects
           # need to be added to the Object Map
           ObjectMap.add(x)
-          patientList << Patient.new(x.text, ObjectMap.symbolicName(x))
+
+          # Grab the patient ID, birthdate, last accessed and store it in the patient list. They are the
+          # successive children after we found the patient name, which is 'x'
+          patientID = children[index+1]
+          birthdate = children[index+2]
+          lastAccessed = children[index+3]
+
+          patientList << Patient.new([x.text, patientID.text, birthdate.text, lastAccessed.text], ObjectMap.symbolicName(x))
+          @@logFile.Trace(patientList.last.to_s)
         end
       end
     else
-      @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to find patients")
+      @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to find any patients in the table")
     end
 
     return patientList
