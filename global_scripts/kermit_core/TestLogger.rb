@@ -53,7 +53,7 @@ class TestLogger
   end
 
   def AppendLog(command, screenShot = "ns")
-    
+
     now = Time.new
     #builds a string out of dates for logging
     timeDel = "."
@@ -66,15 +66,15 @@ class TestLogger
 
     @testlog.puts(logString)
   end
-  
+
   def takeScreenshot
-    image = grabWidget(waitForObject(":_MainWindow"))   
+    image = grabWidget(waitForObject(":_MainWindow"))
     format = "PNG"
     filename = "MainWindow_#{@@screenshotCount}.#{format}"
     path = "#{@testLogLocation}#{filename}"
     image.save(path, format)
 
-    @@screenshotCount = @@screenshotCount + 1  
+    @@screenshotCount = @@screenshotCount + 1
 
     return filename
   end
@@ -94,14 +94,14 @@ class TestLogger
 
     # check to see if the verification failed, if it did, take a screenshot
     if not Test.verify(condition, text)
-  	  (filename = takeScreenshot) 
-      AppendLog("Test.verify FAILED: #{text}", filename)
+      screenshot = takeScreenshot
+      AppendLog("Test.verify FAILED: #{text}", screenshot)
     else
       AppendLog("Test.verify PASSED: #{text}")
     end
 
   end
-  
+
   def TestFail(text)
 	  Test.fail(text)
 	  AppendLog("Test.fail(#{text})")
@@ -111,7 +111,7 @@ class TestLogger
     Test.fatal(text)
     AppendLog("Test.fatal(#{text})")
   end
-  
+
   def CompleteLog
     # shutdown the text file handle
     @testlog.close
