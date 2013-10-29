@@ -53,7 +53,7 @@ class MainScreen < BaseScreenObject
       #Get the number of plans from the patient record
       origPlanCount = details.getPlanCount
       #Add a new plan for the selected patient record
-      details.clickCreateNewPlan.clickAddTarget.clickAddAblationZones.clickAddAblation
+      details.clickCreateNewPlan.addTarget.clickAddAblationZones.clickAddAblation
       #Go back to the patient tree
       @appHeaderFooter.clickLoadImagesRadio
       #Scroll to the patient (if needed) and open up the patient details - displaying all the available plans for this patient
@@ -91,6 +91,7 @@ class MainScreen < BaseScreenObject
 
   # Click on the patient in the patient table
   # Param: patientName - String representing the patient
+  # TODO: put in ability to scroll down in table if the object in question is NOT VISIBLE
   def clickPatientByName(patientName)
     patient = nil
     @patientTable.patientList.each do |x|
@@ -124,17 +125,22 @@ class MainScreen < BaseScreenObject
     return patient.openPatientDetails
   end
 
-
-  def openPlanForPatient(name)
-    clickPatientByName(name).planRows.first.openPlan
+  # Click on the patient in the patient table and open the first plan
+  # Param: patientName - String representing the patient
+  def openPlanForPatient(patientName)
+    clickPatientByName(patientName).planRows.first.openPlan
     return AddTargets.new
   end
 
-  def deletePlanForPatient(name)
-    clickPatientByName(name).planRows.first.deletePlan
+  # Click on the patient in the patient table and delete the first plan
+  # Param: patientName - String representing the patient
+  def deletePlanForPatient(patientName)
+    clickPatientByName(patientName).planRows.first.deletePlan
   end
 
-  def clickCreatePlanForPatient(name)
-    return clickPatientByName(name).clickCreateNewPlan
+  # Click on the patient in the patient table and create a plan
+  # Param: patientName - String representing the patient
+  def clickCreatePlanForPatient(patientName)
+    return clickPatientByName(patientName).clickCreateNewPlan
   end
 end
