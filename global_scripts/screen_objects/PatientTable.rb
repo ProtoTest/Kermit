@@ -283,6 +283,10 @@ class PatientTable < BaseScreenObject
     @scrollbar = Element.new("Patient Table Scroll bar", ":customTreeWidget_QScrollBar")
   end
 
+  def scrollDown
+    @scrollbar.scrollDown if @scrollbar.onScreen?
+  end
+
   # scroll down to row in the table
   def scrollToRowByIndex(index)
 	  @@logFile.Trace("Scrolling down to index: #{index}")
