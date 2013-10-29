@@ -37,6 +37,11 @@ class Element
 
   end
 
+  # Returns true if the element exists on the screen, false otherwise
+  def onScreen?
+    return Squish::Object::exists(@symbolicName)
+  end
+
   # Returns true if the element has any child squish objects, false otherwise
   def hasChildren?
     children = getChildren
