@@ -70,7 +70,7 @@ class MainScreen < BaseScreenObject
       # +1 is for the CT row
       scrollToPatientIndex(patientRowIndex + 1 + newPlanCount)
       # Delete the plan
-      details.planRows.last.deletePlan
+      details.planRows.first.deletePlan
       # Open patient details to verify new row created
       details = patient.openPatientDetails
       # Verify the plan was deleted
@@ -87,26 +87,6 @@ class MainScreen < BaseScreenObject
   def searchforRecord(searchText)
     @searchField.enterText(searchText)
     return MainScreen.new
-  end
-
-  # Click on the patient in the patient table
-  # Param: patientName - String representing the patient
-  # TODO: put in ability to scroll down in table if the object in question is NOT VISIBLE
-  def clickPatientByName(patientName)
-    patient = nil
-    @patientTable.patientList.each do |x|
-      if x.name == patientName
-        patient = x
-        break
-      end
-    end
-
-    if patient.nil?
-      @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to find patient " + patientName)
-      return nil
-    else
-      return patient.openPatientDetails
-    end
   end
 
   # Returns the list of patients in the table
@@ -126,21 +106,85 @@ class MainScreen < BaseScreenObject
   end
 
   # Click on the patient in the patient table and open the first plan
-  # Param: patientName - String representing the patient
-  def openPlanForPatient(patientName)
+  # Param: patientName - Patient name string
+  def openPlanForPatientName(patientName)
     clickPatientByName(patientName).planRows.first.openPlan
     return AddTargets.new
   end
 
+  # Click on the patient in the patient table and open the first plan
+  # Param: patientID - Patient ID string
+  def openPlanForPatientID(patientID)
+    clickPatientByID(patientID).planRows.first.openPlan
+    return AddTargets.new
+  end
+
   # Click on the patient in the patient table and delete the first plan
-  # Param: patientName - String representing the patient
-  def deletePlanForPatient(patientName)
+  # Param: patientName - Patient name string
+  def deletePlanForPatientName(patientName)
     clickPatientByName(patientName).planRows.first.deletePlan
   end
 
+  # Click on the patient in the patient table and delete the first plan
+  # Param: patientName - Patient ID string
+  def deletePlanForPatientID(patientID)
+    clickPatientByID(patientID).planRows.first.deletePlan
+  end
+
   # Click on the patient in the patient table and create a plan
-  # Param: patientName - String representing the patient
-  def clickCreatePlanForPatient(patientName)
+  # Param: patientName - Patient name string
+  def createPlanForPatientName(patientName)
     return clickPatientByName(patientName).clickCreateNewPlan
   end
+
+  # Click on the patient in the patient table and create a plan
+  # Param: patientID - Patient ID string
+  def createPlanForPatientID(patientID)
+    return clickPatientByID(patientID).clickCreateNewPlan
+  end
+
+
+  ###################################### PRIVATE FUNCTIONALITY ##################################
+  private
+
+  # Click on the patient in the patient table
+  # Param: patientName - String representing the patient
+  # TODO: put in ability to scroll down in table if the object in question is NOT VISIBLE
+  def clickPatientByName(patientName)
+    patient = nil
+    @patientTable.patientList.each do |x|
+      if x.name == patientName
+        patient = x
+        break
+      end
+    end
+
+    if patient.nil?
+      @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to find patient name " + patientName)
+      return nil
+    else
+      return patient.openPatientDetails
+    end
+  end
+
+  # Click on the patient in the patient table
+  # Param: patientName - String representing the patient
+  # TODO: put in ability to scroll down in table if the object in question is NOT VISIBLE
+  def clickPatientByID(patientID)
+    patient = nil
+    @patientTable.patientList.each do |x|
+      if x.id == patientID
+        patient = x
+        break
+      end
+    end
+
+    if patient.nil?
+      @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to find patient ID " + patientID)
+      return nil
+    else
+      return patient.openPatientDetails
+    end
+  end
+
 end
