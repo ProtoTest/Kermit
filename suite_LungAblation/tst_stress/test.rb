@@ -12,7 +12,7 @@ def main
 
   # TestConfig
   installEventHandlers()
-    
+
   # construct a page
   mainScreen = MainScreen.new
 
@@ -49,8 +49,9 @@ def main
     patientDetails.planRows.last.deletePlan
   end
 
+  @@logFile.TestLog("TEST COMPLETED... Outputting CT Scan load times for each patient")
+
   loadCTTimeArray.each do |x|
-    @@logFile.TestLog("TEST COMPLETED... Outputting CT Scan load times for each patient")
     @@logFile.TestLog("CT Load Time: " + x.to_s)
   end
 
