@@ -95,12 +95,14 @@ class MainScreen < BaseScreenObject
   end
 
   # Scroll down to the index in the patient table
+  # Param: index - the row in the table (zero-based indexing)
   def scrollToPatientIndex(index)
     @patientTable.scrollToRowByIndex(index)
     return MainScreen.new
   end
 
   # Click on the patient to open up their CT/Plan details
+  # Param: patient - patient object
   def openPatientDetails(patient)
     return patient.openPatientDetails
   end
@@ -126,7 +128,7 @@ class MainScreen < BaseScreenObject
   end
 
   # Click on the patient in the patient table and delete the first plan
-  # Param: patientName - Patient ID string
+  # Param: patientID - Patient ID string
   def deletePlanForPatientID(patientID)
     clickPatientByID(patientID).planRows.first.deletePlan
   end
@@ -148,13 +150,13 @@ class MainScreen < BaseScreenObject
   private
 
   # Click on the patient in the patient table
-  # Param: patientName - String representing the patient
-  # TODO: put in ability to scroll down in table if the object in question is NOT VISIBLE
+  # Param: patientName - Patient name string
   def clickPatientByName(patientName)
     patient = nil
-    @patientTable.patientList.each do |x|
+    @patientTable.patientList.each_with_index do |x, index|
       if x.name == patientName
         patient = x
+        scrollToPatientIndex(index)
         break
       end
     end
@@ -168,13 +170,13 @@ class MainScreen < BaseScreenObject
   end
 
   # Click on the patient in the patient table
-  # Param: patientName - String representing the patient
-  # TODO: put in ability to scroll down in table if the object in question is NOT VISIBLE
+  # Param: patientID - Patient ID string
   def clickPatientByID(patientID)
     patient = nil
-    @patientTable.patientList.each do |x|
+    @patientTable.patientList.each_with_index do |x, index|
       if x.id == patientID
         patient = x
+        scrollToPatientIndex(index)
         break
       end
     end
