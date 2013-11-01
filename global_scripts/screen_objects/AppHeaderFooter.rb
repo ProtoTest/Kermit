@@ -4,6 +4,13 @@ include Squish
 
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 
+module RadioButtons
+  LOAD_IMAGES = 1
+  ADD_TARGETS = 2
+  ADD_ABLATION = 3
+  EXPORT = 4
+end
+
 ########################################################################################
 #
 #  AppHeaderFooter

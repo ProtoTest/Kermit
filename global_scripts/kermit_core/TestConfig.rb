@@ -1,21 +1,34 @@
+require 'net/smtp'
+
+require findFile("scripts", "kermit_core\\Common.rb")
 require findFile("scripts", "kermit_core\\TestLogger.rb")
 require findFile("scripts", "kermit_core\\LogCommandBuilder.rb")
 
- @@logCmd = LogCommandBuilder.new
- @@logFile = TestLogger.new
+# gmail email server settings - email account to send test complete or other emails
+USERNAME = "covidian.squish.sender@gmail.com"
+PASSWORD = "prototest123!"
+DOMAIN = "gmail.com"
+SMTP_SERVER_ADDR = "smtp.gmail.com"
+SMTP_SERVER_PORT = 587
 
-MAX_NUM_VISIBLE_TABLE_ROWS = 15
-OBJECT_WAIT_TIMEOUT= 10000
+# address to send automation emails to
+RECIPIENTS = "msiwiec@prototest.com"
 
-# output trace log calls
+
+# Logging initialization
+
+# output trace logs
 LOG_TRACE= false
 
-module RadioButtons
-  LOAD_IMAGES = 1
-  ADD_TARGETS = 2
-  ADD_ABLATION = 3
-  EXPORT = 4
-end
+@@logCmd = LogCommandBuilder.new
+@@logFile = TestLogger.new
+
+# number of visible rows in the patient table (adjust according to resolution)
+MAX_NUM_VISIBLE_TABLE_ROWS = 15
+
+# 10 second timeout for squish to find and wait for objects
+OBJECT_WAIT_TIMEOUT = 10000
+
 
 # call this to finalize the test and build the HTML test log
 def completeTest
