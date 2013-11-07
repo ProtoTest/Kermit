@@ -1,7 +1,3 @@
-# encoding: UTF-8
-require 'squish'
-include Squish
-
 require findFile("scripts", "kermit_core\\Element.rb")
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 

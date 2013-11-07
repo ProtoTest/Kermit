@@ -12,6 +12,7 @@ require findFile("scripts", "kermit_core\\Element.rb")
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 require findFile("scripts", "screen_objects\\AppHeaderFooter.rb")
 require findFile("scripts", "screen_objects\\PatientTable.rb")
+require findFile("scripts", "screen_objects\\ScreenCapturePopup.rb")
 
 #
 # TODO: create functionality to load images via, CD, USB, HDD

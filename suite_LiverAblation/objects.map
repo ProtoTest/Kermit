@@ -39,6 +39,7 @@
 :MessageDialog.closeButton_QPushButton	{name='closeButton' type='QPushButton' visible='1' window=':MessageDialog_MessageDialog'}
 :MessageDialog.dialogContainer_QWidget	{name='dialogContainer' type='QWidget' visible='1' window=':MessageDialog_MessageDialog'}
 :MessageDialog_MessageDialog	{name='MessageDialog' type='MessageDialog' visible='1' windowTitle='MessageDialog'}
+:ScreenCaptureDialog_ScreenCaptureDialog	{name='ScreenCaptureDialog' type='ScreenCaptureDialog' visible='1' windowTitle='ScreenCaptureDialog'}
 :Visualize_TabItem	{container=':Form_QTabBar' text='Visualize' type='TabItem'}
 :_MainWindow	{type='MainWindow' unnamed='1' visible='1'}
 :customTreeWidget.1.3.6.1.4.1.9328.50.1.0072_QModelIndex	{column='0' container=':Form.customTreeWidget_CustomTreeWidget' text='1.3.6.1.4.1.9328.50.1.0072' type='QModelIndex'}

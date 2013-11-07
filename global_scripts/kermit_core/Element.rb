@@ -1,12 +1,3 @@
-# encoding: UTF-8
-require 'squish'
-
-include Squish
-
-# to get access to the logging click methods
-require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
-
-
 ########################################################################################
 #
 #  Element

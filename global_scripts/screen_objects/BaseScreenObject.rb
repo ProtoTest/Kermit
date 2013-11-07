@@ -1,3 +1,4 @@
+
 ##################################################
 # Seth Urban - 09/05/13
 # This is the template class where child classes will be instantiated from
