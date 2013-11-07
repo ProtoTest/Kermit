@@ -6,7 +6,7 @@ require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 
 ########################################################################################
 #
-#  Export 
+#  Export
 #     This is the Export screen
 #
 #  @author  Matt Siwiec
@@ -17,6 +17,15 @@ require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 class Export < BaseScreenObject
   def initialize
   	@exportSnapshotsBtn = Element.new("Export Snapshots to USB Button", ":Form.Export Snapshots to USB_QPushButton")
+  end
+
+  # Clicks on the Capture Screen button in the application header,sets the filename, and whether
+  # to include the patient details in the capture
+  # Params: filename - name to give the screenshot
+  #         hidePatientDetails - to hide the patient information or not
+  def captureScreen(filename, hidePatientDetails=false)
+    super(filename, hidePatientDetails)
+    return self
   end
 
   def clickExportToUSB

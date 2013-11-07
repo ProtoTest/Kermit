@@ -12,7 +12,7 @@ require findFile("scripts", "screen_objects\\EditAblation.rb")
 #     This is the screen presented when Ablation Zones are added.  It will consist of more than one button at some point
 #
 #  @author  Matt Siwiec
-#  @notes -10/04/2013 - SU - Changed all BasePageObject clicks and dclicks to reference Element directly 
+#  @notes -10/04/2013 - SU - Changed all BasePageObject clicks and dclicks to reference Element directly
 #
 ########################################################################################
 
@@ -23,6 +23,15 @@ class AddAblationZones < BaseScreenObject
 
     @elements = [@addAblationBtn]
     verifyElementsPresent(@elements, self.class.name)
+  end
+
+  # Clicks on the Capture Screen button in the application header,sets the filename, and whether
+  # to include the patient details in the capture
+  # Params: filename - name to give the screenshot
+  #         hidePatientDetails - to hide the patient information or not
+  def captureScreen(filename, hidePatientDetails=false)
+    super(filename, hidePatientDetails)
+    return self
   end
 
   def clickAddTargets

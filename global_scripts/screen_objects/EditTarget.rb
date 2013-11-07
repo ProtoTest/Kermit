@@ -44,6 +44,15 @@ class EditTarget < BaseScreenObject
 
   end
 
+  # Clicks on the Capture Screen button in the application header,sets the filename, and whether
+  # to include the patient details in the capture
+  # Params: filename - name to give the screenshot
+  #         hidePatientDetails - to hide the patient information or not
+  def captureScreen(filename, hidePatientDetails=false)
+    super(filename, hidePatientDetails)
+    return self
+  end
+
   def clickTargetTabByName(name)
     children = @targetTabsContainer.getChildren
     children.each do |child|

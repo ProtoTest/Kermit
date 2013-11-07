@@ -7,13 +7,23 @@
 
 class BaseScreenObject
 
+  # Clicks on the Capture Screen button in the application header,sets the filename, and whether
+  # to include the patient details in the capture
+  # Params: filename - name to give the screenshot
+  #         hidePatientDetails - to hide the patient information or not
+  def captureScreen(filename, hidePatientDetails=false)
+    screenCaptureBtn = Element.new("Capture Screen Button", ":Form.captureScreenButton_QPushButton")
+    screenCaptureBtn.click
+    ScreenCapturePopup.new.saveScreenshot(filename, hidePatientDetails)
+  end
+
   # Takes a list of elements and verifies the objects are present and visible
   def verifyElementsPresent(elementList, screenName)
     elementList.each do |element|
       begin
         waitForObject(element.symbolicName, 10000)
       rescue Exception => e
-        Test.fail("Failed to verify <" + element.name + "> is present in screen #{screenName}")
+        Test.fail("#{self.class.name}::#{__method__}(): Failed to verify <" + element.name + "> is present in screen #{screenName}")
       end
     end
   end

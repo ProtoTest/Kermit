@@ -11,7 +11,7 @@ require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 #     Screen Used to Edit the Ablation Zone in a Patient Plan
 #
 #  @author  Matt Siwiec
-#  @notes -10/04/2013 - SU - Changed all BasePageObject clicks and dclicks to reference Element directly 
+#  @notes -10/04/2013 - SU - Changed all BasePageObject clicks and dclicks to reference Element directly
 #
 ########################################################################################
 
@@ -30,7 +30,7 @@ class EditAblation < BaseScreenObject
     @maxMargin = Element.new("Ablation Zone Max Margin", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='maxMarginValueLabel' type='QLabel' visible='1'}")
     #@needleCA20L1Btn = Element.new("Ablation Needle Button", ":Form.CA20L1_QPushButton") #this may have been removed
     @depth = Element.new("Ablation Needed Depth", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='toTargetValueLabel' type='QLabel' visible='1'}")
-    
+
     @elements = [@deleteAblationBtn, @pwr50Btn, @pwr75Btn, @pwr100Btn, @time, @diameter]
     @elements << [@minMargin, @maxMargin, @depth] #removed @needleCA20L1Btn
     # one dimensional flattening of elements array
@@ -38,12 +38,21 @@ class EditAblation < BaseScreenObject
 
     verifyElementsPresent(@elements, self.class.name)
   end
-  
+
+  # Clicks on the Capture Screen button in the application header,sets the filename, and whether
+  # to include the patient details in the capture
+  # Params: filename - name to give the screenshot
+  #         hidePatientDetails - to hide the patient information or not
+  def captureScreen(filename, hidePatientDetails=false)
+    super(filename, hidePatientDetails)
+    return self
+  end
+
   def clickAddTargets
     @appHeaderFooterEdit.clickBackButton
     return AddTargets.new
   end
-  
+
   def clickExport
     @appHeaderFooterEdit.clickNextButton
     # return Export.new

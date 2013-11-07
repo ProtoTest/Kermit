@@ -17,7 +17,7 @@ require findFile("scripts", "screen_objects\\PatientTable.rb")
 # TODO: create functionality to load images via, CD, USB, HDD
 #
 class MainScreen < BaseScreenObject
-  attr_reader :patientTable
+  attr_reader :patientTable, :appHeaderFooter
 
   def initialize
     # check for the out of memory popup
@@ -39,6 +39,14 @@ class MainScreen < BaseScreenObject
 
   end
 
+  # Clicks on the Capture Screen button in the application header,sets the filename, and whether
+  # to include the patient details in the capture
+  # Params: filename - name to give the screenshot
+  #         hidePatientDetails - to hide the patient information or not
+  def captureScreen(filename, hidePatientDetails=false)
+    super(filename, hidePatientDetails)
+    return self
+  end
 
   ###########################
   #This function is used to loop through and run an endurance test.  This only iterates once.
@@ -84,7 +92,7 @@ class MainScreen < BaseScreenObject
 
   # Enters the search text into to the search text box
   # Param: searchText - Text to search for
-  def searchforRecord(searchText)
+  def searchForRecord(searchText)
     @searchField.enterText(searchText)
     return MainScreen.new
   end
