@@ -3,7 +3,7 @@ require 'squish'
 
 include Squish
 
-
+require 'net/smtp'
 
 # Basic message dialog box with OK button
 # Params: title - message box title
@@ -68,7 +68,7 @@ EOF
 
   begin
     smtp = Net::SMTP.new(SMTP_SERVER_ADDR, SMTP_SERVER_PORT)
-    smtp.enable_starttls
+    smtp.enable_starttls ## squish uses ruby version 1.9.1 which does not support openssl
     smtp.start(DOMAIN, USERNAME, PASSWORD, :login) do |smtp|
       smtp.send_message(mailtext, USERNAME, RECIPIENTS)
       smtp.finish
