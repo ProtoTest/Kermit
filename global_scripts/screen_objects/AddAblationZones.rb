@@ -5,6 +5,7 @@ include Squish
 require findFile("scripts", "screen_objects\\AppHeaderFooterEdit.rb")
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 require findFile("scripts", "screen_objects\\EditAblation.rb")
+require findFile("scripts", "screen_objects\\Export.rb")
 
 ########################################################################################
 #

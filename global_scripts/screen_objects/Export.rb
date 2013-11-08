@@ -2,7 +2,9 @@
 require 'squish'
 include Squish
 
+require findFile("scripts", "kermit_core\\Element.rb")
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
+require findFile("scripts", "screen_objects\\ExportSnapshotsPopup.rb")
 
 ########################################################################################
 #
@@ -28,9 +30,12 @@ class Export < BaseScreenObject
     return self
   end
 
-  def clickExportToUSB
-  	@exportSnapshotsBtn.click
-  	return Export.new
+  # Clicks on the 'Export Snapshots to USB' and sets the folder name(if defined)
+  # Params: folderName - Folder name string (optional)
+  def ExportToUSB(folderName=nil)
+    @exportSnapshotsBtn.click
+    exportPopup = ExportSnapshotsPopup.new.saveSnapshots(folderName)
+  	return self
   end
 
   def clickFinish

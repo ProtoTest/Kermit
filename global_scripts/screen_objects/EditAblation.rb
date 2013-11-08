@@ -4,6 +4,7 @@ include Squish
 
 require findFile("scripts", "screen_objects\\AppHeaderFooterEdit.rb")
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
+require findFile("scripts", "screen_objects\\Export.rb")
 
 ########################################################################################
 #
@@ -55,11 +56,12 @@ class EditAblation < BaseScreenObject
 
   def clickExport
     @appHeaderFooterEdit.clickNextButton
-    # return Export.new
+    return Export.new
   end
 
-  def clickDeleteAblation
-    click(@deleteAblationBtn)
+
+  def deleteAblation
+    @deleteAblationBtn.click
     snooze 1
     popup =  WarningDialogPopup.new
     popup.verifyPopupTitle("Delete Ablation Zone")
