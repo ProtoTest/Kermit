@@ -6,15 +6,7 @@ require findFile("scripts", "kermit_core\\TestConfig.rb")
 require findFile("scripts", "screen_objects\\MainScreen.rb")
 
 #
-# Functional Test: Verify 'Add/Delete Target' functionality
-#   - Create a plan for patient 'x'
-#   - Add a target
-#   - Delete the target
-#   - Add a target, enter a target name and note for the form
-#   - Enter 'Load Images' screen
-#   - Open the plan created for patient 'x'
-#   - Verify the target created matches previously entered information
-#   - Cleanup after the functional test by deleting the plan
+# Functional Test: Create and export snapshots to USB drive
 #
 
 def main
