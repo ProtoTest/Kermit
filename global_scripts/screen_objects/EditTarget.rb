@@ -22,26 +22,32 @@ class EditTarget < BaseScreenObject
   attr_reader :appHeaderFooterEdit
 
   def initialize
-    @targetNameEntry = Element.new("Edit target name text box", ":Form.nameLineEdit_QLineEdit")
-    @targetNotesEntry = Element.new("Edit target notes text area", ":Form.notesTextEdit_QPlainTextEdit")
-    @width = Element.new("Width value", "{container=':stackedWidget.Form_AddTargetsSidePanelForm2' name='widthValueLabel' type='QLabel' visible='1'}")
-    @height = Element.new("Height value", "{container=':stackedWidget.Form_AddTargetsSidePanelForm2' name='heightValueLabel' type='QLabel' visible='1'}")
-    @depth = Element.new("Depth value", "{container=':stackedWidget.Form_AddTargetsSidePanelForm2' name='depthValueLabel' type='QLabel' visible='1'}")
-    @volume = Element.new("Volume value", "{container=':stackedWidget.Form_AddTargetsSidePanelForm2' name='targetVolumeValueLabel' type='QLabel' visible='1'}")
-    @deleteTargetBtn = Element.new("Delete Target Button", ":Form.Delete Target_QPushButton")
-
     @appHeaderFooterEdit = AppHeaderFooterEdit.new
 
     # used to access the individal target tabs
     @targetTabsContainer = Element.new("Target Tabs Bar Container", "{container=':Form_MainForm' type='QTabBar' unnamed='1' visible='1'}")
 
-    @elements = [@targetNameEntry, @targetNotesEntry, @deleteTargetBtn, @targetTabsContainer]
-    @elements << [@width, @height, @depth, @volume]
-    # one dimensional flattening of elements array
-    @elements.flatten!
+    # used to access target information child elements
+    @targetInfoContainer = Element.new("Target info container", "{container=':stackedWidget.Form_AddTargetsSidePanelForm2' name='widget' type='QWidget' visible='1'}")
 
-    verifyElementsPresent(@elements, self.class.name)
+    containerChildren = @targetInfoContainer.getChildren
 
+    if containerChildren
+      # used squish 'Pick' tool to inspect the container to list the children. Only pulled relevant children to store.
+      @targetNameEntry = Element.new("Edit target name text box", ObjectMap.symbolicName(containerChildren[2]))
+      @width = Element.new("Width value", ObjectMap.symbolicName(containerChildren[5]))
+      @height = Element.new("Height value", ObjectMap.symbolicName(containerChildren[7]))
+      @depth = Element.new("Depth value", ObjectMap.symbolicName(containerChildren[9]))
+      @volume = Element.new("Volume value", ObjectMap.symbolicName(containerChildren[11]))
+      @densityAV = Element.new("Mean - Density", ObjectMap.symbolicName(containerChildren[13]))
+      @densityStdDev = Element.new("Standard Deviation - Density", ObjectMap.symbolicName(containerChildren[15]))
+      @deleteTargetBtn = Element.new("Delete Target Button", ":Form.Delete Target_QPushButton")
+
+      @elements = [ @targetTabsContainer, @targetInfoContainer, @targetNameEntry, @deleteTargetBtn,
+                    @width, @height, @depth, @volume, @densityAV, @densityStdDev ]
+
+      verifyElementsPresent(@elements, self.class.name)
+    end
   end
 
   # Clicks on the Capture Screen button in the application header,sets the filename, and whether
@@ -73,12 +79,6 @@ class EditTarget < BaseScreenObject
     return text
   end
 
-  def getTargetNote
-    text = @targetNotesEntry.getTextArea
-    @@logFile.Trace("#{self.class.name}::#{__method__}(): target note entry text = #{text}")
-    return text
-  end
-
   def clickLoadImages
     @appHeaderFooterEdit.clickBackButton
     return MainScreen.new
@@ -100,19 +100,18 @@ class EditTarget < BaseScreenObject
     popup.verifyPopupText("Are you sure you want to delete the selected target?")
 
     popup.clickBtn("Delete")
-    return AddTargets.new
+
+    return AddTargets.new.verifyTargetNotPresent(name)
   end
 
   # Enter the target name and note into the text field and text area
-  def enterTargetInformation(name, note)
+  def enterTargetInformation(name)
     setTargetName(name) if not name.nil?
-    setTargetNote(note) if not note.nil?
     return self
   end
 
-  def verifyTargetInformation(name, note)
+  def verifyTargetInformation(name)
     @@logFile.TestVerify(getTargetName == name, "Verify target name equals: #{name}")
-    @@logFile.TestVerify(getTargetNote == note, "Verify target note equals: #{note}")
     return self
   end
 
@@ -123,13 +122,8 @@ class EditTarget < BaseScreenObject
   # set the target name with param text
   def setTargetName(text)
     @targetNameEntry.enterText(text) if not text.nil?
+    # press TAB on keyboard to set the target name
+    type(waitForObject(@targetNameEntry.symbolicName), "<Tab>")
     return self
   end
-
-  # set the target note with param text
-  def setTargetNote(text)
-    @targetNotesEntry.enterText(text) if not text.nil?
-    return self
-  end
-
 end

@@ -26,7 +26,7 @@ RECIPIENTS = "msiwiec@prototest.com"
 # Logging initialization
 
 # output trace logs
-LOG_TRACE= false
+LOG_TRACE= true
 
 @@logCmd = LogCommandBuilder.new
 @@logFile = TestLogger.new

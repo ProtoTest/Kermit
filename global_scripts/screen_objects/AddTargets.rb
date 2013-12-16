@@ -19,15 +19,14 @@ require findFile("scripts", "screen_objects\\EditTarget.rb")
 
 class AddTargets < BaseScreenObject
   def initialize
-    @addTargetBtn = Element.new("Add a Target Button", ":Form.Add a Target_QPushButton")
-
     @appHeaderFooterEdit = AppHeaderFooterEdit.new
-
-    @elements = [@addTargetBtn]
-    verifyElementsPresent(@elements, self.class.name)
 
     # used to access the individal target tabs
     @targetTabsContainer = Element.new("Target Tabs Bar Container", "{container=':Form_MainForm' type='QTabBar' unnamed='1' visible='1'}")
+    @addTargetBtn = Element.new("Add a Target Button", ":Form.Add a Target_QPushButton")
+
+    @elements = [@addTargetBtn, @targetTabsContainer]
+    verifyElementsPresent(@elements, self.class.name)
   end
 
   # Clicks on the Capture Screen button in the application header,sets the filename, and whether
@@ -49,14 +48,16 @@ class AddTargets < BaseScreenObject
     return AddAblationZones.new
   end
 
-  # clicks on the add target button and optionally enters the target name and note (if defined)
+  # clicks on the add target button and optionally enters the target name (if defined)
   def addTarget(name=nil, note=nil)
     @addTargetBtn.click
-    return EditTarget.new.enterTargetInformation(name, note)
+    return EditTarget.new.enterTargetInformation(name)
   end
 
   def clickTargetTabByName(name)
     children = @targetTabsContainer.getChildren
+    Test.log("Found #{children.size} children")
+
     children.each do |child|
       if child.respond_to?(:text) and (child.text == name)
         ObjectMap.add(child)
@@ -69,4 +70,23 @@ class AddTargets < BaseScreenObject
     return nil
   end
 
+  def verifyTargetNotPresent(name)
+    if not name.nil?
+      children = @targetTabsContainer.getChildren
+
+      targetFound = false
+
+      children.each do |child|
+        if child.respond_to?(:text) and (child.text == name)
+          targetFound = true
+        end
+      end
+
+      @@logFile.TestVerify(targetFound==false, "Verify Target '#{name}' not present")
+    else
+      @@logFile.TestFail("#{self.class.name}::#{__method__}(): Invalid parameter: name is nil")
+    end
+
+    return self
+  end
 end

@@ -24,7 +24,7 @@ class BaseScreenObject
       begin
         waitForObject(element.symbolicName, 10000)
       rescue Exception => e
-        Test.fail("#{self.class.name}::#{__method__}(): Failed to verify <" + element.name + "> is present in screen #{screenName}")
+        @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to verify <" + element.name + "> is present in screen #{screenName}")
       end
     end
   end

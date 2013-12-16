@@ -80,7 +80,7 @@ class TestLogger
   end
 
   def Trace(text)
-    TestLog(text) if LOG_TRACE
+    Test.log(text) if LOG_TRACE
   end
 
   def TestLog(text)
@@ -103,13 +103,15 @@ class TestLogger
   end
 
   def TestFail(text)
+    screenshot = takeScreenshot
 	  Test.fail(text)
-	  AppendLog("Test.fail(#{text})")
+	  AppendLog("Test.fail(#{text})", screenshot)
   end
 
   def TestFatal(text)
+    screenshot = takeScreenshot
     Test.fatal(text)
-    AppendLog("Test.fatal(#{text})")
+    AppendLog("Test.fatal(#{text})", screenshot)
   end
 
   def CompleteLog

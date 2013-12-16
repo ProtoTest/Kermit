@@ -14,18 +14,23 @@ class Element
   def initialize(name, objectString)
     @name = name
 
-    # if ':' is the first character, then it is a symbolic name
-    # if '{' is the first character, then this object is initialized from its real name
-    if objectString.start_with?(':')
-      @symbolicName = objectString
-      @realName = ObjectMap.realName(@symbolicName)
-    elsif objectString.start_with?('{') and objectString.end_with?('}')
-      @realName = objectString
-      @symbolicName = ObjectMap.symbolicName(@realName)
-    else
-      raise "Element::init(): objectString is not a valid Squish object string representation"
-    end
+    begin
+      @@logFile.Trace("#{self.class.name}::#{__method__}(): Initializing '#{@name}'")
 
+      # if ':' is the first character, then it is a symbolic name
+      # if '{' is the first character, then this object is initialized from its real name
+      if objectString.start_with?(':')
+        @symbolicName = objectString
+        @realName = ObjectMap.realName(@symbolicName)
+      elsif objectString.start_with?('{') and objectString.end_with?('}')
+        @realName = objectString
+        @symbolicName = ObjectMap.symbolicName(@realName)
+      else
+        raise "Element::init(): #{objectString} is not a valid Squish object string representation"
+      end
+    rescue Exception => e
+      @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to initialize '#{@name}'' with object string '#{objectString}': #{e.messge}")
+    end
   end
 
   # Returns true if the element exists on the screen, false otherwise
@@ -55,7 +60,7 @@ class Element
       children = Squish::Object.children(elementObject)
       return children
     rescue Exception => e
-	    @@logFile.TestFail("#{self.class.name}::#{__method__}(): " + @symbolicName + ": " + e.message)
+	    @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to get children for #{@name}: #{e.message}")
       return nil
     end
   end
@@ -72,6 +77,19 @@ class Element
       else
         # Property does not exist
         return nil
+      end
+    rescue Exception => e
+      @@logFile.TestFail("#{self.class.name}::#{__method__}(): " + @symbolicName + ": " + e.message)
+    end
+  end
+
+  def setProperty(propName, propValue)
+    begin
+      elementObject = waitForObject(@symbolicName, OBJECT_WAIT_TIMEOUT)
+      @properties = Squish::Object.properties(elementObject)
+
+      if @properties[propName]
+        @properties[propName] = propValue
       end
     rescue Exception => e
       @@logFile.TestFail("#{self.class.name}::#{__method__}(): " + @symbolicName + ": " + e.message)
@@ -110,9 +128,8 @@ class Element
   # Param: someText - String of text to set
   def enterText(someText)
     object = waitForObject(@symbolicName)
-    object.text = someText if object.respond_to?(:text)
-    object.plainText = someText if object.respond_to?(:plainText)
-
+    object.text = ""
+    type(waitForObject(@symbolicName), someText)
     @@logFile.AppendLog(@@logCmd.type(self, someText))
   end
 

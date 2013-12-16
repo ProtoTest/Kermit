@@ -45,10 +45,8 @@ class StatusBar < BaseScreenObject
     @time = Element.new("Time", "{container=':Form_StatusBarForm' name='timeLabel' type='QLabel' visible='1'}")
 
     # doing this with elements to make the code easier to read by not having all of them on one line
-    @elements = [@procedureLabel, @procedure, @userLabel, @user, @networkStatusLabel, @networkStatus]
-    @elements << [@powerSourceLabel, @powerSource, @versionLabel, @version, @date, @time]
-    # one-dimensional flattening of element array.
-    @elements.flatten!
+    @elements = [ @procedureLabel, @procedure, @userLabel, @user, @networkStatusLabel, @networkStatus,
+                  @powerSourceLabel, @powerSource, @versionLabel, @version, @date, @time ]
 
     verifyElementsPresent(@elements, self.class.name)
   end
@@ -58,12 +56,8 @@ end
 class AppHeaderFooter < BaseScreenObject
 
   def initialize
-    # Labels
-    @logoLabel = Element.new("Logo Label", ":Form.logo_QLabel")
-
     # Buttons
     @closeBtn = Element.new("Close Button", ":Form.closeButton_QPushButton")
-    @screenCaptureBtn = Element.new("Capture Screen Button", ":Form.captureScreenButton_QPushButton")
 
     # for these radio buttons, need to use real-property name minus the window property
     # This is because the Liver and Lung Application main window names differ
@@ -73,9 +67,7 @@ class AppHeaderFooter < BaseScreenObject
     @addAblationRadio = Element.new("Review Radio", "{text='Add Ablation Zones' type='QPushButton' unnamed='1' visible='1' window=':_MainWindow'}")
     @exportRadio = Element.new("Export Radio Button", "{text='Export' type='QPushButton' unnamed='1' visible='1' window=':_MainWindow'}")
 
-    ###@statusBar = StatusBar.new(":Form.statusBarWidget_QWidget")
-
-    @elements = [@closeBtn, @screenCaptureBtn, @loadImagesRadio, @addTargetsRadio, @addAblationRadio, @exportRadio]
+    @elements = [@closeBtn, @loadImagesRadio, @addTargetsRadio, @addAblationRadio, @exportRadio]
     verifyElementsPresent(@elements, self.class.name)
   end
 

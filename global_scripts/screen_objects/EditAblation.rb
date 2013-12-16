@@ -22,20 +22,15 @@ class EditAblation < BaseScreenObject
 
     # use the object real name for elements where the text can change
     @deleteAblationBtn = Element.new("Delete Ablation Zone Button", ":Form.Delete Ablation Zone_QPushButton")
-    @pwr50Btn = Element.new("50W Power Button", ":Form.50 W_QPushButton")
-    @pwr75Btn = Element.new("75W Power Button", ":Form.75 W_QPushButton")
-    @pwr100Btn = Element.new("100W Power Button", ":Form.100 W_QPushButton")
+    @doseTable = Element.new("Dose Table dropdown button", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='doseTableButton' type='QPushButton' visible='1'}")
+
     @time = Element.new("Ablation Zone Time", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='timeValueLabel' type='QLabel' visible='1'}")
     @diameter = Element.new("Ablation Zone Diameter", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='diameterValueLabel' type='QLabel' visible='1'}")
     @minMargin = Element.new("Ablation Zone Min Margin", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='minMarginValueLabel' type='QLabel' visible='1'}")
     @maxMargin = Element.new("Ablation Zone Max Margin", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='maxMarginValueLabel' type='QLabel' visible='1'}")
-    #@needleCA20L1Btn = Element.new("Ablation Needle Button", ":Form.CA20L1_QPushButton") #this may have been removed
     @depth = Element.new("Ablation Needed Depth", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='toTargetValueLabel' type='QLabel' visible='1'}")
 
-    @elements = [@deleteAblationBtn, @pwr50Btn, @pwr75Btn, @pwr100Btn, @time, @diameter]
-    @elements << [@minMargin, @maxMargin, @depth] #removed @needleCA20L1Btn
-    # one dimensional flattening of elements array
-    @elements.flatten!
+    @elements = [ @deleteAblationBtn, @doseTable, @time, @diameter, @minMargin, @maxMargin, @depth ]
 
     verifyElementsPresent(@elements, self.class.name)
   end
@@ -68,5 +63,11 @@ class EditAblation < BaseScreenObject
     popup.verifyPopupText("Are you sure you want to delete the selected ablation zone?")
 
     return popup
+  end
+
+  # MJS TODO: This isn't working. Latest app changes values to button dropdown
+  def enterAblationZoneInfo(doseTableTxt, powerTxt, needText)
+    @doseTable.setProperty("text", doseTableTxt)
+    snooze 10
   end
 end

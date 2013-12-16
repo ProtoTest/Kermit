@@ -32,6 +32,9 @@ def main
       ExportToUSB
 
       # TODO: Use ruby to open the exported folder of images and verify the image list count?
+      
+      # TODO: check for USB not plugged in popup and send notification to user to 
+      # insert one and click continue
 
   snooze 5
 

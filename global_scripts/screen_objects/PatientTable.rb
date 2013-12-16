@@ -63,15 +63,16 @@ class CTRow < Element
 
     objectChildren = getChildren
 
-    # For elements whose text changes, need to use the real object name
-    @icon = Element.new("Row Icon Label", ObjectMap.symbolicName(objectChildren[1]))
-    @type = Element.new("Row_Type_Label", ObjectMap.symbolicName(objectChildren[2]))
-    @date = Element.new("Date Label", ObjectMap.symbolicName(objectChildren[3]))
-    @imageCountLabel = Element.new("Image Count Label", "{container=':customTreeWidget.frame_QFrame' name='dateLabel' type='QLabel' visible='1'}")
-    @compatibilityLabel = Element.new("Compatibility Label", ObjectMap.symbolicName(objectChildren[5]))
-    @ratingLabel = Element.new("Rating Label", ObjectMap.symbolicName(objectChildren[6]))
-    @infoLink = Element.new("Info Link", ObjectMap.symbolicName(objectChildren[7]))
-    @createPlanButton = Element.new("Create New Plan Button", ObjectMap.symbolicName(objectChildren[8]))
+    if objectChildren
+      # For elements whose text changes, need to use the real object name
+      @icon = Element.new("Row Icon Label", ObjectMap.symbolicName(objectChildren[1]))
+      @type = Element.new("Row_Type_Label", ObjectMap.symbolicName(objectChildren[2]))
+      @date = Element.new("Date Label", ObjectMap.symbolicName(objectChildren[3]))
+      @imageCountLabel = Element.new("Image Count Label", "{container=':customTreeWidget.frame_QFrame' name='dateLabel' type='QLabel' visible='1'}")
+      @compatibilityLabel = Element.new("Compatibility Label", ObjectMap.symbolicName(objectChildren[5]))
+      @ratingLabel = Element.new("Rating Label", ObjectMap.symbolicName(objectChildren[6]))
+      @createPlanButton = Element.new("Create New Plan Button", ObjectMap.symbolicName(objectChildren[7]))
+    end
   end
 
   # override base class dClick. Doing this b/c the test to time opening the CT scan

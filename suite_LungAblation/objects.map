@@ -1,6 +1,8 @@
 :Add Ablation Zones_QPushButton	{name='nextButton' text='Add Ablation Zones' type='QPushButton' visible='1' window=':_MainWindow'}
+:Form.03:00_QLabel	{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='timeValueLabel' text='03:00' type='QLabel' visible='1'}
 :Form.100 W_QPushButton	{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='powerLevelButton3' text='100 W' type='QPushButton' visible='1'}
 :Form.15 mm_QLabel	{container=':stackedWidget.Form_AddTargetsSidePanelForm2' name='widthValueLabel' text='15 mm' type='QLabel' visible='1'}
+:Form.15.0 mm_QLabel	{container=':stackedWidget.Form_AddTargetsSidePanelForm2' name='depthValueLabel' text='15.0 mm' type='QLabel' visible='1'}
 :Form.50 W_QPushButton	{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='powerLevelButton1' text='50 W' type='QPushButton' visible='1'}
 :Form.75 W_QPushButton	{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='powerLevelButton2' text='75 W' type='QPushButton' visible='1'}
 :Form.Add Ablation Zone_QPushButton	{container=':stackedWidget.Form_AddAblationZonesSidePanelForm1' name='addAblationZoneButton' text='Add Ablation Zone' type='QPushButton' visible='1'}
@@ -32,6 +34,7 @@
 :Form_QTabBar	{container=':Form_MainForm' type='QTabBar' unnamed='1' visible='1'}
 :Form_StatusBarForm	{name='StatusBarForm' type='StatusBarForm' visible='1' window=':_MainWindow' windowTitle='Form'}
 :Load Images_QPushButton	{name='backButton' text='Load Images' type='QPushButton' visible='1' window=':_MainWindow'}
+:Matt's Target_TabItem	{container=':Form_QTabBar' text='Matt\\'s Target' type='TabItem'}
 :MessageDialog.Cancel_QPushButton	{name='leftButton' text='Cancel' type='QPushButton' visible='1' window=':MessageDialog_MessageDialog'}
 :MessageDialog.Delete Plan_QLabel	{name='titleLabel' text='Delete Plan' type='QLabel' visible='1' window=':MessageDialog_MessageDialog'}
 :MessageDialog.Delete_QPushButton	{name='rightButton' text='Delete' type='QPushButton' visible='1' window=':MessageDialog_MessageDialog'}
