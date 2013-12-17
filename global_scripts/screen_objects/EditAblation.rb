@@ -6,6 +6,27 @@ require findFile("scripts", "screen_objects\\AppHeaderFooterEdit.rb")
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 require findFile("scripts", "screen_objects\\Export.rb")
 
+# Constants to use to select dropdown button values in this screen.
+# Make sure they match the order in the application.
+# Each of these module constants MUST start at 1 to allow enterAblationZoneInfo()
+# to click on each button and press the arrow key down to select the requested option.
+module DoseTableOptions
+  LIVER = 1
+  LUNG = 2
+end
+
+module PowerOptions
+  WATTS_45 = 1
+  WATTS_75 = 2
+  WATTS_100 = 3
+end
+
+module NeedleOptions
+  EMPRINT_15_CM = 1
+  EMPRINT_20_CM = 2
+  EMPRINT_30_CM = 3
+end
+
 ########################################################################################
 #
 #  EditAblation
@@ -17,20 +38,24 @@ require findFile("scripts", "screen_objects\\Export.rb")
 ########################################################################################
 
 class EditAblation < BaseScreenObject
+  attr_reader :appHeaderFooter
+
   def initialize
-    @appHeaderFooterEdit = AppHeaderFooterEdit.new
+    # application header and footer for specifically edit screens
+    @appHeaderFooter = AppHeaderFooterEdit.new
 
     # use the object real name for elements where the text can change
     @deleteAblationBtn = Element.new("Delete Ablation Zone Button", ":Form.Delete Ablation Zone_QPushButton")
     @doseTable = Element.new("Dose Table dropdown button", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='doseTableButton' type='QPushButton' visible='1'}")
-
+    @power = Element.new("Power dropdown button", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='powerButton' type='QPushButton' visible='1'}")
     @time = Element.new("Ablation Zone Time", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='timeValueLabel' type='QLabel' visible='1'}")
     @diameter = Element.new("Ablation Zone Diameter", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='diameterValueLabel' type='QLabel' visible='1'}")
     @minMargin = Element.new("Ablation Zone Min Margin", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='minMarginValueLabel' type='QLabel' visible='1'}")
     @maxMargin = Element.new("Ablation Zone Max Margin", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='maxMarginValueLabel' type='QLabel' visible='1'}")
+    @needle = Element.new("Needle dropdown button", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='needleButton' type='QPushButton' visible='1'}")
     @depth = Element.new("Ablation Needed Depth", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='toTargetValueLabel' type='QLabel' visible='1'}")
 
-    @elements = [ @deleteAblationBtn, @doseTable, @time, @diameter, @minMargin, @maxMargin, @depth ]
+    @elements = [ @deleteAblationBtn, @doseTable, @power, @time, @diameter, @minMargin, @maxMargin, @needle, @depth ]
 
     verifyElementsPresent(@elements, self.class.name)
   end
@@ -45,12 +70,12 @@ class EditAblation < BaseScreenObject
   end
 
   def clickAddTargets
-    @appHeaderFooterEdit.clickBackButton
+    @appHeaderFooter.clickBackButton
     return AddTargets.new
   end
 
   def clickExport
-    @appHeaderFooterEdit.clickNextButton
+    @appHeaderFooter.clickNextButton
     return Export.new
   end
 
@@ -65,9 +90,50 @@ class EditAblation < BaseScreenObject
     return popup
   end
 
-  # MJS TODO: This isn't working. Latest app changes values to button dropdown
-  def enterAblationZoneInfo(doseTableTxt, powerTxt, needText)
-    @doseTable.setProperty("text", doseTableTxt)
-    snooze 10
+  # Sets the Dose, Power, and Needle options for the Edit Ablation Zone form
+  #
+  # Params:
+  #         doseTableOption - Option from module DoseTableOptions
+  #         powerOption - Option from module PowerOptions
+  #         needleOption - Option from module NeedleOptions
+  def enterAblationZoneInfo(doseTableOption, powerOption, needleOption)
+    case doseTableOption
+      when DoseTableOptions::LUNG, DoseTableOptions::LIVER
+        @doseTable.click
+        snooze 1
+        doseTableOption.times { nativeType("<Down>"); snooze 1 }
+        nativeType("<Return>")
+        snooze 1
+      else
+        @@logFile.TestFail("#{self.class.name}::#{__method__}(): Invalid doseTableOption ID (#{doseTableOption})")
+    end
+
+    case powerOption
+      when PowerOptions::WATTS_45, PowerOptions::WATTS_75, PowerOptions::WATTS_100
+        @power.click
+        snooze 1
+        powerOption.times { nativeType("<Down>"); snooze 1 }
+        nativeType("<Return>")
+        snooze 1
+      else
+        @@logFile.TestFail("#{self.class.name}::#{__method__}(): Invalid powerOption ID (#{powerOption})")
+    end
+
+    case needleOption
+      when NeedleOptions::EMPRINT_15_CM, NeedleOptions::EMPRINT_20_CM, NeedleOptions::EMPRINT_30_CM
+        @needle.click
+        snooze 1
+        needleOption.times { nativeType("<Down>"); snooze 1 }
+        nativeType("<Return>")
+        snooze 1
+      else
+        @@logFile.TestFail("#{self.class.name}::#{__method__}(): Invalid needleOption ID (#{needleOption})")
+    end
+
+    return self
   end
+
+  ############################### PRIVATE FUNCTIONALITY ####################################
+  private
+
 end

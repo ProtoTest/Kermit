@@ -15,7 +15,7 @@ class Element
     @name = name
 
     begin
-      @@logFile.Trace("#{self.class.name}::#{__method__}(): Initializing '#{@name}'")
+      #@@logFile.Trace("#{self.class.name}::#{__method__}(): Initializing '#{@name}'")
 
       # if ':' is the first character, then it is a symbolic name
       # if '{' is the first character, then this object is initialized from its real name
@@ -83,22 +83,16 @@ class Element
     end
   end
 
-  def setProperty(propName, propValue)
-    begin
-      elementObject = waitForObject(@symbolicName, OBJECT_WAIT_TIMEOUT)
-      @properties = Squish::Object.properties(elementObject)
-
-      if @properties[propName]
-        @properties[propName] = propValue
-      end
-    rescue Exception => e
-      @@logFile.TestFail("#{self.class.name}::#{__method__}(): " + @symbolicName + ": " + e.message)
-    end
-  end
-
   # Retrieve the value for the text property of the element
   def getText
     return getProperty('text')
+  end
+
+  # Set the text property for the element
+  # Param: someText - String of text to set
+  def setText(someText)
+    object = waitForObject(@symbolicName)
+    object.setText(someText)
   end
 
   def getTextArea
@@ -124,7 +118,7 @@ class Element
     "[name, symbolicName, realName]: #{@name}, #{@symbolicName}, #{@realName}"
   end
 
-  # Set the text for the element
+  # Enter text into the text field
   # Param: someText - String of text to set
   def enterText(someText)
     object = waitForObject(@symbolicName)

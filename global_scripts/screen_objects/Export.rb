@@ -17,7 +17,12 @@ require findFile("scripts", "screen_objects\\ExportSnapshotsPopup.rb")
 
 #This is the status bar presented along the bottom of the screens i.e. Footer
 class Export < BaseScreenObject
+  attr_reader :appHeaderFooter
+
   def initialize
+    # application header and footer for specifically edit screens
+    @appHeaderFooter = AppHeaderFooterEdit.new
+
   	@exportSnapshotsBtn = Element.new("Export Snapshots to USB Button", ":Form.Export Snapshots to USB_QPushButton")
   end
 
@@ -39,12 +44,12 @@ class Export < BaseScreenObject
   end
 
   def clickFinish
-    @appHeaderFooterEdit.clickNextButton
+    @appHeaderFooter.clickNextButton
     return Export.new
   end
 
   def clickAddAblationZones
-    @appHeaderFooterEdit.clickBackButton
+    @appHeaderFooter.clickBackButton
     return EditAblation.new
   end
 
