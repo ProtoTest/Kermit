@@ -81,6 +81,13 @@ class CTRow < Element
     # double click the date label instead
     @date.dClick
   end
+
+  def saveCompatibilitySnapshot(filename)
+    @compatibilityLabel.click
+    screenshotButton = Element.new("ScreenShot Button","{name='captureScreenButton' type='QPushButton' visible='0' window=':CompatibilityDialog_CompatibilityDialog'}")
+    screenshotButton.click
+    ScreenCapturePopup.new.saveScreenshot(filename)
+  end
 end
 
 ########################################################################################
@@ -197,7 +204,7 @@ class PatientDetails < BaseScreenObject
         # each patient plan row is indexed via the 'occurrence' property
         rowName = "{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' occurrence='%s' type='QFrame'  visible='1'}" % startIndex
 
-        row = waitForObject(rowName, OBJECT_WAIT_TIMEOUT)
+        row = waitForObject(rowName, 500)
         rows << PlanRow.new(rowName)
         startIndex += 1
 
@@ -258,6 +265,21 @@ class Patient < BaseScreenObject
     return AddTargets.new
   end
 
+  def deletePatient
+    @patientElement.click
+    ctrow = CTRow.new("{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' type='QFrame' visible='1'}")
+    ctrow.click
+    type(waitForObject(ctrow.symbolicName), "<Delete>")
+    @@logFile.Trace("Want to type delete for object %s" % @patientElement.realName)
+
+
+    #type(waitForObject(@patientElement.realName),"<Delete>")
+
+    # Select the 'Delete' button from the warning dialog
+    popup = WarningDialogPopup.new
+    popup.clickBtn("Delete")
+  end
+
   def to_s
     "Patient = [name:#{@name}, id:#{@id}, birthDate:#{@birthDate}, lastAccessed:#{@lastAccessed}]"
   end
@@ -299,6 +321,12 @@ class PatientTable < BaseScreenObject
     end
   end
 
+  def deletePatient(index)
+    @@logFile.Trace("Going to delete patient at index %d: %s" % [index, @patientList[index].to_s])
+    @patientList[index].deletePatient
+    @patientList.delete_at(index)
+  end
+
   # Returns the number of patients in the patient table
   def getPatientCount
     return @patientList.size
@@ -319,15 +347,16 @@ class PatientTable < BaseScreenObject
         if x.respond_to?(:text) and x.respond_to?(:column) and (x.column==0)
           # If we are dynamically adding patients after they are loaded, the patient objects
           # need to be added to the Object Map
-          ObjectMap.add(x)
+          # begin
+          
 
           # Grab the patient ID, birthdate, last accessed and store it in the patient list. They are the
           # successive children after we found the patient name, which is 'x'
           patientID = children[index+1]
           birthdate = children[index+2]
           lastAccessed = children[index+3]
-
-          patientList << Patient.new([x.text, patientID.text, birthdate.text, lastAccessed.text], ObjectMap.symbolicName(x))
+          ObjectMap.add(patientID)
+          patientList << Patient.new([x.text, patientID.text, birthdate.text, lastAccessed.text], ObjectMap.symbolicName(patientID))
           @@logFile.Trace(patientList.last.to_s)
         end
       end

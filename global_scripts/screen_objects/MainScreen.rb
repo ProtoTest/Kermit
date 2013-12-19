@@ -91,6 +91,11 @@ class MainScreen < BaseScreenObject
     return MainScreen.new
   end
 
+  def openHdd
+    @hddBtn.click
+    return MainScreen.new
+  end
+
   # Enters the search text into to the search text box
   # Param: searchText - Text to search for
   def searchForRecord(searchText)
@@ -153,6 +158,7 @@ class MainScreen < BaseScreenObject
   def createPlanForPatientID(patientID)
     return clickPatientByID(patientID).clickCreateNewPlan
   end
+
 
 
   ###################################### PRIVATE FUNCTIONALITY ##################################
