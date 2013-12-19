@@ -16,7 +16,7 @@ end
 class MainWithHdd < MainScreen
   def openHdd
     @hddBtn.click
-    #return MainWithHdd.new
+    return MainWithHdd.new
   end
   def openSystem
     @systemBtn.click
@@ -24,12 +24,12 @@ class MainWithHdd < MainScreen
   end
   def getPatientList
     # Dirty hack to avoid reloading each time patient list is retrieved.
-    if defined? @table_reloaded 
+    if defined? @initialized 
       return @patientTable.patientList
     end
     waitForHddTable
     @patientTable = PatientTable.new
-    @table_reloaded = true
+    @initialized = true
     return @patientTable.patientList
   end
 end
@@ -44,47 +44,21 @@ def main
 
 
   startApplication("LungAblation")
+  @@logFile.Trace("DOOP 22")
 
   # TestConfig
   installEventHandlers()
 
 
+
   #construct a page
+  @@logFile.Trace("DOOP 11")
 
-  # @@logFile.Trace(ObjectMap.realName("blahrasdf"))
+  MainScreen.new.importPatients(:cd)
 
-  mainScreen = MainWithHdd.new
+  # TODO - run through creating plans for every imported item.
 
-  mainScreen.openHdd
-  hddScreen = MainWithHdd.new
-  @@logFile.Trace("RAAAWERAWERAWERAWERWAER")
-  patientList = hddScreen.getPatientList
-  hddListSize = patientList.size
-  screen = hddScreen.openSystem
-
-  (0...hddListSize).each do |index|
-    screen.openHdd
-    waitForHddTable
-    hddScreen.patientTable.scrollToRowByIndex(index)
-    patient = hddScreen.getPatientList[index]
-    @@logFile.Trace("Just selected patient with id %s" % patient.id)
-    # begin
-    details = patient.openPatientDetails
-    #details.CTRow.saveCompatibilitySnapshot("SCREEN_%s" % patient.id)
-    # rescue
-    #   hddScreen.captureScreen("Failed click")
-    # Double click the CTRow to import it.
-    # This currently only imports one CT series, but patients can have multiple series.
-    details.CTRow.dClick
-  end
-
-  mainScreen = MainScreen.new
-  patientCount = mainScreen.getPatientList.size
-  (0...patientCount).each do |i|
-
-    @@logFile.Trace("Deleting patient %s" % mainScreen.getPatientList[0].to_s)
-    mainScreen.patientTable.deletePatient(0)
-  end
+  MainScreen.new.deletePatients
 
   completeTest
 

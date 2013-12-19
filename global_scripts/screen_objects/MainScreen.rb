@@ -91,9 +91,37 @@ class MainScreen < BaseScreenObject
     return MainScreen.new
   end
 
-  def openHdd
-    @hddBtn.click
-    return MainScreen.new
+
+  def importPatients(source)
+    @@logFile.Trace("DOOP 1")
+    sourceBtn = getImportSourceBtn(source)
+    @@logFile.Trace("DOOP 2")
+
+    sourceBtn.click
+    @@logFile.Trace("DOOP 3")
+
+    waitForPatientList
+    importScreen = MainScreen.new
+    patientList = importScreen.getPatientList
+    @systemBtn.click
+    (0...patientList.size).each do |index|
+      # Don't reload the patient list each time, as it can take a while with a long list.
+      sourceBtn.click
+      waitForPatientList
+      importScreen.patientTable.scrollToRowByIndex(index)
+      patient = patientList[index]
+      details = patient.openPatientDetails
+      # This currently only imports one CT series, but patients can have multiple series.
+      # TODO - do we need to import every CT series?
+      details.CTRow.dClick
+    end
+  end
+
+  def deletePatients
+    patientCount = getPatientList.size
+    (0...patientCount).each do |i|
+      @patientTable.deletePatient(0)
+    end
   end
 
   # Enters the search text into to the search text box
@@ -202,6 +230,21 @@ class MainScreen < BaseScreenObject
     else
       return patient.openPatientDetails
     end
+  end
+
+  def getImportSourceBtn(source)
+    case source
+    when :hdd then return @hddBtn
+    when :cd then  return @cdBtn
+    when :usb then return @usbBtn
+    end
+  end
+
+  def waitForPatientList
+    patientContainer = Element.new("Patient Table Container", ":Form.customTreeWidget_CustomTreeWidget")
+    # Should be 6, rather than 10, I think.
+    waitFor('patientContainer.getChildren.size > 10', 90 * 1000)
+    return self
   end
 
 end
