@@ -68,9 +68,9 @@ class EditAblation < BaseScreenObject
     return self
   end
 
-  def capture3dScreenshot(filename)
+  def capture3dScreenshot(message, filename)
     @view3d.click
-    @@logFile.takeElementScreenshot(filename, ":Form.qvtkWidget_QVTKWidget_2")
+    @@logFile.takeElementScreenshot(message, filename, ":Form.qvtkWidget_QVTKWidget_2")
   end
 
   def clickAddTargets

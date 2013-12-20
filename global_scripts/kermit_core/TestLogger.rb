@@ -67,12 +67,13 @@ class TestLogger
     @testlog.puts(logString)
   end
 
-  def takeElementScreenshot(filename, widget)
+  def takeElementScreenshot(message, filename, widget)
     image = grabWidget(waitForObject(widget))
     format = "PNG"
     path = "#{@testLogLocation}#{filename}.#{format}"
     image.save(path, format)
-    AppendLog("Test.log(Saved screenshot for #{filename} at #{path}")
+    htmlFilePath = "file://#{path}".gsub("\\", "/")
+    AppendLog("Test.log(#{message})", "<a href=\"#{htmlFilePath}\">#{filename}.#{format}</a>")
   end
 
   def takeScreenshot

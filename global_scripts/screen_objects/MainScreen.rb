@@ -63,7 +63,7 @@ class MainScreen < BaseScreenObject
       origPlanCount = details.getPlanCount
       #Add a new plan for the selected patient record
       editScreen = details.clickCreateNewPlan.addTarget.clickAddAblationZones.clickAddAblation
-      editScreen.capture3dScreenshot(patient.id)
+      editScreen.capture3dScreenshot("Took 3D screenshot for patient name: #{patient.name} id: #{patient.id}", patient.id)
       #Go back to the patient tree
       @appHeaderFooter.clickLoadImagesRadio
       #Scroll to the patient (if needed) and open up the patient details - displaying all the available plans for this patient
