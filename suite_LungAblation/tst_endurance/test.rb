@@ -25,7 +25,7 @@ def main
   # TestConfig
   installEventHandlers()
   
-  #@@logFile.TestLog("Importing data from HDD")
+  @@logFile.TestLog("Importing data from HDD")
   MainScreen.new.importPatients(:hdd)
   runTest
   @@logFile.TestLog("Clearing patient list")

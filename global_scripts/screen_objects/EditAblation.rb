@@ -43,10 +43,8 @@ class EditAblation < BaseScreenObject
   def initialize
     # application header and footer for specifically edit screens
     @appHeaderFooter = AppHeaderFooterEdit.new
-
     # use the object real name for elements where the text can change
     @deleteAblationBtn = Element.new("Delete Ablation Zone Button", ":Form.Delete Ablation Zone_QPushButton")
-    @doseTable = Element.new("Dose Table dropdown button", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='doseTableButton' type='QPushButton' visible='1'}")
     @power = Element.new("Power dropdown button", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='powerButton' type='QPushButton' visible='1'}")
     @time = Element.new("Ablation Zone Time", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='timeValueLabel' type='QLabel' visible='1'}")
     @diameter = Element.new("Ablation Zone Diameter", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='diameterValueLabel' type='QLabel' visible='1'}")
@@ -54,8 +52,9 @@ class EditAblation < BaseScreenObject
     @maxMargin = Element.new("Ablation Zone Max Margin", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='maxMarginValueLabel' type='QLabel' visible='1'}")
     @needle = Element.new("Needle dropdown button", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='needleButton' type='QPushButton' visible='1'}")
     @depth = Element.new("Ablation Needed Depth", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='toTargetValueLabel' type='QLabel' visible='1'}")
-
-    @elements = [ @deleteAblationBtn, @doseTable, @power, @time, @diameter, @minMargin, @maxMargin, @needle, @depth ]
+    @view3d = Element.new("3d button", "{container=':Form.Form_ViewsAreaForm' name='volumeRenderingButton' text='3D' type='QPushButton' visible='1'}")
+    
+    @elements = [ @deleteAblationBtn, @power, @time, @diameter, @minMargin, @maxMargin, @needle, @depth, @view3d ]
 
     verifyElementsPresent(@elements, self.class.name)
   end
@@ -67,6 +66,11 @@ class EditAblation < BaseScreenObject
   def captureScreen(filename, hidePatientDetails=false)
     super(filename, hidePatientDetails)
     return self
+  end
+
+  def capture3dScreenshot(filename)
+    @view3d.click
+    @@logFile.takeElementScreenshot(filename, ":Form.qvtkWidget_QVTKWidget_2")
   end
 
   def clickAddTargets

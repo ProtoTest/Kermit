@@ -67,6 +67,13 @@ class TestLogger
     @testlog.puts(logString)
   end
 
+  def takeElementScreenshot(filename, widget)
+    image = grabWidget(waitForObject(widget))
+    format = "PNG"
+    path = "#{@testLogLocation}#{filename}.#{format}"
+    image.save(path, format)
+  end
+
   def takeScreenshot
     image = grabWidget(waitForObject(":_MainWindow"))
     format = "PNG"

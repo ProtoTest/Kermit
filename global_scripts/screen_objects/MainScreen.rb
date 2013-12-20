@@ -62,7 +62,8 @@ class MainScreen < BaseScreenObject
       #Get the number of plans from the patient record
       origPlanCount = details.getPlanCount
       #Add a new plan for the selected patient record
-      details.clickCreateNewPlan.addTarget.clickAddAblationZones.clickAddAblation
+      editScreen = details.clickCreateNewPlan.addTarget.clickAddAblationZones.clickAddAblation
+      editScreen.capture3dScreenshot(patient.id)
       #Go back to the patient tree
       @appHeaderFooter.clickLoadImagesRadio
       #Scroll to the patient (if needed) and open up the patient details - displaying all the available plans for this patient
@@ -140,7 +141,7 @@ class MainScreen < BaseScreenObject
   # Param: index - the row in the table (zero-based indexing)
   def scrollToPatientIndex(index)
     @patientTable.scrollToRowByIndex(index)
-    return MainScreen.new
+    return self
   end
 
   # Click on the patient to open up their CT/Plan details

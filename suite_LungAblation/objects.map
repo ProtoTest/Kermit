@@ -1,8 +1,10 @@
 :Add Ablation Zones_QPushButton	{name='nextButton' text='Add Ablation Zones' type='QPushButton' visible='1' window=':_MainWindow'}
 :Form.03:00_QLabel	{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='timeValueLabel' text='03:00' type='QLabel' visible='1'}
 :Form.100 W_QPushButton	{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='powerLevelButton3' text='100 W' type='QPushButton' visible='1'}
+:Form.100 W_QPushButton_2	{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='powerButton' text='100 W' type='QPushButton' visible='1'}
 :Form.15 mm_QLabel	{container=':stackedWidget.Form_AddTargetsSidePanelForm2' name='widthValueLabel' text='15 mm' type='QLabel' visible='1'}
 :Form.15.0 mm_QLabel	{container=':stackedWidget.Form_AddTargetsSidePanelForm2' name='depthValueLabel' text='15.0 mm' type='QLabel' visible='1'}
+:Form.3D_QPushButton	{container=':Form.Form_ViewsAreaForm' name='volumeRenderingButton' text='3D' type='QPushButton' visible='1'}
 :Form.50 W_QPushButton	{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='powerLevelButton1' text='50 W' type='QPushButton' visible='1'}
 :Form.75 W_QPushButton	{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='powerLevelButton2' text='75 W' type='QPushButton' visible='1'}
 :Form.Add Ablation Zone_QPushButton	{container=':stackedWidget.Form_AddAblationZonesSidePanelForm1' name='addAblationZoneButton' text='Add Ablation Zone' type='QPushButton' visible='1'}
@@ -22,6 +24,7 @@
 :Form.nameLineEdit_QLineEdit	{container=':stackedWidget.Form_AddTargetsSidePanelForm2' name='nameLineEdit' type='QLineEdit' visible='1'}
 :Form.notesTextEdit_QPlainTextEdit	{container=':stackedWidget.Form_AddTargetsSidePanelForm2' name='notesTextEdit' type='QPlainTextEdit' visible='1'}
 :Form.qvtkWidget_QVTKWidget	{container=':stackedWidget.Form_MIPViewWidget' name='qvtkWidget' type='QVTKWidget' visible='1'}
+:Form.qvtkWidget_QVTKWidget_2	{container=':stackedWidget.Form_VolumeRenderingViewWidget' name='qvtkWidget' type='QVTKWidget' visible='1'}
 :Form.search_QLineEdit	{container=':Form_LoadImagesTreeForm' name='search' type='QLineEdit' visible='1'}
 :Form.stackedWidget_QStackedWidget	{container=':Form_MainForm' name='stackedWidget' type='QStackedWidget' visible='1'}
 :Form.stackedWidget_QStackedWidget_2	{container=':Form.Form_ViewsAreaForm' name='stackedWidget' type='QStackedWidget' visible='1'}
@@ -60,3 +63,4 @@
 :stackedWidget.Form_AddTargetsSidePanelForm1	{container=':Form.stackedWidget_QStackedWidget' name='AddTargetsSidePanelForm1' type='AddTargetsSidePanelForm1' visible='1' windowTitle='Form'}
 :stackedWidget.Form_AddTargetsSidePanelForm2	{container=':Form.stackedWidget_QStackedWidget' name='AddTargetsSidePanelForm2' type='AddTargetsSidePanelForm2' visible='1' windowTitle='Form'}
 :stackedWidget.Form_MIPViewWidget	{container=':Form.stackedWidget_QStackedWidget_2' name='ViewWidget' type='MIPViewWidget' visible='1' windowTitle='Form'}
+:stackedWidget.Form_VolumeRenderingViewWidget	{container=':Form.stackedWidget_QStackedWidget_2' name='ViewWidget' type='VolumeRenderingViewWidget' visible='1' windowTitle='Form'}
