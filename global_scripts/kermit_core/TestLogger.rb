@@ -72,6 +72,7 @@ class TestLogger
     format = "PNG"
     path = "#{@testLogLocation}#{filename}.#{format}"
     image.save(path, format)
+    AppendLog("Test.log(Saved screenshot for #{filename} at #{path}")
   end
 
   def takeScreenshot
