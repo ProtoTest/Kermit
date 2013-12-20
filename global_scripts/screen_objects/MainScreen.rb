@@ -94,12 +94,8 @@ class MainScreen < BaseScreenObject
 
 
   def importPatients(source)
-    @@logFile.Trace("DOOP 1")
     sourceBtn = getImportSourceBtn(source)
-    @@logFile.Trace("DOOP 2")
-
     sourceBtn.click
-    @@logFile.Trace("DOOP 3")
 
     waitForPatientList
     importScreen = MainScreen.new
