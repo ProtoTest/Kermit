@@ -270,11 +270,6 @@ class Patient < BaseScreenObject
     ctrow = CTRow.new("{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' type='QFrame' visible='1'}")
     ctrow.click
     type(waitForObject(ctrow.symbolicName), "<Delete>")
-    @@logFile.Trace("Want to type delete for object %s" % @patientElement.realName)
-
-
-    #type(waitForObject(@patientElement.realName),"<Delete>")
-
     # Select the 'Delete' button from the warning dialog
     popup = WarningDialogPopup.new
     popup.clickBtn("Delete")
@@ -322,7 +317,6 @@ class PatientTable < BaseScreenObject
   end
 
   def deletePatient(index)
-    @@logFile.Trace("Going to delete patient at index %d: %s" % [index, @patientList[index].to_s])
     @patientList[index].deletePatient
     @patientList.delete_at(index)
   end
