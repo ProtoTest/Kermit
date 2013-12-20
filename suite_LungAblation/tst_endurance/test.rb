@@ -26,7 +26,7 @@ def main
   installEventHandlers()
   
   #@@logFile.TestLog("Importing data from HDD")
-  #MainScreen.new.importPatients(:hdd)
+  MainScreen.new.importPatients(:hdd)
   runTest
   @@logFile.TestLog("Clearing patient list")
   MainScreen.new.deletePatients
