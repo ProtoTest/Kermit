@@ -24,56 +24,15 @@ end
 
 # sends an email with subject, body, and optional attachment to RECIPIENTS
 def send_email(subject, body, attachment=nil)
-  msg_attachment = ""
-  marker = (0...50).map{ ('a'..'z').to_a[rand(26)] }.join
+  # change directories to the location of the send_email.rb script
+  Dir.chdir("../../bin")
 
-  if not attachment.nil?
-    begin
-      filecontent = File.read(attachment)
-      encodedcontent = [filecontent].pack("m")   # base64
+  sys_cmd = "C:/Ruby200-x64/bin/ruby #{Dir.pwd}/send_email.rb '#{subject}' '#{body}'"
+  sys_cmd += " '#{attachment}'" if not attachment.nil?
 
-            # Define the attachment section
-      msg_attachment = <<EOF
-Content-Type: multipart/mixed; name=\"#{File.basename(attachment)}\"
-Content-Transfer-Encoding:base64
-Content-Disposition: attachment; filename="#{File.basename(attachment)}"
+  @@logFile.Trace("Calling system with #{sys_cmd}")
 
-#{encodedcontent}
---#{marker}--
-EOF
-    rescue Exception => e
-      raise "Could not read file #{attachment}: #{e.message}"
-    end
-  end
-
-  msg_hdr = <<EOF
-From: #{USERNAME}
-To: #{RECIPIENTS}
-Subject: #{subject}
-MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary=#{marker}
---#{marker}
-EOF
-
-  # Define the message action
-  msg_action = <<EOF
-Content-Type: text/plain
-Content-Transfer-Encoding:8bit
-
-#{body}
---#{marker}
-EOF
-
-  mailtext = "#{msg_hdr} #{msg_action} #{msg_attachment}"
-
-  begin
-    smtp = Net::SMTP.new(SMTP_SERVER_ADDR, SMTP_SERVER_PORT)
-    smtp.enable_starttls ## squish uses ruby version 1.9.1 which does not support openssl
-    smtp.start(DOMAIN, USERNAME, PASSWORD, :login) do |smtp|
-      smtp.send_message(mailtext, USERNAME, RECIPIENTS)
-      smtp.finish
-    end
-  rescue Exception => e
-    @@logFile.TestLog("#{__method__}(): #{e.message}")
+  if not system(sys_cmd)
+    @@logFile.TestFail("Failed to send email with subject: #{subject}")
   end
 end
