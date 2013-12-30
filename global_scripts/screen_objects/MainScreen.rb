@@ -9,6 +9,7 @@ include Squish
 #########################################
 # encoding: UTF-8
 require findFile("scripts", "kermit_core\\Element.rb")
+require findFile("scripts", "kermit_core\\Common.rb")
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 require findFile("scripts", "screen_objects\\AppHeaderFooter.rb")
 require findFile("scripts", "screen_objects\\PatientTable.rb")

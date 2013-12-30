@@ -1,11 +1,15 @@
-require findFile("scripts", "kermit_core\\Common.rb")
 require findFile("scripts", "kermit_core\\TestLogger.rb")
 require findFile("scripts", "kermit_core\\LogCommandBuilder.rb")
 
-# Logging initialization
+# External ruby version: Required for the ability to send emails with SSL upon completion of tests.
+# Squish version is pretty old.
+# This will be the folder location on the C: drive
+RUBY_VERSION_EXTERNAL = "Ruby200-x64"
 
 # Send Email upon test completion
-SEND_EMAIL = false
+SEND_EMAIL = true
+
+# Logging initialization
 
 # output trace logs
 LOG_TRACE= true
@@ -18,39 +22,5 @@ MAX_NUM_VISIBLE_TABLE_ROWS = 15
 
 # 10 second timeout for squish to find and wait for objects
 OBJECT_WAIT_TIMEOUT = 10000
-
-
-# call this to finalize the test and build the HTML test log
-def completeTest
-  @@logFile.CompleteLog()
-
-  # TODO: Get the test name that completed
-  send_email("Test Completed", "Test Completed")
-end
-
-#
-# install crash, hang, etc event handlers
-#
-def crashHandler
-  # perform any necessary cleanup here
-
-  # Log and fail
-  @@logFile.TestFatal("Application under test '#{currentApplicationContext().name}' crashed")
-  completeTest
-end
-
-def timeoutHandler
-  # perform any necessary cleanup here
-
-  # Log and fail
-  @@logFile.TestFatal("Application under test '#{currentApplicationContext().name}' timed-out")
-  completeTest
-end
-
-def installEventHandlers
-  @@logFile.TestLog("#{__method__}: Registering event handlers")
-  installEventHandler("Crash", "crashHandler")
-  installEventHandler("Timeout", "timeoutHandler")
-end
 
 
