@@ -19,10 +19,10 @@ class BaseScreenObject
   end
 
   # Takes a list of elements and verifies the objects are present and visible
-  def verifyElementsPresent(elementList, screenName)
+  def verifyElementsPresent(elementList, screenName, timeout = 10000)
     elementList.each do |element|
       begin
-        waitForObject(element.symbolicName, 10000)
+        waitForObject(element.symbolicName, timeout)
       rescue Exception => e
         @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to verify <" + element.name + "> is present in screen #{screenName}")
       end

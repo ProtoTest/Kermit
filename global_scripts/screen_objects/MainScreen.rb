@@ -62,7 +62,13 @@ class MainScreen < BaseScreenObject
       #Get the number of plans from the patient record
       origPlanCount = details.getPlanCount
       #Add a new plan for the selected patient record
-      editScreen = details.clickCreateNewPlan.addTarget.clickAddAblationZones.clickAddAblation
+      begin
+        editScreen = details.clickCreateNewPlan.addTarget.clickAddAblationZones.clickAddAblation
+      rescue
+        @@logFile.TestFail("Plan editor for patient id #{patient.id} did not open.")
+        next
+      end
+
       editScreen.capture3dScreenshot("Took 3D screenshot for patient name: #{patient.name} id: #{patient.id}", patient.id)
       #Go back to the patient tree
       @appHeaderFooter.clickLoadImagesRadio
@@ -94,30 +100,40 @@ class MainScreen < BaseScreenObject
 
 
   def importPatients(source)
-    sourceBtn = getImportSourceBtn(source)
-    sourceBtn.click
-
-    waitForPatientList
-    importScreen = MainScreen.new
-    patientList = importScreen.getPatientList
-    @systemBtn.click
-    (0...patientList.size).each do |index|
-      # Don't reload the patient list each time, as it can take a while with a long list.
+    begin
+      sourceBtn = getImportSourceBtn(source)
       sourceBtn.click
+
       waitForPatientList
-      importScreen.patientTable.scrollToRowByIndex(index)
-      patient = patientList[index]
-      details = patient.openPatientDetails
-      # This currently only imports one CT series, but patients can have multiple series.
-      # TODO - do we need to import every CT series?
-      details.CTRow.dClick
+      importScreen = MainScreen.new
+      patientList = importScreen.getPatientList
+      @systemBtn.click
+      (0...patientList.size).each do |index|
+        # Don't reload the patient list each time, as it can take a while with a long list.
+        sourceBtn.click
+        waitForPatientList
+        importScreen.patientTable.scrollToRowByIndex(index)
+        patient = patientList[index]
+        details = patient.openPatientDetails
+        # This currently only imports one CT series, but patients can have multiple series.
+        # TODO - do we need to import every CT series?
+        details.CTRow.dClick
+      end
+      @@logFile.TestLog("Imported #{patientList.size} patients")
+    rescue Exception => e
+      @@logFile.TestFail("Failed to import patients: #{e.message}")
     end
   end
 
   def deletePatients
-    patientCount = getPatientList.size
-    (0...patientCount).each do |i|
-      @patientTable.deletePatient(0)
+    begin
+      patientCount = getPatientList.size
+      (0...patientCount).each do |i|
+        @patientTable.deletePatient(0)
+      end
+      @@logFile.TestLog("Deleted #{patientCount} patients")
+    rescue Exception => e
+      @@logFile.TestFail("Failed to delete patients: #{e.message}")
     end
   end
 
