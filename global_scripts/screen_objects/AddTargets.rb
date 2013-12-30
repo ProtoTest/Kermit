@@ -26,7 +26,8 @@ class AddTargets < BaseScreenObject
     @addTargetBtn = Element.new("Add a Target Button", ":Form.Add a Target_QPushButton")
 
     @elements = [@addTargetBtn, @targetTabsContainer]
-    verifyElementsPresent(@elements, self.class.name, 90000)
+    waitForObject(@targetTabsContainer.symbolicName, 90000)
+    verifyElementsPresent(@elements, self.class.name)
   end
 
   # Clicks on the Capture Screen button in the application header,sets the filename, and whether
