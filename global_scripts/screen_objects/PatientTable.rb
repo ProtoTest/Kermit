@@ -131,7 +131,6 @@ class PlanRow  < Element
     # Select the 'Delete' button from the warning dialog
     popup = WarningDialogPopup.new
     popup.clickBtn("Delete")
-    return MainScreen.new
   end
 
   # Opens up the plan
@@ -163,6 +162,8 @@ class PatientDetails < BaseScreenObject
 
   # Clicks on the create new plan button
   def clickCreateNewPlan
+    @@logFile.Trace(@CTRow.createPlanButton.to_s)
+    @@logFile.Trace(@CTRow.createPlanButton.onScreen?.to_s)
     @CTRow.createPlanButton.click
 	  return AddTargets.new
   end
@@ -250,7 +251,6 @@ class Patient < BaseScreenObject
   # Closes the tree for the patient
   def closePatientDetails
     @patientElement.click
-    return MainScreen.new
   end
 
   # Opens up the patient's CT
