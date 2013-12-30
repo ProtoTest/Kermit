@@ -32,14 +32,14 @@ def main
   MainScreen.new.deletePatients
 
   # CD is E:
-  @@logFile.TestLog("Importing data from HDD")
+  @@logFile.TestLog("Importing data from CD")
   MainScreen.new.importPatients(:cd)
   runTest
   @@logFile.TestLog("Clearing patient list")
   MainScreen.new.deletePatients
 
   # USB is K:
-  @@logFile.TestLog("Importing data from HDD")
+  @@logFile.TestLog("Importing data from USB")
   MainScreen.new.importPatients(:usb)
   runTest
   @@logFile.TestLog("Clearing patient list")
