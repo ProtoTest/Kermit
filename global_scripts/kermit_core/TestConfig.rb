@@ -7,7 +7,7 @@ require findFile("scripts", "kermit_core\\LogCommandBuilder.rb")
 RUBY_VERSION_EXTERNAL = "Ruby200-x64"
 
 # Send Email upon test completion
-SEND_EMAIL = true
+SEND_EMAIL = false
 
 # Logging initialization
 
