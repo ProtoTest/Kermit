@@ -3,6 +3,8 @@ require 'squish'
 
 include Squish
 
+require findFile("scripts", "kermit_core\\Common.rb")
+
 ########################################################################################
 #
 #  Test Logger
@@ -212,19 +214,7 @@ class TestLogger
 
   # Returns the total CPU percentage of the windows system as a string
   def get_total_cpu_percentage
-    pipe = IO.popen("wmic cpu get loadpercentage")
-
-    # returns a string of cpu information with a bunch of spaces and newlines, so remove 'em
-    result = pipe.readlines
-
-    # Close the process pipe
-    pipe.close
-    pipe = nil
-
-    result.delete("\n")
-    result.each do |x|
-      x.gsub!(/[ \n]/, "")
-    end
+    result = execute_wmic("wmic cpu get loadpercentage")
 
     # in the end, the result array should resemble ["CPUBlahBlahBlah", "XXX"] where XXX is the CPU %
     return result[1]

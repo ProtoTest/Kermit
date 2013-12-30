@@ -75,3 +75,37 @@ def installEventHandlers
   installEventHandler("Crash", "crashHandler")
   installEventHandler("Timeout", "timeoutHandler")
 end
+
+# Executes the given wmic command and returns the result hash
+# Params: command_str - wmic command string
+def execute_wmic(command_str)
+  pipe = IO.popen(command_str)
+
+  # returns a string of information with a bunch of spaces and newlines
+  result = pipe.readlines
+
+  # Close the process pipe
+  pipe.close
+  pipe = nil
+
+  # Santize all the extra junk returned
+  result.delete("\n")
+  result.each do |x|
+    x.gsub!(/[ \n]/, "")
+  end
+
+
+  # turn this array of key-value string pairs into a hash, if the wmic command
+  # is returning the full list of values from the query
+  if command_str.include?("list full")
+    hash = Hash.new
+    result.each_with_index do |x|
+      kv_array = x.split('=')
+      hash[kv_array[0]] = kv_array[1]
+    end
+
+    return hash
+  end
+
+  return result
+end
