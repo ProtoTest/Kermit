@@ -1,3 +1,12 @@
+########################################################################################
+#
+#  Test execution environment
+#     Used to store the execution environment
+#
+#  @author  Matt Siwiec
+#
+########################################################################################
+
 class Env
   @@os_info ||= nil
   @@os_name ||= nil
