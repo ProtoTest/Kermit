@@ -4,6 +4,7 @@ require 'squish'
 include Squish
 
 require findFile("scripts", "kermit_core\\Common.rb")
+require findFile("scripts", "kermit_core\\Env.rb")
 
 ########################################################################################
 #
@@ -32,6 +33,28 @@ class TestLogger
     @@screenshotCount = 0
     @@htmlHeader = "<html><body><h1>Test Log File</h1><br><h2>" + @testName +"</h2><br>"
     @@htmlFooter = "</body></html>"
+    @@executionEnvHTML = "<style type=\"text/css\">
+    #execution {font-family: verdana,sans-serif;
+    font-size: 12px;
+    letter-spacing: 0pt;
+    line-height: 1.5;}
+
+    </style>" + "<div id='execution'>
+    <div>Execution Environment:</div>
+    <div>Hardware: </br>
+    #{Env.system_manufacturer} #{Env.system_model} #{Env.system_type} </br>
+    #{Env.cpu_name} </br>
+    Total Memory: #{Env.mem_total_physical} </br>
+    Total HDD size: #{Env.disk_size_total} </br>
+    HDD space available: #{Env.disk_size_avail} </br>
+    </br></div>
+    <div>
+    Software: </br>
+    Operating System: #{Env.os_info} - #{Env.os_serial} </br>
+    Squish Version: #{Env.squish_version} </br></br></br></div>
+
+    </div>"
+
     @@htmlPage = ""
   end
 
@@ -48,7 +71,7 @@ class TestLogger
 
     #write the file
     #@testInfo = TestInfo() #this will only work from within squish
-    @Header = "TEST COMMAND\t\tSCREENSHOT\t\tMEMORY\t\tTOTAL CPU USAGE\t\tTIME\n-----------------------------------------------------------------------------"
+    @Header = "TEST COMMAND\t\tSCREENSHOT\t\tUSED MEMORY\t\tTOTAL CPU USAGE\t\tTIME\n-------------------------------------------------------------------------------------------------------"
     @testlog = File.open(@fileName, "w")
     #@testlog.puts(@testInfo)
     @testlog.puts(@Header)
@@ -63,8 +86,10 @@ class TestLogger
 
     #the application Context is a squish API function
     ctx = currentApplicationContext()
+    used_memory = (Float(ctx.usedMemory) / (2**30)).round(3) # human readable (in Gigabytes)
+
     #this is the string that will be added to the logFile
-    logString = "#{command}#{@seperator}#{screenShot}#{@seperator}#{ctx.usedMemory}#{@seperator}#{get_total_cpu_percentage}#{@seperator}#{nowString}"
+    logString = "#{command}#{@seperator}#{screenShot}#{@seperator}#{used_memory}#{@seperator}#{get_total_cpu_percentage}#{@seperator}#{nowString}"
 
     @testlog.puts(logString)
   end
@@ -154,9 +179,12 @@ class TestLogger
       end
     end
 
+    # complete the div for the table
+    @@htmlPage += "</div>"
+
 
     #now write the thing to disk
-    _htmlPage = @@htmlHeader + @@htmlPage + @@htmlFooter
+    _htmlPage = @@htmlHeader + @@executionEnvHTML + @@htmlPage + @@htmlFooter
     @testlog = File.open(@testLogLocation + @testName + ".html", "w")
     @testlog.puts(_htmlPage)
     @testlog.close
@@ -191,9 +219,9 @@ class TestLogger
       table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;}
       </style>"
     _tableTag = "<table id=\"tfhover\" class=\"tftable\" border=\"1\">"
-    _tableHead = "<tr><th>TestCommand</th><th>ScreenShot</th><th>Memory</th><th>Total CPU %</th><th>Time</th></tr>"
+    _tableHead = "<tr><th>TestCommand</th><th>ScreenShot</th><th>Used Memory (GB)</th><th>Total CPU %</th><th>Time</th></tr>"
 
-    @@htmlPage = _tableScript + _tableCSS + _tableTag + _tableHead
+    @@htmlPage = _tableScript + _tableCSS + "<div>" + _tableTag + _tableHead
 
   end
 
