@@ -6,8 +6,28 @@ require findFile("scripts", "kermit_core\\TestConfig.rb")
 require findFile("scripts", "screen_objects\\MainScreen.rb")
 
 #
-# Upslope Endurance Test: 
+# Upslope Endurance Test:
 #
+def runTest(iterations, sources)
+  begin
+    sources.each do | source |
+      @@logFile.TestLog("Importing data from #{source}")
+      MainScreen.new.importPatients(:hdd)
+      iterations.times do |i|
+        @@logFile.TestLog("STARTING ITERATION #{i}")
+        mainScreen = MainScreen.new
+        mainScreen = mainScreen.Customer_Endurance_Loop
+        @@logFile.TestLog("COMPLETED ITERATION #{i}")
+      end
+      @@logFile.TestLog("Clearing patient list")
+      MainScreen.new.deletePatients
+    end
+    completeTest
+  rescue Exception => e
+    @@logFile.TestFail("Endurance test failed: #{e.message}\n#{e.backtrace.inspect}")
+    completeTest
+  end
+end
 
 
 def main
@@ -17,18 +37,8 @@ def main
   # TestConfig
   installEventHandlers()
 
-  # construct the main page, run the test, then end the test
-  mainScreen = nil
+  runTest(1, [:hdd,:cd,:usb])
 
-  1.times do |i|
-    @@logFile.TestLog("STARTING ITERATION #{i}")
-    mainScreen = MainScreen.new
-    mainScreen = mainScreen.Customer_Endurance_Loop
-    @@logFile.TestLog("COMPLETED ITERATION #{i}")
-  end
-
-  # test is Done!
-  completeTest
 
     # 1st child
       ## TEST CASE ##
