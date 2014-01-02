@@ -351,7 +351,6 @@ class PatientTable < BaseScreenObject
           lastAccessed = children[index+3]
           ObjectMap.add(patientID)
           patientList << Patient.new([x.text, patientID.text, birthdate.text, lastAccessed.text], ObjectMap.symbolicName(patientID))
-          @@logFile.Trace(patientList.last.to_s)
         end
       end
     else
