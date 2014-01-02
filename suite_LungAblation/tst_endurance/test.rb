@@ -8,12 +8,24 @@ require findFile("scripts", "screen_objects\\MainScreen.rb")
 #
 # Upslope Endurance Test:
 #
-def runTest
-  1.times do |i|
-    @@logFile.TestLog("STARTING ITERATION #{i}")
-    mainScreen = MainScreen.new
-    mainScreen = mainScreen.Customer_Endurance_Loop
-    @@logFile.TestLog("COMPLETED ITERATION #{i}")
+def runTest(iterations, sources)
+  begin
+    sources.each do | source |
+      @@logFile.TestLog("Importing data from #{source}")
+      MainScreen.new.importPatients(source)
+      iterations.times do |i|
+        @@logFile.TestLog("STARTING ITERATION #{i}")
+        mainScreen = MainScreen.new
+        mainScreen = mainScreen.Customer_Endurance_Loop
+        @@logFile.TestLog("COMPLETED ITERATION #{i}")
+      end
+      @@logFile.TestLog("Clearing patient list")
+      MainScreen.new.deletePatients
+    end
+    completeTest
+  rescue Exception => e
+    @@logFile.TestFail("Endurance test failed: #{e.message}\n#{e.backtrace.inspect}")
+    completeTest
   end
 end
 
@@ -24,29 +36,10 @@ def main
 
   # TestConfig
   installEventHandlers()
-  
-  @@logFile.TestLog("Importing data from HDD")
-  MainScreen.new.importPatients(:hdd)
-  runTest
-  @@logFile.TestLog("Clearing patient list")
   MainScreen.new.deletePatients
 
-  # CD is E:
-  @@logFile.TestLog("Importing data from CD")
-  MainScreen.new.importPatients(:cd)
-  runTest
-  @@logFile.TestLog("Clearing patient list")
-  MainScreen.new.deletePatients
+  runTest(1, [:hdd,:cd,:usb])
 
-  # USB is K:
-  @@logFile.TestLog("Importing data from USB")
-  MainScreen.new.importPatients(:usb)
-  runTest
-  @@logFile.TestLog("Clearing patient list")
-  MainScreen.new.deletePatients
-
-  # test is Done!
-  completeTest
 
     # 1st child
       ## TEST CASE ##
