@@ -56,6 +56,7 @@ class MainScreen < BaseScreenObject
   ###########################
   def Customer_Endurance_Loop
     getPatientList.each_with_index do |patient, index|
+      @@logFile.Trace("Creating plan for patient id #{patient.id}")
       #Scroll the the index of the patient, used if the patient index it outside the bounds of the scroll window
       @patientTable.scrollToRowByIndex(index)
       #Get the patient details

@@ -96,7 +96,6 @@ class AppHeaderFooter < BaseScreenObject
     case radioBtnModuleID
     when RadioButtons::LOAD_IMAGES
       @loadImagesRadio.click
-      return MainScreen.new
     when RadioButtons::ADD_TARGETS
       @addTargetsRadio.click
       return AddTargets.new
