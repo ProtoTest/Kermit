@@ -25,7 +25,7 @@ window.onload=function(){
       .scale(y)
       .orient("left");
   var cpu = $('#tfhover td:nth-child(4)').map(function() { return parseInt($(this).text());}).get()
-  var memory = $('#tfhover td:nth-child(3)').map(function() { return parseInt($(this).text()) / 1000000;}).get()
+  var memory = $('#tfhover td:nth-child(3)').map(function() { return parseFloat($(this).text());}).get()
   var line = d3.svg.line().x(function(d) { return x(d[0]); })
             .y(function(d, i) { 
                 if (i<4) {
@@ -92,7 +92,7 @@ window.onload=function(){
        .attr("y", 0-margin.left)
        .attr("x", -height/2 - margin.top)
        .attr("dy", ".71em")
-       .text("Memory Used (MB)");
+       .text("Memory Used (GB)");
   svg2.append("text")
        .attr("y", height+margin.top)
        .attr("x", width/2)
