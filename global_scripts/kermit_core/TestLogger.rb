@@ -1,5 +1,6 @@
 # encoding: UTF-8
 require 'squish'
+require 'fileutils'
 
 include Squish
 
@@ -28,11 +29,17 @@ class TestLogger
     @fileName = ""
     @seperator = ":**:"
     @testInfo = ""
+    @includeDir = "#{ENV['SQUISH_SCRIPT_DIR']}\\kermit_core\\reports"
 
     setInitialLogFile()
     @@screenshotCount = 0
-    @@htmlHeader = "<html><body><h1>Test Log File</h1><br><h2>" + @testName +"</h2><br>"
-    @@htmlFooter = "</body></html>"
+    @@htmlHeader = "<!DOCTYPE html><meta charset=\"utf-8\"><body><h1>Test Log File</h1><br><h2>" + @testName +"</h2><br>
+                        <script src=\"d3.v3.js\"></script>
+                        <script src=\"jquery-1.10.2.js\"></script>
+                        <script src=\"underscore.js\"></script>
+                        <script src=\"visuals.js\"></script>
+                        <link rel=\"stylesheet\" type=\"text/css\" href=\"visuals.css\" media=\"screen\" />"
+    @@htmlFooter = "</body>"
     @@executionEnvHTML = "<style type=\"text/css\">
     #execution {font-family: verdana,sans-serif;
     font-size: 12px;
@@ -54,6 +61,7 @@ class TestLogger
     Squish Version: #{Env.squish_version} </br></br></br></div>
 
     </div>"
+
 
     @@htmlPage = ""
   end
@@ -188,7 +196,7 @@ class TestLogger
     @testlog = File.open(@testLogLocation + @testName + ".html", "w")
     @testlog.puts(_htmlPage)
     @testlog.close
-
+    FileUtils.cp_r("#{@includeDir}\\.",@testLogLocation)
   end
 
   ##################### PRIVATE FUNCTIONALITY ########################
@@ -196,21 +204,6 @@ class TestLogger
 
   # insert some nice row highlight javascript and initialize the result table
   def setupTable
-    _tableScript = "<script type=\"text/javascript\">
-  window.onload=function(){
-  var tfrow = document.getElementById('tfhover').rows.length;
-  var tbRow=[];
-  for (var i=1;i<tfrow;i++) {
-    tbRow[i]=document.getElementById('tfhover').rows[i];
-    tbRow[i].onmouseover = function(){
-      this.style.backgroundColor = '#ffffff';
-    };
-    tbRow[i].onmouseout = function() {
-      this.style.backgroundColor = '#d4e3e5';
-    };
-  }
-};
-</script>"
 
     _tableCSS = "<style type=\"text/css\">
       table.tftable {font-size:12px;color:#333333;width:100%;border-width: 1px;border-color: #729ea5;border-collapse: collapse;}
@@ -218,11 +211,9 @@ class TestLogger
       table.tftable tr {background-color:#d4e3e5;}
       table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;}
       </style>"
-    _tableTag = "<table id=\"tfhover\" class=\"tftable\" border=\"1\">"
+    _tableTag = "<div id=\"chartarea\"></div><div id=\"chartarea2\"></div><table id=\"tfhover\" class=\"tftable\" border=\"1\">"
     _tableHead = "<tr><th>TestCommand</th><th>ScreenShot</th><th>Used Memory (GB)</th><th>Total CPU %</th><th>Time</th></tr>"
-
-    @@htmlPage = _tableScript + _tableCSS + "<div>" + _tableTag + _tableHead
-
+    @@htmlPage = _tableCSS + "<div>" + _tableTag + _tableHead
   end
 
   def TestInfo
