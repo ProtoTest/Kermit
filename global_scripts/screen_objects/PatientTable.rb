@@ -121,7 +121,6 @@ class PlanRow  < Element
 
   # Deletes the plan
   def deletePlan
-    # click on the row
     self.click
 
     # Send the Delete key
@@ -144,6 +143,8 @@ end
 #
 #  Patient Details
 #     Stores the object elements for a Patient's CT and plan rows
+#
+#     Does not currently handle multiple CT rows.
 #
 #  @author    Matt Siwiec
 #  @notes     In order to get access to the rows objects, the patient name must be 'clicked'
@@ -267,6 +268,7 @@ class Patient < BaseScreenObject
 
   def deletePatient
     @patientElement.click
+    # Rather than instantiate PatientDetails, just select the ctrow directly.
     ctrow = CTRow.new("{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' type='QFrame' visible='1'}")
     ctrow.click
     type(waitForObject(ctrow.symbolicName), "<Delete>")
@@ -349,6 +351,7 @@ class PatientTable < BaseScreenObject
           patientID = children[index+1]
           birthdate = children[index+2]
           lastAccessed = children[index+3]
+          # Assume we have never seen this patient before and add its element's symbolic name to Squish's object map.
           ObjectMap.add(patientID)
           patientList << Patient.new([x.text, patientID.text, birthdate.text, lastAccessed.text], ObjectMap.symbolicName(patientID))
         end

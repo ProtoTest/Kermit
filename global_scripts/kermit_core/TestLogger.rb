@@ -11,6 +11,7 @@ require findFile("scripts", "kermit_core\\Env.rb")
 #
 #  Test Logger
 #     Used to certify the actions of a particular test as it happens and build HTML output log incorporating screenshots
+#     Additionally, cpu and memory usage are recorded at the time of each log event, and included in the HTML output log.
 #
 #  @author  Seth Urban
 #  @notes -10/04/2013 - SU - Wrapped squish Test.functions to allow to copy them to the log and present them as output

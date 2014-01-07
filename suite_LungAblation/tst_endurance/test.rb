@@ -8,6 +8,25 @@ require findFile("scripts", "screen_objects\\MainScreen.rb")
 #
 # Upslope Endurance Test:
 #
+# iterations: The number of times the tests are run for each source
+# sources: The sources to run the tests on. Valid values are :hdd, :cd, :usb.
+#          :hdd corresponds to the DICOM folder in the upslope install directory.
+#          :cd corresponds to a drive mounted at E:
+#          :usb corresponds to a drive mounted at K:
+# The test will do the following actions for each iteration:
+#    1. Import the first CT series listed for each patient in the import source.
+#    2. Create a plan, take a screenshot of the 3D preview, then delete the plan for the first 
+#       CT series for each patient in System.
+#    3. Delete each patient in the System.
+#
+# Test failures are recorded whenever an UI element does not appear on the screen within a timeout period.
+# Test successes are recorded at key points in each iteration.
+#
+# After the test is complete, a HTML log file will be written to <user home>\Documents\SquishTestLogs
+# which lists actions recorded throughout the test run including diagnostics, test success and test failures.
+# Additional information regarding the execution environment and CPU and memory usage throughout the test 
+# are included.
+#
 def runTest(iterations, sources)
   begin
     sources.each do | source |

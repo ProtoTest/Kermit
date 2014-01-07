@@ -67,6 +67,7 @@ class MainScreen < BaseScreenObject
       begin
         editScreen = details.clickCreateNewPlan.addTarget.clickAddAblationZones.clickAddAblation
       rescue
+        # Some interaction between Squish and the Upslope application cause some patients not to open correctly.
         @@logFile.TestFail("Plan editor for patient id #{patient.id} did not open.")
         next
       end
@@ -100,23 +101,29 @@ class MainScreen < BaseScreenObject
     return MainScreen.new
   end
 
-
+  # Import the first CT series for each patient in the import source.
+  # Valid sources are :hdd, :cd, :usb.
   def importPatients(source)
     begin
       sourceBtn = getImportSourceBtn(source)
       sourceBtn.click
 
+      # The patient table can take a while to load when large amounts of data is present.
       waitForPatientList
+      # Once the table is on the screen we can finally read it.
       importScreen = MainScreen.new
       patientList = importScreen.getPatientList
       @systemBtn.click
       (0...patientList.size).each do |index|
         # Don't reload the patient list each time, as it can take a while with a long list.
         sourceBtn.click
+        # We need to re-wait each time we return to the import source patient table
+        # since it isn't cached by Upslope.
         waitForPatientList
         importScreen.patientTable.scrollToRowByIndex(index)
         patient = patientList[index]
         details = patient.openPatientDetails
+        # Double clicking on a CT row triggers Upslope to import that CT series to the System patient table.
         # This currently only imports one CT series, but patients can have multiple series.
         # TODO - do we need to import every CT series?
         details.CTRow.dClick
@@ -127,8 +134,10 @@ class MainScreen < BaseScreenObject
     end
   end
 
+  # Delete all patients from the System patient table.
   def deletePatients
     begin
+      # Delete the first patient in the table repeatedly for the total patient count.
       patientCount = getPatientList.size
       (0...patientCount).each do |i|
         @patientTable.deletePatient(0)
