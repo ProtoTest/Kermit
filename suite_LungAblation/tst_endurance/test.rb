@@ -8,7 +8,7 @@ require findFile("scripts", "screen_objects\\MainScreen.rb")
 #
 # Upslope Endurance Test:
 #
-# iterations: The number of times the tests are run for each source
+# iterationTimeLimit: The number of seconds to run the tests on each import source.
 # sources: The sources to run the tests on. Valid values are :hdd, :cd, :usb.
 #          :hdd corresponds to the DICOM folder in the upslope install directory.
 #          :cd corresponds to a drive mounted at E:
@@ -27,19 +27,27 @@ require findFile("scripts", "screen_objects\\MainScreen.rb")
 # Additional information regarding the execution environment and CPU and memory usage throughout the test 
 # are included.
 #
-def runTest(iterations, sources)
+def runTest(iterationTimeLimit, sources)
   begin
     sources.each do | source |
-      @@logFile.TestLog("Importing data from #{source}")
-      MainScreen.new.importPatients(source)
-      iterations.times do |i|
-        @@logFile.TestLog("STARTING ITERATION #{i}")
+
+      startTime = Time.now
+      currentTime = Time.now
+      iterationNumber = 1
+      while currentTime - startTime < iterationTimeLimit do
+        @@logFile.TestLog("Current elapsed time for tests on #{source}: #{(currentTime - startTime)/60} minutes")
+        @@logFile.TestLog("STARTING ITERATION #{iterationNumber}")
+        @@logFile.TestLog("Importing data from #{source}")
+        MainScreen.new.importPatients(source)
         mainScreen = MainScreen.new
         mainScreen = mainScreen.Customer_Endurance_Loop
-        @@logFile.TestLog("COMPLETED ITERATION #{i}")
+        @@logFile.TestLog("Clearing patient list")
+        MainScreen.new.deletePatients
+        @@logFile.TestLog("COMPLETED ITERATION #{iterationNumber}")
+        iterationNumber += 1
+        currentTime = Time.now
       end
-      @@logFile.TestLog("Clearing patient list")
-      MainScreen.new.deletePatients
+
     end
     completeTest
   rescue Exception => e
@@ -47,17 +55,15 @@ def runTest(iterations, sources)
     completeTest
   end
 end
-
-
 def main
 
   startApplication("LungAblation")
 
   # TestConfig
   installEventHandlers()
-  MainScreen.new.deletePatients
 
-  runTest(1, [:hdd,:cd,:usb])
+  # Run each import source test for 24 hours.
+  runTest(24*60*60, [:hdd,:cd,:usb])
 
 
     # 1st child
