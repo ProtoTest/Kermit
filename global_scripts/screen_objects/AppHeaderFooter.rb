@@ -106,7 +106,7 @@ class AppHeaderFooter < BaseScreenObject
       @exportRadio.click
       return Export.new
     else
-      @@logFile.TestFail("#{self.class.name}::#{__method__}(): Invalid radio button ID")
+      Log.TestFail("#{self.class.name}::#{__method__}(): Invalid radio button ID")
     end
   end
 end

@@ -33,19 +33,19 @@ def send_email(subject, body, attachment=nil)
     sys_cmd = "C:/#{RUBY_VERSION_EXTERNAL}/bin/ruby #{Dir.pwd}/send_email.rb '#{subject}' '#{body}'"
     sys_cmd += " '#{attachment}'" if not attachment.nil?
 
-    @@logFile.Trace("Calling system with #{sys_cmd}")
+    Log.Trace("Calling system with #{sys_cmd}")
 
     if not system(sys_cmd)
-      @@logFile.TestFail("Failed to send email with subject: #{subject}")
+      Log.TestFail("Failed to send email with subject: #{subject}")
     end
   else
-    @@logFile.Trace("Email functionality is disabled")
+    Log.Trace("Email functionality is disabled")
   end
 end
 
 # call this to finalize the test and build the HTML test log
 def completeTest
-  @@logFile.CompleteLog()
+  Log.CompleteLog()
 
   # TODO: Get the test name that completed
   send_email("Test Completed", "Test Completed")
@@ -58,7 +58,7 @@ def crashHandler
   # perform any necessary cleanup here
 
   # Log and fail
-  @@logFile.TestFatal("Application under test '#{currentApplicationContext().name}' crashed")
+  Log.TestFatal("Application under test '#{currentApplicationContext().name}' crashed")
   completeTest
 end
 
@@ -66,12 +66,12 @@ def timeoutHandler
   # perform any necessary cleanup here
 
   # Log and fail
-  @@logFile.TestFatal("Application under test '#{currentApplicationContext().name}' timed-out")
+  Log.TestFatal("Application under test '#{currentApplicationContext().name}' timed-out")
   completeTest
 end
 
 def installEventHandlers
-  @@logFile.TestLog("#{__method__}: Registering event handlers")
+  Log.TestLog("#{__method__}: Registering event handlers")
   installEventHandler("Crash", "crashHandler")
   installEventHandler("Timeout", "timeoutHandler")
 end

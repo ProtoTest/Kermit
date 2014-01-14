@@ -15,8 +15,6 @@ class Element
     @name = name
 
     begin
-      #@@logFile.Trace("#{self.class.name}::#{__method__}(): Initializing '#{@name}'")
-
       # if ':' is the first character, then it is a symbolic name
       # if '{' is the first character, then this object is initialized from its real name
       if objectString.start_with?(':')
@@ -29,7 +27,7 @@ class Element
         raise "Element::init(): #{objectString} is not a valid Squish object string representation"
       end
     rescue Exception => e
-      @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to initialize '#{@name}'' with object string '#{objectString}': #{e.messge}")
+      Log.TestFail("#{self.class.name}::#{__method__}(): Failed to initialize '#{@name}'' with object string '#{objectString}': #{e.messge}")
     end
   end
 
@@ -60,7 +58,7 @@ class Element
       children = Squish::Object.children(elementObject)
       return children
     rescue Exception => e
-	    @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to get children for #{@name}: #{e.message}")
+	    Log.TestFail("#{self.class.name}::#{__method__}(): Failed to get children for #{@name}: #{e.message}")
       return nil
     end
   end
@@ -79,7 +77,7 @@ class Element
         return nil
       end
     rescue Exception => e
-      @@logFile.TestFail("#{self.class.name}::#{__method__}(): " + @symbolicName + ": " + e.message)
+      Log.TestFail("#{self.class.name}::#{__method__}(): " + @symbolicName + ": " + e.message)
     end
   end
 
@@ -124,19 +122,19 @@ class Element
     object = waitForObject(@symbolicName)
     object.text = ""
     type(waitForObject(@symbolicName), someText)
-    @@logFile.AppendLog(@@logCmd.type(self, someText))
+    Log.AppendLog(@@logCmd.type(self, someText))
   end
 
   # Single click on the element
   def click
     mouseClick(waitForObject(@symbolicName))
-    @@logFile.AppendLog(@@logCmd.click(self))
+    Log.AppendLog(@@logCmd.click(self))
   end
 
   # Double-click on the element
   def dClick
     doubleClick(waitForObject(@symbolicName))
-    @@logFile.AppendLog(@@logCmd.dClick(self))
+    Log.AppendLog(@@logCmd.dClick(self))
   end
 
   #This function is used by the move and drag functions
@@ -155,7 +153,7 @@ class Element
       cw = w/2
       ch = h/2
       if checkAmount(amount, cw) || checkAmount(amount, ch)
-        @@logFile.AppendLog("WARNING: Target may not have been moved, to great of an amount specified! WARNING!")
+        Log.AppendLog("WARNING: Target may not have been moved, to great of an amount specified! WARNING!")
       end
 
       if direction == "LEFT" || direction == "L"
@@ -174,7 +172,7 @@ class Element
         mouseClick(@symbolicName, (ch - amount), 0, 0, Qt::LEFT_BUTTON)
         mouseRelease()
       end
-      @@logFile.AppendLog(@@logCmd.moveTarget(element, direction, amount))
+      Log.AppendLog(@@logCmd.moveTarget(element, direction, amount))
   end
 
   def dragTarget(direct, amount)
@@ -185,7 +183,7 @@ class Element
     ch = h/2
 
     if checkAmount(amount, w) || checkAmount(amount, h)
-      @@logFile.AppendLog("WARNING: Target may not have been dragged, to great of an amount specified! WARNING!")
+      Log.AppendLog("WARNING: Target may not have been dragged, to great of an amount specified! WARNING!")
     end
 
     #to drag left you must start on the right
@@ -209,7 +207,7 @@ class Element
       mouseDrag(@symbolicName, cw, start, 0, start + amount, 1, Qt::LEFT_BUTTON)
       mouseRelease()
     end
-    @@logFile.AppendLog(@@logCmd.moveTarget(element, direction, amount), snagScreenshot(element))
+    Log.AppendLog(@@logCmd.moveTarget(element, direction, amount), snagScreenshot(element))
 end
 
   # Take a screenshot of the just the element
@@ -218,9 +216,9 @@ end
     image = grabWidget(thing)
     format = "PNG"
     ssName = element.name + "." + format
-    ssLoc = @@logFile.testLogLocation
+    ssLoc = Log.testLogLocation
     image.save(ssLoc + ssName, format)
-    @@logFile.ApendLog("Taking screenshot of: " + @name + " symbolicName: " + @symbolicName + " and saving to Location: " + ssLoc)
+    Log.ApendLog("Taking screenshot of: " + @name + " symbolicName: " + @symbolicName + " and saving to Location: " + ssLoc)
     return ssName
   end
 

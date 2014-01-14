@@ -67,7 +67,7 @@ class AddTargets < BaseScreenObject
       end
     end
 
-    @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to find Target tab for '#{name}'")
+    Log.TestFail("#{self.class.name}::#{__method__}(): Failed to find Target tab for '#{name}'")
     return nil
   end
 
@@ -83,9 +83,9 @@ class AddTargets < BaseScreenObject
         end
       end
 
-      @@logFile.TestVerify(targetFound==false, "Verify Target '#{name}' not present")
+      Log.TestVerify(targetFound==false, "Verify Target '#{name}' not present")
     else
-      @@logFile.TestFail("#{self.class.name}::#{__method__}(): Invalid parameter: name is nil")
+      Log.TestFail("#{self.class.name}::#{__method__}(): Invalid parameter: name is nil")
     end
 
     return self

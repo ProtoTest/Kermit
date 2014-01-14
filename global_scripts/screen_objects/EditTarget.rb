@@ -69,13 +69,13 @@ class EditTarget < BaseScreenObject
       end
     end
 
-    @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to find Target tab for '#{name}'")
+    Log.TestFail("#{self.class.name}::#{__method__}(): Failed to find Target tab for '#{name}'")
     return nil
   end
 
   def getTargetName
     text = @targetNameEntry.getText
-    @@logFile.Trace("#{self.class.name}::#{__method__}(): target note entry text = #{text}")
+    Log.Trace("#{self.class.name}::#{__method__}(): target note entry text = #{text}")
     return text
   end
 
@@ -111,7 +111,7 @@ class EditTarget < BaseScreenObject
   end
 
   def verifyTargetInformation(name)
-    @@logFile.TestVerify(getTargetName == name, "Verify target name equals: #{name}")
+    Log.TestVerify(getTargetName == name, "Verify target name equals: #{name}")
     return self
   end
 

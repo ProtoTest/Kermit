@@ -162,8 +162,8 @@ class PatientDetails < BaseScreenObject
 
   # Clicks on the create new plan button
   def clickCreateNewPlan
-    @@logFile.Trace(@CTRow.createPlanButton.to_s)
-    @@logFile.Trace(@CTRow.createPlanButton.onScreen?.to_s)
+    Log.Trace(@CTRow.createPlanButton.to_s)
+    Log.Trace(@CTRow.createPlanButton.onScreen?.to_s)
     @CTRow.createPlanButton.click
 	  return AddTargets.new
   end
@@ -214,7 +214,7 @@ class PatientDetails < BaseScreenObject
       # don't care, this is used as the condition to break from the while
     end
 
-    @@logFile.Trace("#{self.class.name}::#{__method__}(): Found #{rows.size} plan rows")
+    Log.Trace("#{self.class.name}::#{__method__}(): Found #{rows.size} plan rows")
     return rows
   end
 
@@ -307,8 +307,8 @@ class PatientTable < BaseScreenObject
 
   # scroll down to row in the table
   def scrollToRowByIndex(index)
-	  @@logFile.Trace("Scrolling down to index: #{index}")
-	  @@logFile.Trace("Scrolling #{(index/(MAX_NUM_VISIBLE_TABLE_ROWS-1)).to_i} times")
+	  Log.Trace("Scrolling down to index: #{index}")
+	  Log.Trace("Scrolling #{(index/(MAX_NUM_VISIBLE_TABLE_ROWS-1)).to_i} times")
     if(index >= (MAX_NUM_VISIBLE_TABLE_ROWS-1))
       (index / (MAX_NUM_VISIBLE_TABLE_ROWS-1)).to_i.times do
         @scrollbar.scrollDown
@@ -342,7 +342,7 @@ class PatientTable < BaseScreenObject
           # If we are dynamically adding patients after they are loaded, the patient objects
           # need to be added to the Object Map
           # begin
-          
+
 
           # Grab the patient ID, birthdate, last accessed and store it in the patient list. They are the
           # successive children after we found the patient name, which is 'x'
@@ -354,7 +354,7 @@ class PatientTable < BaseScreenObject
         end
       end
     else
-      @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to find any patients in the table")
+      Log.TestFail("#{self.class.name}::#{__method__}(): Failed to find any patients in the table")
     end
 
     return patientList
