@@ -56,7 +56,7 @@ class MainScreen < BaseScreenObject
   ###########################
   def Customer_Endurance_Loop
     getPatientList.each_with_index do |patient, index|
-      @@logFile.Trace("Creating plan for patient id #{patient.id}")
+      Log.Trace("Creating plan for patient id #{patient.id}")
       #Scroll the the index of the patient, used if the patient index it outside the bounds of the scroll window
       @patientTable.scrollToRowByIndex(index)
       #Get the patient details
@@ -68,7 +68,7 @@ class MainScreen < BaseScreenObject
         editScreen = details.clickCreateNewPlan.addTarget.clickAddAblationZones.clickAddAblation
       rescue
         # Some interaction between Squish and the Upslope application cause some patients not to open correctly.
-        @@logFile.TestFail("Plan editor for patient id #{patient.id} did not open.")
+        Log.TestFail("Plan editor for patient id #{patient.id} did not open.")
         @appHeaderFooter.clickLoadImagesRadio
         next
       end
@@ -79,13 +79,13 @@ class MainScreen < BaseScreenObject
       #Scroll to the patient (if needed) and open up the patient details - displaying all the available plans for this patient
       details = scrollToPatientIndex(index).openPatientDetails(patient)
       #Test to make sure that the original plan count is increased by one
-      @@logFile.TestVerify(origPlanCount+1 == details.getPlanCount, "Verify Plan count increased by one")
+      Log.TestVerify(origPlanCount+1 == details.getPlanCount, "Verify Plan count increased by one")
       #Determine the patient row index for the new plan
       patientRowIndex = index % (MAX_NUM_VISIBLE_TABLE_ROWS - 1)
 
-      @@logFile.Trace("#{self.class.name}::#{__method__}(): patientRowIndex: #{patientRowIndex}")
+      Log.Trace("#{self.class.name}::#{__method__}(): patientRowIndex: #{patientRowIndex}")
       newPlanCount = details.getPlanCount
-      @@logFile.Trace("#{self.class.name}::#{__method__}(): New Plan count is " + newPlanCount.to_s)
+      Log.Trace("#{self.class.name}::#{__method__}(): New Plan count is " + newPlanCount.to_s)
       # Scroll down to the last plan row to delete it
       # +1 is for the CT row
       scrollToPatientIndex(patientRowIndex + 1 + newPlanCount)
@@ -94,7 +94,7 @@ class MainScreen < BaseScreenObject
       # Open patient details to verify new row created
       details = patient.openPatientDetails
       # Verify the plan was deleted
-      @@logFile.TestVerify(origPlanCount == details.getPlanCount, "Verify Plan count decreased by one")
+      Log.TestVerify(origPlanCount == details.getPlanCount, "Verify Plan count decreased by one")
       # CLick the row again to close patient details
       patient.closePatientDetails
     end
@@ -129,9 +129,9 @@ class MainScreen < BaseScreenObject
         # TODO - do we need to import every CT series?
         details.CTRow.dClick
       end
-      @@logFile.TestLog("Imported #{patientList.size} patients")
+      Log.TestLog("Imported #{patientList.size} patients")
     rescue Exception => e
-      @@logFile.TestFail("Failed to import patients: #{e.message}")
+      Log.TestFail("Failed to import patients: #{e.message}")
     end
   end
 
@@ -143,9 +143,9 @@ class MainScreen < BaseScreenObject
       (0...patientCount).each do |i|
         @patientTable.deletePatient(0)
       end
-      @@logFile.TestLog("Deleted #{patientCount} patients")
+      Log.TestLog("Deleted #{patientCount} patients")
     rescue Exception => e
-      @@logFile.TestFail("Failed to delete patients: #{e.message}")
+      Log.TestFail("Failed to delete patients: #{e.message}")
     end
   end
 
@@ -230,7 +230,7 @@ class MainScreen < BaseScreenObject
     end
 
     if patient.nil?
-      @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to find patient name " + patientName)
+      Log.TestFail("#{self.class.name}::#{__method__}(): Failed to find patient name " + patientName)
       return nil
     else
       return patient.openPatientDetails
@@ -250,7 +250,7 @@ class MainScreen < BaseScreenObject
     end
 
     if patient.nil?
-      @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to find patient ID " + patientID)
+      Log.TestFail("#{self.class.name}::#{__method__}(): Failed to find patient ID " + patientID)
       return nil
     else
       return patient.openPatientDetails

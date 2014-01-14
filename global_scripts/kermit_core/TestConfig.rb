@@ -15,7 +15,7 @@ SEND_EMAIL = false
 LOG_TRACE= true
 
 @@logCmd = LogCommandBuilder.new
-@@logFile = TestLogger.new
+Log = @@logFile = TestLogger.new
 
 # number of visible rows in the patient table (adjust according to resolution)
 MAX_NUM_VISIBLE_TABLE_ROWS = 15

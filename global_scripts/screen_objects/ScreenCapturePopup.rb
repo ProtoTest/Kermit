@@ -29,7 +29,7 @@ class ScreenCapturePopup < BaseScreenObject
   # Param: filename - The name to give to screen shot
   #        hidePatientDetails - optional boolean to check patient details or not
   def saveScreenshot(filename, hidePatientDetails=false)
-  	@@logFile.TestLog("Saving screenshot to '#{filename}.png'")
+  	Log.TestLog("Saving screenshot to '#{filename}.png'")
   	@fileNameTextField.enterText(filename)
   	checkHideDetails if hidePatientDetails
   	clickSave

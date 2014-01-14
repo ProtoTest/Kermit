@@ -53,7 +53,7 @@ class EditAblation < BaseScreenObject
     @needle = Element.new("Needle dropdown button", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='needleButton' type='QPushButton' visible='1'}")
     @depth = Element.new("Ablation Needed Depth", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='toTargetValueLabel' type='QLabel' visible='1'}")
     @view3d = Element.new("3d button", "{container=':Form.Form_ViewsAreaForm' name='volumeRenderingButton' text='3D' type='QPushButton' visible='1'}")
-    
+
     @elements = [ @deleteAblationBtn, @power, @time, @diameter, @minMargin, @maxMargin, @needle, @depth, @view3d ]
 
     verifyElementsPresent(@elements, self.class.name)
@@ -70,7 +70,7 @@ class EditAblation < BaseScreenObject
 
   def capture3dScreenshot(message, filename)
     @view3d.click
-    @@logFile.takeElementScreenshot(message, filename, ":Form.qvtkWidget_QVTKWidget_2")
+    Log.takeElementScreenshot(message, filename, ":Form.qvtkWidget_QVTKWidget_2")
   end
 
   def clickAddTargets
@@ -109,7 +109,7 @@ class EditAblation < BaseScreenObject
         nativeType("<Return>")
         snooze 1
       else
-        @@logFile.TestFail("#{self.class.name}::#{__method__}(): Invalid doseTableOption ID (#{doseTableOption})")
+        Log.TestFail("#{self.class.name}::#{__method__}(): Invalid doseTableOption ID (#{doseTableOption})")
     end
 
     case powerOption
@@ -120,7 +120,7 @@ class EditAblation < BaseScreenObject
         nativeType("<Return>")
         snooze 1
       else
-        @@logFile.TestFail("#{self.class.name}::#{__method__}(): Invalid powerOption ID (#{powerOption})")
+        Log.TestFail("#{self.class.name}::#{__method__}(): Invalid powerOption ID (#{powerOption})")
     end
 
     case needleOption
@@ -131,7 +131,7 @@ class EditAblation < BaseScreenObject
         nativeType("<Return>")
         snooze 1
       else
-        @@logFile.TestFail("#{self.class.name}::#{__method__}(): Invalid needleOption ID (#{needleOption})")
+        Log.TestFail("#{self.class.name}::#{__method__}(): Invalid needleOption ID (#{needleOption})")
     end
 
     return self

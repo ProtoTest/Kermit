@@ -24,7 +24,7 @@ class BaseScreenObject
       begin
         waitForObject(element.symbolicName, timeout)
       rescue Exception => e
-        @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to verify <" + element.name + "> is present in screen #{screenName}")
+        Log.TestFail("#{self.class.name}::#{__method__}(): Failed to verify <" + element.name + "> is present in screen #{screenName}")
       end
     end
   end
@@ -32,7 +32,7 @@ class BaseScreenObject
   # Checks to see if any popups are displayed on the screen
   def popupOnScreen?
     @popup = WarningDialogPopup.new
-    @@logFile.TestLog("#{self.class.name}::#{__method__}(): Popup is displayed with title '#{@popup.getTitle}'' and text '#{@popup.getText}' ") if @popup.onScreen?
+    Log.TestLog("#{self.class.name}::#{__method__}(): Popup is displayed with title '#{@popup.getTitle}'' and text '#{@popup.getText}' ") if @popup.onScreen?
     return @popup.onScreen?
   end
 

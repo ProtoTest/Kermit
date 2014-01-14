@@ -58,10 +58,10 @@ class WarningDialogPopup < BaseScreenObject
   # Param: name - the popup button name to click
   def clickBtn(name)
     if (btn = findElementByText(name))
-      @@logFile.TestLog("#{self.class.name}::#{__method__}(): Clicking button: '#{name}' ")
+      Log.TestLog("#{self.class.name}::#{__method__}(): Clicking button: '#{name}' ")
       btn.click
     else
-      @@logFile.TestFail("#{self.class.name}::#{__method__}(): Failed to find #{name} button")
+      Log.TestFail("#{self.class.name}::#{__method__}(): Failed to find #{name} button")
     end
 
     return self
@@ -79,12 +79,12 @@ class WarningDialogPopup < BaseScreenObject
 
   # Verifies the popup dialog description matches the parameter 'text'
   def verifyPopupText(text)
-    @@logFile.TestVerify(text == @text.getText , "Verify popup text == '#{text}' ")
+    Log.TestVerify(text == @text.getText , "Verify popup text == '#{text}' ")
   end
 
   # Verifies the popup dialog title matches the parameter 'text'
   def verifyPopupTitle(text)
-    @@logFile.TestVerify(text == @title.getText, "Verify popup Title == '#{text}' ")
+    Log.TestVerify(text == @title.getText, "Verify popup Title == '#{text}' ")
   end
 
 

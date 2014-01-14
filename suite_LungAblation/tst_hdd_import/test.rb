@@ -24,7 +24,7 @@ class MainWithHdd < MainScreen
   end
   def getPatientList
     # Dirty hack to avoid reloading each time patient list is retrieved.
-    if defined? @initialized 
+    if defined? @initialized
       return @patientTable.patientList
     end
     waitForHddTable
@@ -44,7 +44,7 @@ def main
 
 
   startApplication("LungAblation")
-  @@logFile.Trace("DOOP 22")
+  Log.Trace("DOOP 22")
 
   # TestConfig
   installEventHandlers()
@@ -52,7 +52,7 @@ def main
 
 
   #construct a page
-  @@logFile.Trace("DOOP 11")
+  Log.Trace("DOOP 11")
 
   MainScreen.new.importPatients(:cd)
 

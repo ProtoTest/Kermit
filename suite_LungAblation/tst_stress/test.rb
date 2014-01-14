@@ -33,9 +33,9 @@ def main
     patient.openAndTimeCTScanImage(myTimer).clickLoadImages
 
     loadCTTimeArray << [patient.name, myTimer.elapsed]
-    @@logFile.TestLog("CT Load Time: " + loadCTTimeArray.last.to_s)
+    Log.TestLog("CT Load Time: " + loadCTTimeArray.last.to_s)
 
-    @@logFile.TestLog("Cleanup and delete the plan")
+    Log.TestLog("Cleanup and delete the plan")
     #Scroll to the patient (if needed) and open up the patient details - displaying all the available plans for this patient
     patientDetails = mainScreen.scrollToPatientIndex(index).openPatientDetails(patient)
     #Determine the patient row index for the new plan
@@ -49,10 +49,10 @@ def main
     patientDetails.planRows.last.deletePlan
   end
 
-  @@logFile.TestLog("TEST COMPLETED... Outputting CT Scan load times for each patient")
+  Log.TestLog("TEST COMPLETED... Outputting CT Scan load times for each patient")
 
   loadCTTimeArray.each do |x|
-    @@logFile.TestLog("CT Load Time: " + x.to_s)
+    Log.TestLog("CT Load Time: " + x.to_s)
   end
 
   # test is Done!
