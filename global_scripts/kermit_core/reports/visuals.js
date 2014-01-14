@@ -12,7 +12,7 @@ window.onload=function(){
   }
 
   var margin = {top: 25, right: 20, bottom: 40, left: 50},
-    width = 500 - margin.left - margin.right,
+    width = (screen.width*.9)/2 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
   var x = d3.time.scale()
       .range([0, width]);
@@ -31,7 +31,7 @@ window.onload=function(){
                 if (i<4) {
                   return y(d[1]);
                 } else {
-                  sum = _.reduce(cpu.slice(i-4,i+1), function(memo, num){ return memo + num; }, 0);
+                  sum = _.reduce(cpu.slice(i-4,i+1), function(memo, num){ if (isNaN(num)) { return memo; } else { return memo + num; } }, 0);
                 }
                 console.log(sum);
                 return y(sum / 5);
