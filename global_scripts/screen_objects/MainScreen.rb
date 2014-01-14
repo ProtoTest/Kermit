@@ -69,6 +69,7 @@ class MainScreen < BaseScreenObject
       rescue
         # Some interaction between Squish and the Upslope application cause some patients not to open correctly.
         @@logFile.TestFail("Plan editor for patient id #{patient.id} did not open.")
+        @appHeaderFooter.clickLoadImagesRadio
         next
       end
 
