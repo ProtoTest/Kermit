@@ -230,8 +230,7 @@ class MainScreen < BaseScreenObject
     end
 
     if patient.nil?
-      Log.TestFail("#{self.class.name}::#{__method__}(): Failed to find patient name " + patientName)
-      return nil
+      raise "#{self.class.name}::#{__method__}(): Failed to find patient name: #{patientName} "
     else
       return patient.openPatientDetails
     end
@@ -250,8 +249,7 @@ class MainScreen < BaseScreenObject
     end
 
     if patient.nil?
-      Log.TestFail("#{self.class.name}::#{__method__}(): Failed to find patient ID " + patientID)
-      return nil
+      raise "#{self.class.name}::#{__method__}(): Failed to find patient ID: #{patientID} "
     else
       return patient.openPatientDetails
     end

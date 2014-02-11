@@ -29,16 +29,20 @@ def main
   patient_under_test = "1.3.6.1.4.1.9328.50.1.0072"
   target_name = "Matt's Target"
 
-  mainScreen = mainScreen.
-    createPlanForPatientName(patient_under_test).
-    addTarget(target_name).
-    clickAddAblationZones.
-    clickAddAblation.
-    enterAblationZoneInfo(DoseTableOptions::LUNG, PowerOptions::WATTS_75, NeedleOptions::EMPRINT_30_CM).clickExport.appHeaderFooter.clickLoadImagesRadio
+  begin
+    mainScreen = mainScreen.
+      createPlanForPatientName(patient_under_test).
+      addTarget(target_name).
+      clickAddAblationZones.
+      clickAddAblation.
+      enterAblationZoneInfo(DoseTableOptions::LUNG, PowerOptions::WATTS_75, NeedleOptions::EMPRINT_30_CM).clickExport.appHeaderFooter.clickLoadImagesRadio
 
-  # cleanup, delete plan
+    # cleanup, delete plan
 
-  mainScreen.deletePlanForPatientName(patient_under_test)
+    mainScreen.deletePlanForPatientName(patient_under_test)
+  rescue Exception => e
+    Log.TestFail(e.message)
+  end
 
 
   # test is Done!

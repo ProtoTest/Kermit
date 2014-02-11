@@ -67,8 +67,8 @@ class AddTargets < BaseScreenObject
       end
     end
 
-    Log.TestFail("#{self.class.name}::#{__method__}(): Failed to find Target tab for '#{name}'")
-    return nil
+    raise "#{self.class.name}::#{__method__}(): Failed to find Target tab for '#{name}'"
+
   end
 
   def verifyTargetNotPresent(name)
