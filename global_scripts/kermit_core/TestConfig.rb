@@ -12,7 +12,7 @@ SEND_EMAIL = false
 # Logging initialization
 
 # output trace logs
-LOG_TRACE= true
+LOG_TRACE= false
 
 @@logCmd = LogCommandBuilder.new
 Log = @@logFile = TestLogger.new
