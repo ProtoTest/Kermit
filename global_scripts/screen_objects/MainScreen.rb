@@ -19,7 +19,7 @@ require findFile("scripts", "screen_objects\\ScreenCapturePopup.rb")
 # TODO: create functionality to load images via, CD, USB, HDD
 #
 class MainScreen < BaseScreenObject
-  attr_reader :patientTable, :appHeaderFooter
+  attr_reader :patientTable, :appHeaderFooter, :cdBtn, :usbBtn
 
   def initialize
     # check for the out of memory popup
@@ -28,15 +28,17 @@ class MainScreen < BaseScreenObject
     end
 
     @searchField = Element.new("SearchField", ":Form.search_QLineEdit")
-    @systemBtn = Element.new("System Button", ":Form.System_QToolButton")
+    @systemBtn = Element.new("System Button", ":Form.System_QPushButton")
+    @folderBtn = Element.new("Folder Button", ":Form.Folder_QPushButton")
+
+    # These two buttons are dynamically displayed if the media is accessible
     @cdBtn = Element.new("CD Button", ":Form.CD_QToolButton")
     @usbBtn = Element.new("USB Button", ":Form.USB_QToolButton")
-    @hddBtn = Element.new("Hard Drive Button", ":Form.Hard Drive_QToolButton")
 
     @patientTable = PatientTable.new
     @appHeaderFooter = AppHeaderFooter.new
 
-    @elements = [@searchField, @systemBtn, @cdBtn, @usbBtn, @hddBtn]
+    @elements = [@searchField, @systemBtn, @folderBtn]
     verifyElementsPresent(@elements, self.class.name)
 
   end
@@ -257,7 +259,7 @@ class MainScreen < BaseScreenObject
 
   def getImportSourceBtn(source)
     case source
-    when :hdd then return @hddBtn
+    when :hdd then return @folderBtn
     when :cd then  return @cdBtn
     when :usb then return @usbBtn
     end

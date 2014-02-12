@@ -18,13 +18,14 @@ class BaseScreenObject
     ScreenCapturePopup.new.saveScreenshot(filename, hidePatientDetails)
   end
 
-  # Takes a list of elements and verifies the objects are present and visible
-  def verifyElementsPresent(elementList, screenName, timeout = 10000)
+  # Takes a list of elements and verifies the objects are present and visible.
+  # This will fail on an element if the object in question is not 'enabled'
+  def verifyElementsPresent(elementList, screenName, timeout = OBJECT_WAIT_TIMEOUT)
     elementList.each do |element|
       begin
         waitForObject(element.symbolicName, timeout)
       rescue Exception => e
-        Log.TestFail("#{self.class.name}::#{__method__}(): Failed to verify '#{element.name}' is present in screen #{screenName}")
+        Log.TestFail("#{self.class.name}::#{__method__}(): Failed to verify '#{element.name}' is present and enabled in screen #{screenName}")
       end
     end
   end

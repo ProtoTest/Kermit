@@ -113,15 +113,19 @@ class TestLogger
   end
 
   def takeScreenshot
-    image = grabWidget(waitForObject(":_MainWindow"))
-    format = "PNG"
-    filename = "MainWindow_#{@@screenshotCount}.#{format}"
-    path = "#{@testLogLocation}#{filename}"
-    image.save(path, format)
+    begin
+      image = grabWidget(waitForObject("{type='MainWindow' unnamed='1' visible='1'}"))
+      format = "PNG"
+      filename = "MainWindow_#{@@screenshotCount}.#{format}"
+      path = "#{@testLogLocation}#{filename}"
+      image.save(path, format)
 
-    @@screenshotCount = @@screenshotCount + 1
+      @@screenshotCount = @@screenshotCount + 1
 
-    return filename
+      return filename
+    rescue Exception => e
+      TestFail("Failed to take screenshot of main window")
+    end
   end
 
   def Trace(text)

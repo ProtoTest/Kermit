@@ -2,15 +2,15 @@
 require 'squish'
 include Squish
 
-require findFile("scripts", "screen_objects\\AppHeaderFooterEdit.rb")
+require findFile("scripts", "screen_objects\\AppHeaderFooter.rb")
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
-require findFile("scripts", "screen_objects\\EditAblation.rb")
+require findFile("scripts", "screen_objects\\WarningDialogPopup.rb")
 require findFile("scripts", "screen_objects\\Export.rb")
 
 ########################################################################################
 #
 #  AddAblationZones
-#     This is the screen presented when Ablation Zones are added.  It will consist of 
+#     This is the screen presented when Ablation Zones are added.  It will consist of
 #     more than one button at some point
 #
 #  @author  Matt Siwiec
@@ -20,10 +20,10 @@ require findFile("scripts", "screen_objects\\Export.rb")
 
 class AddAblationZones < BaseScreenObject
   def initialize
-  	@addAblationBtn = Element.new("Add Ablation Zone button", ":Form.Add Ablation Zone_QPushButton")
-  	@appHeaderFooterEdit = AppHeaderFooterEdit.new
+  	@deleteAblationZoneBtn = Element.new("Delete Ablation Zone button", ":Form.Delete Ablation Zone_QPushButton")
+  	@appHeaderFooter = AppHeaderFooter.new
 
-    @elements = [@addAblationBtn]
+    @elements = [@deleteAblationZoneBtn]
     verifyElementsPresent(@elements, self.class.name)
   end
 
@@ -36,18 +36,9 @@ class AddAblationZones < BaseScreenObject
     return self
   end
 
-  def clickAddTargets
-    @appHeaderFooterEdit.clickBackButton
-    return MainScreen.new
-  end
-
-  def clickExport
-    @appHeaderFooterEdit.clickNextButton
-    return Export.new
-  end
-
-  def clickAddAblation
-    @addAblationBtn.click
-  	return EditAblation.new
+  def deleteAblation
+    popupText = "Are you sure you want to delete the selected ablation zone?"
+    @deleteAblationZoneBtn.click
+  	return WarningDialogPopup.new.verifyPopupInformation(popupText)
   end
 end
