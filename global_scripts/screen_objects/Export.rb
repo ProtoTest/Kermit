@@ -21,7 +21,7 @@ class Export < BaseScreenObject
 
   def initialize
     # application header and footer for specifically edit screens
-    @appHeaderFooter = AppHeaderFooter.new
+    @appHeaderFooter = AppHeaderFooterEdit.new
 
   	@exportSnapshotsBtn = Element.new("Export Snapshots to USB Button", ":Form.Export Snapshots to USB_QPushButton")
   end
@@ -41,6 +41,16 @@ class Export < BaseScreenObject
     @exportSnapshotsBtn.click
     exportPopup = ExportSnapshotsPopup.new.saveSnapshots(folderName)
   	return self
+  end
+
+  def clickFinish
+    @appHeaderFooter.clickNextButton
+    return Export.new
+  end
+
+  def clickAddAblationZones
+    @appHeaderFooter.clickBackButton
+    return EditAblation.new
   end
 
 end

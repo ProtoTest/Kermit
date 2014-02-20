@@ -33,7 +33,8 @@ def main
     mainScreen = mainScreen.
       createPlanForPatientName(patient_under_test).
       addTarget(target_name).
-      addAblationZone.
+      clickAddAblationZones.
+      clickAddAblation.
       enterAblationZoneInfo(DoseTableOptions::LUNG, PowerOptions::WATTS_75, NeedleOptions::EMPRINT_30_CM).clickExport.appHeaderFooter.clickLoadImagesRadio
 
     # cleanup, delete plan

@@ -57,20 +57,17 @@ class AppHeaderFooter < BaseScreenObject
 
   def initialize
     # Buttons
-    @closeBtn = Element.new("Close Button", ":Form.Exit_QPushButton")
+    @closeBtn = Element.new("Close Button", ":Form.closeButton_QPushButton")
 
     # for these radio buttons, need to use real-property name minus the window property
     # This is because the Liver and Lung Application main window names differ
     # "Upslope_MainWindow" vs "Upslope Demo_MainWindow" --- TODO, maybe not anymore with window being mainwindow now
-    @loadImagesRadio = Element.new("Load Images Radio", ":Load Images_QPushButton")
+    @loadImagesRadio = Element.new("Load Images Radio", "{text='Load Images' type='QPushButton' unnamed='1' visible='1' window=':_MainWindow'}")
+    @addTargetsRadio = Element.new("Plan Radio", "{text='Add Targets' type='QPushButton' unnamed='1' visible='1' window=':_MainWindow'}")
+    @addAblationRadio = Element.new("Review Radio", "{text='Add Ablation Zones' type='QPushButton' unnamed='1' visible='1' window=':_MainWindow'}")
+    @exportRadio = Element.new("Export Radio Button", "{text='Export' type='QPushButton' unnamed='1' visible='1' window=':_MainWindow'}")
 
-    # We are not verifying the next 3 elements are present because they are not
-    # enabled in the main screen
-    @addTargetsRadio = Element.new("Add Targets Radio", ":Add Targets_QPushButton")
-    @addAblationRadio = Element.new("Add Ablation Zones Radio", ":Add Ablation Zones_QPushButton")
-    @exportRadio = Element.new("Export Radio", ":Export_QPushButton")
-
-    @elements = [@closeBtn, @loadImagesRadio]
+    @elements = [@closeBtn, @loadImagesRadio, @addTargetsRadio, @addAblationRadio, @exportRadio]
     verifyElementsPresent(@elements, self.class.name)
   end
 

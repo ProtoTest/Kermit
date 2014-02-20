@@ -3,7 +3,7 @@ require 'squish'
 include Squish
 
 require findFile("scripts", "screen_objects\\AddAblationZones.rb")
-require findFile("scripts", "screen_objects\\AppHeaderFooter.rb")
+require findFile("scripts", "screen_objects\\AppHeaderFooterEdit.rb")
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 require findFile("scripts", "screen_objects\\EditAblation.rb")
 require findFile("scripts", "screen_objects\\WarningDialogPopup.rb")
@@ -19,10 +19,10 @@ require findFile("scripts", "screen_objects\\WarningDialogPopup.rb")
 ########################################################################################
 
 class EditTarget < BaseScreenObject
-  attr_reader :appHeaderFooter
+  attr_reader :appHeaderFooterEdit
 
   def initialize
-    @appHeaderFooter = AppHeaderFooter.new
+    @appHeaderFooterEdit = AppHeaderFooterEdit.new
 
     # used to access the individal target tabs
     @targetTabsContainer = Element.new("Target Tabs Bar Container", "{container=':Form_MainForm' type='QTabBar' unnamed='1' visible='1'}")
@@ -42,10 +42,9 @@ class EditTarget < BaseScreenObject
       @densityAV = Element.new("Mean - Density", ObjectMap.symbolicName(containerChildren[13]))
       @densityStdDev = Element.new("Standard Deviation - Density", ObjectMap.symbolicName(containerChildren[15]))
       @deleteTargetBtn = Element.new("Delete Target Button", ":Form.Delete Target_QPushButton")
-      @addAblationZoneBtn = Element.new("Add an Ablation Zone Button", ":Form.Add an Ablation Zone_QPushButton")
 
       @elements = [ @targetTabsContainer, @targetInfoContainer, @targetNameEntry, @deleteTargetBtn,
-                    @addAblationZoneBtn, @width, @height, @depth, @volume, @densityAV, @densityStdDev ]
+                    @width, @height, @depth, @volume, @densityAV, @densityStdDev ]
 
       verifyElementsPresent(@elements, self.class.name)
     end
@@ -80,6 +79,16 @@ class EditTarget < BaseScreenObject
     return text
   end
 
+  def clickLoadImages
+    @appHeaderFooterEdit.clickBackButton
+    return MainScreen.new
+  end
+
+  def clickAddAblationZones
+    @appHeaderFooterEdit.clickNextButton
+    return AddAblationZones.new
+  end
+
   # clicks the delete target button,
   # or optionally selects the target name tab, then clicks delete
   def deleteTarget(name=nil)
@@ -93,11 +102,6 @@ class EditTarget < BaseScreenObject
     popup.clickBtn("Delete")
 
     return AddTargets.new.verifyTargetNotPresent(name)
-  end
-
-  def addAblationZone
-    @addAblationZoneBtn.click
-    return AddAblationZones.new
   end
 
   # Enter the target name and note into the text field and text area

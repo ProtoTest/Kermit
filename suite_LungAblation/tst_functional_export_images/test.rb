@@ -15,25 +15,21 @@ def main
   # TestConfig
   installEventHandlers()
 
-  begin
-    # construct the main application page
-    main_screen = MainScreen.new
-    main_screen.captureScreen("Matt_image", true).
-    		searchForRecord("UN").
-    		createPlanForPatientName("UNAVAILABLE").
-    		captureScreen("Matt_image_2").
-    		addTarget("Matt's target", "An awesome target note").
-    		captureScreen("Matt_image_3", true).
-        clickAddAblationZones.
-        captureScreen("Matt_image_4").
-        clickAddAblation.
-        captureScreen("Matt_image_5").
-        clickExport.
-        captureScreen("Matt_image_6").
-        ExportToUSB
-  rescue Exception => e
-    Log.TestFail(e.message)
-  end
+  # construct the main application page
+  main_screen = MainScreen.new
+  main_screen.captureScreen("Matt_image", true).
+  		searchForRecord("UN").
+  		createPlanForPatientName("UNAVAILABLE").
+  		captureScreen("Matt_image_2").
+  		addTarget("Matt's target", "An awesome target note").
+  		captureScreen("Matt_image_3", true).
+      clickAddAblationZones.
+      captureScreen("Matt_image_4").
+      clickAddAblation.
+      captureScreen("Matt_image_5").
+      clickExport.
+      captureScreen("Matt_image_6").
+      ExportToUSB
 
       # TODO: Use ruby to open the exported folder of images and verify the image list count?
       

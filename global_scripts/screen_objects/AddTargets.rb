@@ -2,7 +2,7 @@
 require 'squish'
 include Squish
 
-require findFile("scripts", "screen_objects\\AppHeaderFooter.rb")
+require findFile("scripts", "screen_objects\\AppHeaderFooterEdit.rb")
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 require findFile("scripts", "screen_objects\\EditTarget.rb")
 
@@ -19,7 +19,7 @@ require findFile("scripts", "screen_objects\\EditTarget.rb")
 
 class AddTargets < BaseScreenObject
   def initialize
-    @appHeaderFooter = AppHeaderFooter.new
+    @appHeaderFooterEdit = AppHeaderFooterEdit.new
 
     # used to access the individal target tabs
     @targetTabsContainer = Element.new("Target Tabs Bar Container", "{container=':Form_MainForm' type='QTabBar' unnamed='1' visible='1'}")
@@ -37,6 +37,16 @@ class AddTargets < BaseScreenObject
   def captureScreen(filename, hidePatientDetails=false)
     super(filename, hidePatientDetails)
     return self
+  end
+
+  def clickLoadImages
+    @appHeaderFooterEdit.clickBackButton
+    return MainScreen.new
+  end
+
+  def clickAddAblationZones
+    @appHeaderFooterEdit.clickNextButton
+    return AddAblationZones.new
   end
 
   # clicks on the add target button and optionally enters the target name (if defined)
