@@ -6,6 +6,7 @@ include Squish
 
 require findFile("scripts", "kermit_core\\Common.rb")
 require findFile("scripts", "kermit_core\\Env.rb")
+require findFile("scripts", "kermit_core\\HTML_LogGenerator.rb")
 
 ########################################################################################
 #
@@ -30,41 +31,11 @@ class TestLogger
     @fileName = ""
     @seperator = ":**:"
     @testInfo = ""
-    @includeDir = "#{ENV['SQUISH_SCRIPT_DIR']}\\kermit_core\\reports"
 
     setInitialLogFile()
+
     @@screenshotCount = 0
-    @@htmlHeader = "<!DOCTYPE html><meta charset=\"utf-8\"><body><h1>Test Log File</h1><br><h2>" + @testName +"</h2><br>
-                        <script src=\"d3.v3.js\"></script>
-                        <script src=\"jquery-1.10.2.js\"></script>
-                        <script src=\"underscore.js\"></script>
-                        <script src=\"visuals.js\"></script>
-                        <link rel=\"stylesheet\" type=\"text/css\" href=\"visuals.css\" media=\"screen\" />"
-    @@htmlFooter = "</body>"
-    @@executionEnvHTML = "<style type=\"text/css\">
-    #execution {font-family: verdana,sans-serif;
-    font-size: 12px;
-    letter-spacing: 0pt;
-    line-height: 1.5;}
 
-    </style>" + "<div id='execution'>
-    <div>Execution Environment:</div>
-    <div>Hardware: </br>
-    #{Env.system_manufacturer} #{Env.system_model} #{Env.system_type} </br>
-    #{Env.cpu_name} </br>
-    Total Memory: #{Env.mem_total_physical} </br>
-    Total HDD size: #{Env.disk_size_total} </br>
-    HDD space available: #{Env.disk_size_avail} </br>
-    </br></div>
-    <div>
-    Software: </br>
-    Operating System: #{Env.os_info} - #{Env.os_serial} </br>
-    Squish Version: #{Env.squish_version} </br></br></br></div>
-
-    </div>"
-
-
-    @@htmlPage = ""
   end
 
   def setInitialLogFile
@@ -82,7 +53,6 @@ class TestLogger
     #@testInfo = TestInfo() #this will only work from within squish
     @Header = "TEST COMMAND\t\tSCREENSHOT\t\tUSED MEMORY\t\tTOTAL CPU USAGE\t\tTIME\n-------------------------------------------------------------------------------------------------------"
     @testlog = File.open(@fileName, "w")
-    #@testlog.puts(@testInfo)
     @testlog.puts(@Header)
   end
 
@@ -163,59 +133,15 @@ class TestLogger
     # shutdown the text file handle
     @testlog.close
 
-    #This is going to read the text log for logs and screenshots and compile them into an HTML logfile
-    #setup the fancy stuff
-    setupTable()
-    _tableRow = ""
-    #open the existing logfile and read each line into an array --remembering to skip the first two lines
-    _logLines = IO.readlines(@fileName) #should do a catch here perhaps
-
-    _limit = _logLines.length - 1
-    for counter in 0.._limit
-      if counter > 1 #this will ignore the first two lines
-        _items = _logLines[counter].split(@seperator)
-        _itemLimit = _items.length - 1
-        for count in 0.._itemLimit
-          # check to see if the item is an actual screenshot filename, if it is, wrap it in anchor tags
-          data = _items[count]
-          data = "<a href='file:///#{@testLogLocation}#{data}'>#{data}</a>" if (count == 1) and !data.eql?('ns')
-
-          _tableRow += "<td>#{data}</td>"
-        end
-        _tableRow = "<tr>#{_tableRow}</tr>"
-        @@htmlPage += _tableRow
-        _tableRow = ""
-      end
+    begin
+      HTML_LogGenerator.generate(@testName, @testLogLocation, @fileName)
+    rescue Exception => e
+      TestFail("Failed to generate HTML log file: #{e.message}")
     end
-
-    # complete the div for the table
-    @@htmlPage += "</div>"
-
-
-    #now write the thing to disk
-    _htmlPage = @@htmlHeader + @@executionEnvHTML + @@htmlPage + @@htmlFooter
-    @testlog = File.open(@testLogLocation + @testName + ".html", "w")
-    @testlog.puts(_htmlPage)
-    @testlog.close
-    FileUtils.cp_r("#{@includeDir}\\.",@testLogLocation)
   end
 
   ##################### PRIVATE FUNCTIONALITY ########################
   private
-
-  # insert some nice row highlight javascript and initialize the result table
-  def setupTable
-
-    _tableCSS = "<style type=\"text/css\">
-      table.tftable {font-size:12px;color:#333333;width:100%;border-width: 1px;border-color: #729ea5;border-collapse: collapse;}
-      table.tftable th {font-size:12px;background-color:#acc8cc;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;text-align:left;}
-      table.tftable tr {background-color:#d4e3e5;}
-      table.tftable td {font-size:12px;border-width: 1px;padding: 8px;border-style: solid;border-color: #729ea5;}
-      </style>"
-    _tableTag = "<div id=\"chartarea\"></div><div id=\"chartarea2\"></div><table id=\"tfhover\" class=\"tftable\" border=\"1\">"
-    _tableHead = "<tr><th>TestCommand</th><th>ScreenShot</th><th>Used Memory (GB)</th><th>Total CPU %</th><th>Time</th></tr>"
-    @@htmlPage = _tableCSS + "<div>" + _tableTag + _tableHead
-  end
 
   def TestInfo
     ctx = currentApplicationContext()
