@@ -242,6 +242,14 @@ class Patient < BaseScreenObject
 
     @patientElement = Element.new(name, objectString)
   end
+  
+  def getProperties
+    return Squish::Object.properties(waitForObject(@patientElement.symbolicName))
+  end
+  
+  def onScreen?
+    @patientElement.onScreen?
+  end
 
   # Returns the patient details (CT Row, Plan Rows)
   def openPatientDetails

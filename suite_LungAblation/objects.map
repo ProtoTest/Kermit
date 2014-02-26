@@ -50,8 +50,15 @@
 :Visualize_TabItem	{container=':Form_QTabBar' text='Visualize' type='TabItem'}
 :_MainWindow	{type='MainWindow' unnamed='1' visible='1'}
 :customTreeWidget.1.3.6.1.4.1.9328.50.1.0072_QModelIndex	{column='0' container=':Form.customTreeWidget_CustomTreeWidget' text='1.3.6.1.4.1.9328.50.1.0072' type='QModelIndex'}
+:customTreeWidget.1.3.6.1.4.1.9328.50.1.0072_QModelIndex_2	{column='1' container=':Form.customTreeWidget_CustomTreeWidget' text='1.3.6.1.4.1.9328.50.1.0072' type='QModelIndex'}
 :customTreeWidget.1.3.6.1.4.1.9328.50.3.0537_QModelIndex	{column='0' container=':Form.customTreeWidget_CustomTreeWidget' text='1.3.6.1.4.1.9328.50.3.0537' type='QModelIndex'}
+:customTreeWidget.1.3.6.1.4.1.9328.50.3.0537_QModelIndex_2	{column='1' container=':Form.customTreeWidget_CustomTreeWidget' text='1.3.6.1.4.1.9328.50.3.0537' type='QModelIndex'}
+:customTreeWidget.44444_QModelIndex	{column='1' container=':Form.customTreeWidget_CustomTreeWidget' text='44444' type='QModelIndex'}
 :customTreeWidget.COVIDIEN PHANTOM 2_QModelIndex	{column='0' container=':Form.customTreeWidget_CustomTreeWidget' text='COVIDIEN PHANTOM 2' type='QModelIndex'}
+:customTreeWidget.LIDC-IDRI-0031_QModelIndex	{column='1' container=':Form.customTreeWidget_CustomTreeWidget' text='LIDC-IDRI-0031' type='QModelIndex'}
+:customTreeWidget.LIDC-IDRI-0072_QModelIndex	{column='1' container=':Form.customTreeWidget_CustomTreeWidget' text='LIDC-IDRI-0072' type='QModelIndex'}
+:customTreeWidget.LIDC-IDRI-0118_QModelIndex	{column='1' container=':Form.customTreeWidget_CustomTreeWidget' text='LIDC-IDRI-0118' type='QModelIndex'}
+:customTreeWidget.MR15124_QModelIndex	{column='1' container=':Form.customTreeWidget_CustomTreeWidget' text='MR15124' type='QModelIndex'}
 :customTreeWidget.PATIENT15124_QModelIndex	{column='0' container=':Form.customTreeWidget_CustomTreeWidget' text='PATIENT15124' type='QModelIndex'}
 :customTreeWidget.UNAVAILABLE_QModelIndex	{column='0' container=':Form.customTreeWidget_CustomTreeWidget' text='UNAVAILABLE' type='QModelIndex'}
 :customTreeWidget.UNAVAILABLE_QModelIndex_2	{column='0' container=':Form.customTreeWidget_CustomTreeWidget' occurrence='2' text='UNAVAILABLE' type='QModelIndex'}
@@ -64,3 +71,23 @@
 :stackedWidget.Form_AddTargetsSidePanelForm2	{container=':Form.stackedWidget_QStackedWidget' name='AddTargetsSidePanelForm2' type='AddTargetsSidePanelForm2' visible='1' windowTitle='Form'}
 :stackedWidget.Form_MIPViewWidget	{container=':Form.stackedWidget_QStackedWidget_2' name='ViewWidget' type='MIPViewWidget' visible='1' windowTitle='Form'}
 :stackedWidget.Form_VolumeRenderingViewWidget	{container=':Form.stackedWidget_QStackedWidget_2' name='ViewWidget' type='VolumeRenderingViewWidget' visible='1' windowTitle='Form'}
+:target10_TabItem	{container=':Form_QTabBar' text='target10' type='TabItem'}
+:target11_TabItem	{container=':Form_QTabBar' text='target11' type='TabItem'}
+:target12_TabItem	{container=':Form_QTabBar' text='target12' type='TabItem'}
+:target13_TabItem	{container=':Form_QTabBar' text='target13' type='TabItem'}
+:target14_TabItem	{container=':Form_QTabBar' text='target14' type='TabItem'}
+:target15_TabItem	{container=':Form_QTabBar' text='target15' type='TabItem'}
+:target16_TabItem	{container=':Form_QTabBar' text='target16' type='TabItem'}
+:target17_TabItem	{container=':Form_QTabBar' text='target17' type='TabItem'}
+:target18_TabItem	{container=':Form_QTabBar' text='target18' type='TabItem'}
+:target19_TabItem	{container=':Form_QTabBar' text='target19' type='TabItem'}
+:target1_TabItem	{container=':Form_QTabBar' text='target1' type='TabItem'}
+:target20_TabItem	{container=':Form_QTabBar' text='target20' type='TabItem'}
+:target2_TabItem	{container=':Form_QTabBar' text='target2' type='TabItem'}
+:target3_TabItem	{container=':Form_QTabBar' text='target3' type='TabItem'}
+:target4_TabItem	{container=':Form_QTabBar' text='target4' type='TabItem'}
+:target5_TabItem	{container=':Form_QTabBar' text='target5' type='TabItem'}
+:target6_TabItem	{container=':Form_QTabBar' text='target6' type='TabItem'}
+:target7_TabItem	{container=':Form_QTabBar' text='target7' type='TabItem'}
+:target8_TabItem	{container=':Form_QTabBar' text='target8' type='TabItem'}
+:target9_TabItem	{container=':Form_QTabBar' text='target9' type='TabItem'}

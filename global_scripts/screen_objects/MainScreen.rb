@@ -211,6 +211,14 @@ class MainScreen < BaseScreenObject
   def createPlanForPatientID(patientID)
     return clickPatientByID(patientID).clickCreateNewPlan
   end
+  
+  def deletePatientPlans(patientID)
+    details = clickPatientByID(patientID)
+    while (details.getPlanCount > 0)
+      details.planRows.first.deletePlan
+      details = clickPatientByID(patientID)
+    end
+  end
 
 
 

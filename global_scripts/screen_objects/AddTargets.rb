@@ -23,9 +23,10 @@ class AddTargets < BaseScreenObject
 
     # used to access the individal target tabs
     @targetTabsContainer = Element.new("Target Tabs Bar Container", "{container=':Form_MainForm' type='QTabBar' unnamed='1' visible='1'}")
+    @visualizeBtn = Element.new("Visualize Tab Button", ":Visualize_TabItem")
     @addTargetBtn = Element.new("Add a Target Button", ":Form.Add a Target_QPushButton")
-
-    @elements = [@addTargetBtn, @targetTabsContainer]
+    
+    @elements = [@addTargetBtn, @visualizeBtn, @targetTabsContainer]
     waitForObject(@targetTabsContainer.symbolicName, 90000)
     verifyElementsPresent(@elements, self.class.name)
   end
@@ -47,6 +48,11 @@ class AddTargets < BaseScreenObject
   def clickAddAblationZones
     @appHeaderFooterEdit.clickNextButton
     return AddAblationZones.new
+  end
+  
+  def clickVisualize
+    @visualizeBtn.click
+    return AddTargets.new
   end
 
   # clicks on the add target button and optionally enters the target name (if defined)
