@@ -16,10 +16,45 @@ def main
   # TestConfig
   installEventHandlers()
 
+  testImageCount(MainScreen.new, patients_under_test[1,1])
+  
   # Run target test on one patient with 20 targets
-  testTargets(MainScreen.new, patients_under_test[0,1], 20)
+  #testTargets(MainScreen.new, patients_under_test[0,1], 20)
   
   #testSearchBox(patients_under_test)
+end
+
+# Requires the external ruby configuration properly set, and the external ruby must have chunky_png installed.
+# Verifies that the number of images specified in each patient's first listed CT Series matches the number of images
+# in the plan creator view.  It does this by scrolling down to the bottom of the image slider in the upper right of the screen,
+# then scrolling up (number of images)/2 times and verifies that the green slider line is in the center of the slider.
+#
+# Parameters: mainScreen - the initialized MainScreen object.
+#             patients_list - a list of patient id's to run the test on.
+def testImageCount(mainScreen, patients_list)
+  mainScreen.getPatientList.each do |patient|
+    if patients_list.include?(patient.id)
+      details = patient.openPatientDetails
+      Log.TestLog("#{details.CTRow.getImageCount.class.name}")
+      
+      imageCount = Integer(details.CTRow.getImageCount.to_s.split[0])
+      addTargetsScreen = details.clickCreateNewPlan
+      addTargetsScreen.imageArea.click
+      # fails if the images label says there are 20 more images than actually present.
+      for n in (0..((imageCount/2)+10))
+        nativeType("<PageDown>") 
+      end
+      for n in (0..(imageCount/2))
+        nativeType("<PageUp>") 
+      end
+
+      pixelColor = addTargetsScreen.imageArea.getPixelColor([0,113]).to_i
+      Log.TestVerify(IMAGE_SLIDER_COLORS.include?(pixelColor), "Green line is in the center of the image slider (Checking that #{pixelColor} is in #{IMAGE_SLIDER_COLORS}")
+
+      addTargetsScreen.clickLoadImages
+      mainScreen.deletePatientPlans(patient.id)
+    end
+  end
 end
 
 def testTargets(mainScreen, patients_list, targetsPerPatient)

@@ -43,6 +43,12 @@ def send_email(subject, body, attachment=nil)
   end
 end
 
+def ext_getPixelColor(pixelLocation, pngFile)
+  sys_cmd = "C:/#{RUBY_VERSION_EXTERNAL}/bin/ruby -e \"require 'chunky_png'; puts(ChunkyPNG::Image.from_file('#{pngFile}')#{pixelLocation})\""
+  Log.TestLog(sys_cmd)
+  return `#{sys_cmd}`
+end
+
 # call this to finalize the test and build the HTML test log
 def completeTest
   Log.CompleteLog()

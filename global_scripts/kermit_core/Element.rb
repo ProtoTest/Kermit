@@ -208,17 +208,22 @@ class Element
       mouseRelease()
     end
     Log.AppendLog(@@logCmd.moveTarget(element, direction, amount), snagScreenshot(element))
-end
+  end
+  
+  def getPixelColor(pixelLocation)
+    pngFile = Log.testLogLocation + snagScreenshot
+    return ext_getPixelColor(pixelLocation, pngFile)
+  end
 
   # Take a screenshot of the just the element
   def snagScreenshot
     thing = waitForObject(@symbolicName)
     image = grabWidget(thing)
     format = "PNG"
-    ssName = element.name + "." + format
+    ssName = thing.name + "." + format
     ssLoc = Log.testLogLocation
     image.save(ssLoc + ssName, format)
-    Log.ApendLog("Taking screenshot of: " + @name + " symbolicName: " + @symbolicName + " and saving to Location: " + ssLoc)
+    Log.AppendLog("Taking screenshot of: " + @name + " symbolicName: " + @symbolicName + " and saving to Location: " + ssLoc)
     return ssName
   end
 

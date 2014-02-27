@@ -23,4 +23,5 @@ MAX_NUM_VISIBLE_TABLE_ROWS = 15
 # 10 second timeout for squish to find and wait for objects
 OBJECT_WAIT_TIMEOUT = 10000
 
-
+# Colors to match when verifying image slider position in the plan editor views.
+IMAGE_SLIDER_COLORS = ["0FFE0FFF".to_i(16), "1EFD1EFF".to_i(16)]

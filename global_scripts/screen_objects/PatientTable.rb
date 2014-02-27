@@ -68,7 +68,7 @@ class CTRow < Element
       @icon = Element.new("Row Icon Label", ObjectMap.symbolicName(objectChildren[1]))
       @type = Element.new("Row_Type_Label", ObjectMap.symbolicName(objectChildren[2]))
       @date = Element.new("Date Label", ObjectMap.symbolicName(objectChildren[3]))
-      @imageCountLabel = Element.new("Image Count Label", "{container=':customTreeWidget.frame_QFrame' name='dateLabel' type='QLabel' visible='1'}")
+      @imageCountLabel = Element.new("Image Count Label", ObjectMap.symbolicName(objectChildren[4]))
       @compatibilityLabel = Element.new("Compatibility Label", ObjectMap.symbolicName(objectChildren[5]))
       @ratingLabel = Element.new("Rating Label", ObjectMap.symbolicName(objectChildren[6]))
       @createPlanButton = Element.new("Create New Plan Button", ObjectMap.symbolicName(objectChildren[7]))
@@ -87,6 +87,10 @@ class CTRow < Element
     screenshotButton = Element.new("ScreenShot Button","{name='captureScreenButton' type='QPushButton' visible='0' window=':CompatibilityDialog_CompatibilityDialog'}")
     screenshotButton.click
     ScreenCapturePopup.new.saveScreenshot(filename)
+  end
+  
+  def getImageCount
+    return @imageCountLabel.getText
   end
 end
 

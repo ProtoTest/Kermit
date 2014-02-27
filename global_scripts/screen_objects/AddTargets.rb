@@ -18,6 +18,8 @@ require findFile("scripts", "screen_objects\\EditTarget.rb")
 
 
 class AddTargets < BaseScreenObject
+  attr_reader :imageArea
+  
   def initialize
     @appHeaderFooterEdit = AppHeaderFooterEdit.new
 
@@ -25,8 +27,8 @@ class AddTargets < BaseScreenObject
     @targetTabsContainer = Element.new("Target Tabs Bar Container", "{container=':Form_MainForm' type='QTabBar' unnamed='1' visible='1'}")
     @visualizeBtn = Element.new("Visualize Tab Button", ":Visualize_TabItem")
     @addTargetBtn = Element.new("Add a Target Button", ":Form.Add a Target_QPushButton")
-    
-    @elements = [@addTargetBtn, @visualizeBtn, @targetTabsContainer]
+    @imageArea = Element.new("CT Image Area", ":LocalizerForm.verticalSlider_QSlider")
+    @elements = [@addTargetBtn, @visualizeBtn, @targetTabsContainer, @imageArea]
     waitForObject(@targetTabsContainer.symbolicName, 90000)
     verifyElementsPresent(@elements, self.class.name)
   end
