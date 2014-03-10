@@ -22,11 +22,6 @@ class MainScreen < BaseScreenObject
   attr_reader :patientTable, :appHeaderFooter
 
   def initialize
-    # check for the out of memory popup
-    if popupOnScreen?
-      @popup.clickBtn("OK")
-    end
-
     @searchField = Element.new("SearchField", ":Form.search_QLineEdit")
     @systemBtn = Element.new("System Button", ":Form.System_QToolButton")
     @cdBtn = Element.new("CD Button", ":Form.CD_QToolButton")
@@ -43,10 +38,10 @@ class MainScreen < BaseScreenObject
 
   # Clicks on the Capture Screen button in the application header,sets the filename, and whether
   # to include the patient details in the capture
-  # Params: filename - name to give the screenshot
-  #         hidePatientDetails - to hide the patient information or not
-  def captureScreen(filename, hidePatientDetails=false)
-    super(filename, hidePatientDetails)
+  # Params: filename - optional filename to give the screenshot
+  #         hidePatientDetails - to hide the patient information or not (defaults to not hiding patient details)
+  def captureScreen(filename=nil, hidePatientDetails=false)
+    @appHeaderFooter.captureScreen(filename, hidePatientDetails)
     return self
   end
 
@@ -211,7 +206,7 @@ class MainScreen < BaseScreenObject
   def createPlanForPatientID(patientID)
     return clickPatientByID(patientID).clickCreateNewPlan
   end
-  
+
   def deletePatientPlans(patientID)
     details = clickPatientByID(patientID)
     while (details.getPlanCount > 0)

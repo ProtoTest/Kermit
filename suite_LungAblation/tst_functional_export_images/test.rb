@@ -6,8 +6,9 @@ require findFile("scripts", "kermit_core\\TestConfig.rb")
 require findFile("scripts", "screen_objects\\MainScreen.rb")
 
 #
-# Functional Test: Create and export snapshots to USB drive
+# Functional Test: Create a large set of images and export snapshots to USB drive
 #
+NUMBER_OF_SNAPSHOTS_TO_TAKE = 100
 
 def main
   startApplication("LiverAblation")
@@ -15,29 +16,23 @@ def main
   # TestConfig
   installEventHandlers()
 
-  # construct the main application page
-  main_screen = MainScreen.new
-  main_screen.captureScreen("Matt_image", true).
-  		searchForRecord("UN").
-  		createPlanForPatientName("UNAVAILABLE").
-  		captureScreen("Matt_image_2").
-  		addTarget("Matt's target", "An awesome target note").
-  		captureScreen("Matt_image_3", true).
-      clickAddAblationZones.
-      captureScreen("Matt_image_4").
-      clickAddAblation.
-      captureScreen("Matt_image_5").
-      clickExport.
-      captureScreen("Matt_image_6").
-      ExportToUSB
+  begin
+    # construct the main application page
+    main_screen = MainScreen.new
 
-      # TODO: Use ruby to open the exported folder of images and verify the image list count?
-      
-      # TODO: check for USB not plugged in popup and send notification to user to 
-      # insert one and click continue
+    patient_under_test = main_screen.getPatientList.first
+    add_targets_screen = main_screen.createPlanForPatientName(patient_under_test.name)
 
-  snooze 5
+    # take all of the snapshots
+    NUMBER_OF_SNAPSHOTS_TO_TAKE.times do
+      add_targets_screen.appHeaderFooter.captureScreen
+    end
 
+    add_targets_screen.appHeaderFooter.clickExportRadio.exportToUSB.verifyExportSuccessful
+
+  rescue Exception => e
+    Log.TestFail("Export Images Test: #{e.message}\n#{e.backtrace.inspect}")
+  end
 
   # test is Done!
   completeTest

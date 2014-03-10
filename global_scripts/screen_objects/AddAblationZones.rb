@@ -10,7 +10,7 @@ require findFile("scripts", "screen_objects\\Export.rb")
 ########################################################################################
 #
 #  AddAblationZones
-#     This is the screen presented when Ablation Zones are added.  It will consist of 
+#     This is the screen presented when Ablation Zones are added.  It will consist of
 #     more than one button at some point
 #
 #  @author  Matt Siwiec
@@ -29,10 +29,10 @@ class AddAblationZones < BaseScreenObject
 
   # Clicks on the Capture Screen button in the application header,sets the filename, and whether
   # to include the patient details in the capture
-  # Params: filename - name to give the screenshot
+  # Params: filename - optional filename to give the screenshot
   #         hidePatientDetails - to hide the patient information or not
-  def captureScreen(filename, hidePatientDetails=false)
-    super(filename, hidePatientDetails)
+  def captureScreen(filename=nil, hidePatientDetails=false)
+    @appHeaderFooterEdit.captureScreen(filename, hidePatientDetails)
     return self
   end
 

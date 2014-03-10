@@ -2,7 +2,7 @@
 require 'squish'
 include Squish
 
-require findFile("scripts", "screen_objects\\AppHeaderFooterEdit.rb")
+require findFile("scripts", "screen_objects\\AppHeaderFooter.rb")
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 require findFile("scripts", "screen_objects\\EditTarget.rb")
 
@@ -18,10 +18,10 @@ require findFile("scripts", "screen_objects\\EditTarget.rb")
 
 
 class AddTargets < BaseScreenObject
-  attr_reader :imageArea
-  
+  attr_reader :imageArea, :appHeaderFooter
+
   def initialize
-    @appHeaderFooterEdit = AppHeaderFooterEdit.new
+    @appHeaderFooter = AppHeaderFooter.new
 
     # used to access the individal target tabs
     @targetTabsContainer = Element.new("Target Tabs Bar Container", "{container=':Form_MainForm' type='QTabBar' unnamed='1' visible='1'}")
@@ -35,10 +35,10 @@ class AddTargets < BaseScreenObject
 
   # Clicks on the Capture Screen button in the application header,sets the filename, and whether
   # to include the patient details in the capture
-  # Params: filename - name to give the screenshot
+  # Params: filename - optional filename to give the screenshot
   #         hidePatientDetails - to hide the patient information or not
-  def captureScreen(filename, hidePatientDetails=false)
-    super(filename, hidePatientDetails)
+  def captureScreen(filename=nil, hidePatientDetails=false)
+    @appHeaderFooterEdit.captureScreen(filename, hidePatientDetails)
     return self
   end
 
@@ -51,7 +51,7 @@ class AddTargets < BaseScreenObject
     @appHeaderFooterEdit.clickNextButton
     return AddAblationZones.new
   end
-  
+
   def clickVisualize
     @visualizeBtn.click
     return AddTargets.new

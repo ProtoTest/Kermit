@@ -17,13 +17,11 @@ class AppHeaderFooterEdit < AppHeaderFooter
   	# intialize parent class
     super
 
-    @screenCaptureBtn = Element.new("Capture Screen Button", ":Form.captureScreenButton_QPushButton")
-
     # The text of these buttons changes depending on what screen you are in, or they may not be visible at all
     @backBtn = Element.new("Back Button", "{name='backButton' type='QPushButton' visible='1' window=':_MainWindow'}")
     @nextBtn = Element.new("Next Button", "{name='nextButton' type='QPushButton' visible='1' window=':_MainWindow'}")
 
-    @elememnts = [@screenCaptureBtn, @backBtn, @nextBtn]
+    @elememnts = [@backBtn, @nextBtn]
 
     verifyElementsPresent(@elements, self.class.name)
   end
@@ -34,5 +32,17 @@ class AppHeaderFooterEdit < AppHeaderFooter
 
   def clickNextButton
 	  @nextBtn.click
+  end
+
+    # Clicks on the Capture Screen button in the application header,sets the filename, and whether
+  # to include the patient details in the capture.
+  # Note: This button may not be available in all screens
+  # Params: filename - optional file name to give the screenshot. Defaults to filename pre-populated by AUT
+  #         hidePatientDetails - to hide the patient information or not
+  def captureScreen(filename=nil, hidePatientDetails=false)
+    screenCaptureBtn = Element.new("Capture Screen Button", ":Form.captureScreenButton_QPushButton")
+    screenCaptureBtn.click
+    snooze 1
+    ScreenCapturePopup.new.saveScreenshot(filename, hidePatientDetails)
   end
 end

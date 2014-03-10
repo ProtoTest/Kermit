@@ -34,15 +34,17 @@ class WarningDialogPopup < BaseScreenObject
     @closeBtn = Element.new("Close(X) Button", "{name='closeButton' type='QPushButton' visible='1' window=':MessageDialog_MessageDialog'}")
     @captureScreenBtn = Element.new("Capture Screen Button", "{name='captureScreenButton' type='QPushButton' visible='1' window=':MessageDialog_MessageDialog'}")
 
-    @elementList = [@title,  @rightBtn, @closeBtn, @captureScreenBtn]
+    @elementList = [@title, @text, @rightBtn, @closeBtn, @captureScreenBtn]
 
     # add left button if it exists
     (@elementList << @leftBtn) if @leftBtn
+
+    verifyElementsPresent(@elementList, self.class.name)
   end
 
-  # Returns true if the warning dialog popup is on screen, false otherwise
-  def onScreen?
-    Squish::Object::exists(":MessageDialog.dialogContainer_QWidget")
+  # Class method: Returns true if the warning dialog popup is on screen, false otherwise
+  def self.onScreen?
+    return Squish::Object::exists(":MessageDialog.dialogContainer_QWidget")
   end
 
   # Peforms a squish Test validation on the popup title and text
@@ -69,12 +71,12 @@ class WarningDialogPopup < BaseScreenObject
 
   # Returns the popup title text
   def getTitle
-    return @title.getText
+    return @title.getText.to_s.strip
   end
 
   # Returns the popup description text
   def getText
-    return @text.getText
+    return @text.getText.to_s.strip
   end
 
   # Verifies the popup dialog description matches the parameter 'text'
