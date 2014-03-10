@@ -87,6 +87,18 @@ class AppHeaderFooter < BaseScreenObject
     return clickRadio(RadioButtons::EXPORT)
   end
 
+  # Clicks on the Capture Screen button in the application header,sets the filename, and whether
+  # to include the patient details in the capture.
+  # Note: This button may not be available in all screens
+  # Params: filename - optional file name to give the screenshot. Defaults to filename pre-populated by AUT
+  #         hidePatientDetails - to hide the patient information or not
+  def captureScreen(filename=nil, hidePatientDetails=false)
+    screenCaptureBtn = Element.new("Capture Screen Button", ":Form.captureScreenButton_QPushButton")
+    screenCaptureBtn.click
+    snooze 1
+    ScreenCapturePopup.new.saveScreenshot(filename, hidePatientDetails)
+  end
+
 ############################### PRIVATE FUNCTIONALITY ####################################
 
   private

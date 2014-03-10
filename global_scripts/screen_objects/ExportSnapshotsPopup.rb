@@ -29,8 +29,15 @@ class ExportSnapshotsPopup < BaseScreenObject
   # Saves all captured screenshots to USB drive
   # Param: folder - The folder name to give to screen shot (optional)
   def saveSnapshots(folderName=nil)
-  	Log.TestLog("Saving screenshots to '#{folderName}.png'")
-  	@folderNameTextField.enterText(folderName) if folderName
+    if folderName.nil?
+      # Use the folder name pre-populated in the text field by the AUT
+      folderName = @folderNameTextField.getText
+    else
+      @folderNameTextField.enterText(folderName)
+    end
+
+  	Log.TestLog("Saving screenshots to folder '#{folderName}'")
+
   	clickExport
   end
 

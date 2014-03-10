@@ -14,11 +14,11 @@ class ScreenCapturePopup < BaseScreenObject
   TAG = "Screen Capture Popup"
 
   def initialize
-  	@closeBtn = Element.new("#{TAG}: Close Button", "{name='closeButton' type='QPushButton' visible='1' window=':ScreenCaptureDialog_ScreenCaptureDialog'}")
-  	@fileNameTextField = Element.new("#{TAG}: File name text entry", "{name='fileNameEdit' type='QLineEdit' visible='1' window=':ScreenCaptureDialog_ScreenCaptureDialog'}")
-  	@hideDetailsCheckBox = Element.new("#{TAG}: Hide patient details checkbox", "{name='patientDetailsCheckBox' text='Hide patient details in the screen capture' type='QCheckBox' visible='1' window=':ScreenCaptureDialog_ScreenCaptureDialog'}")
-  	@cancelBtn = Element.new("#{TAG}: cancel button", "{name='cancelButton' text='Cancel' type='QPushButton' visible='1' window=':ScreenCaptureDialog_ScreenCaptureDialog'}")
-  	@saveBtn = Element.new("#{TAG}: save button", "{name='saveButton' text='Save' type='QPushButton' visible='1' window=':ScreenCaptureDialog_ScreenCaptureDialog'}")
+    @closeBtn = Element.new("#{TAG}: Close Button", ":ScreenCaptureDialog.closeButton_QPushButton")
+    @fileNameTextField = Element.new("#{TAG}: File name text entry", ":ScreenCaptureDialog.fileNameEdit_QLineEdit")
+    @hideDetailsCheckBox = Element.new("#{TAG}: Hide patient details checkbox", ":ScreenCaptureDialog.Hide patient details in the snapshot_QCheckBox")
+    @cancelBtn = Element.new("#{TAG}: cancel button", ":ScreenCaptureDialog.Cancel_QPushButton")
+    @saveBtn = Element.new("#{TAG}: save button", ":ScreenCaptureDialog.Save_QPushButton")
 
   	@elements = [@closeBtn, @fileNameTextField, @hideDetailsCheckBox, @cancelBtn, @saveBtn]
 
@@ -26,11 +26,17 @@ class ScreenCapturePopup < BaseScreenObject
   end
 
   # Saves a screenshot
-  # Param: filename - The name to give to screen shot
+  # Param: filename - The optional filename to give to screen shot
   #        hidePatientDetails - optional boolean to check patient details or not
-  def saveScreenshot(filename, hidePatientDetails=false)
+  def saveScreenshot(filename=nil, hidePatientDetails=false)
+    if filename.nil?
+      filename = @fileNameTextField.getText
+    else
+      # Enter the filename in the text field
+      @fileNameTextField.enterText(filename)
+    end
+
   	Log.TestLog("Saving screenshot to '#{filename}.png'")
-  	@fileNameTextField.enterText(filename)
   	checkHideDetails if hidePatientDetails
   	clickSave
   end

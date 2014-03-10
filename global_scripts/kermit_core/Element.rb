@@ -83,7 +83,7 @@ class Element
 
   # Retrieve the value for the text property of the element
   def getText
-    return getProperty('text')
+    return getProperty('text').to_s
   end
 
   # Set the text property for the element
@@ -94,7 +94,7 @@ class Element
   end
 
   def getTextArea
-    return getProperty('plainText')
+    return getProperty('plainText').to_s
   end
 
   # For an element that is a scroll bar, click to scroll up
@@ -209,7 +209,7 @@ class Element
     end
     Log.AppendLog(@@logCmd.moveTarget(element, direction, amount), snagScreenshot(element))
   end
-  
+
   def getPixelColor(pixelLocation)
     pngFile = Log.testLogLocation + snagScreenshot
     return ext_getPixelColor(pixelLocation, pngFile)

@@ -39,14 +39,21 @@
 :Form_StatusBarForm	{name='StatusBarForm' type='StatusBarForm' visible='1' window=':_MainWindow' windowTitle='Form'}
 :Load Images_QPushButton	{name='backButton' text='Load Images' type='QPushButton' visible='1' window=':_MainWindow'}
 :LocalizerForm.verticalSlider_QSlider	{container=':Form.LocalizerForm_LocalizerForm' name='verticalSlider' type='QSlider' visible='1'}
-:Matt's Target_TabItem	{container=':Form_QTabBar' text='Matt\\'s Target' type='TabItem'}
-:MessageDialog.Cancel_QPushButton	{name='leftButton' text='Cancel' type='QPushButton' visible='1' window=':MessageDialog_MessageDialog'}
-:MessageDialog.Delete Plan_QLabel	{name='titleLabel' text='Delete Plan' type='QLabel' visible='1' window=':MessageDialog_MessageDialog'}
-:MessageDialog.Delete_QPushButton	{name='rightButton' text='Delete' type='QPushButton' visible='1' window=':MessageDialog_MessageDialog'}
-:MessageDialog.captureScreenButton_QPushButton	{name='captureScreenButton' type='QPushButton' visible='1' window=':MessageDialog_MessageDialog'}
+:MessageDialog.Export Snapshots_QLabel	{name='titleLabel' text='Export Snapshots' type='QLabel' visible='1' window=':MessageDialog_MessageDialog'}
+:MessageDialog.No USB drive was found._QLabel	{name='warningLabel' text='No USB drive was found.' type='QLabel' visible='1' window=':MessageDialog_MessageDialog'}
+:MessageDialog.OK_QPushButton	{name='rightButton' text='OK' type='QPushButton' visible='1' window=':MessageDialog_MessageDialog'}
 :MessageDialog.closeButton_QPushButton	{name='closeButton' type='QPushButton' visible='1' window=':MessageDialog_MessageDialog'}
 :MessageDialog.dialogContainer_QWidget	{name='dialogContainer' type='QWidget' visible='1' window=':MessageDialog_MessageDialog'}
 :MessageDialog_MessageDialog	{name='MessageDialog' type='MessageDialog' visible='1' windowTitle='MessageDialog'}
+:ScreenCaptureDialog.Cancel_QPushButton	{name='cancelButton' text='Cancel' type='QPushButton' visible='1' window=':ScreenCaptureDialog_ScreenCaptureDialog'}
+:ScreenCaptureDialog.Cancel_QPushButton_2	{name='cancelButton' text='Cancel' type='QPushButton' visible='1' window=':ScreenCaptureDialog_ExportSnapshotDialog'}
+:ScreenCaptureDialog.Export_QPushButton	{name='exportButton' text='Export' type='QPushButton' visible='1' window=':ScreenCaptureDialog_ExportSnapshotDialog'}
+:ScreenCaptureDialog.Hide patient details in the snapshot_QCheckBox	{name='patientDetailsCheckBox' text='Hide patient details in the snapshot' type='QCheckBox' visible='1' window=':ScreenCaptureDialog_ScreenCaptureDialog'}
+:ScreenCaptureDialog.Save_QPushButton	{name='saveButton' text='Save' type='QPushButton' visible='1' window=':ScreenCaptureDialog_ScreenCaptureDialog'}
+:ScreenCaptureDialog.closeButton_QPushButton	{name='closeButton' type='QPushButton' visible='1' window=':ScreenCaptureDialog_ScreenCaptureDialog'}
+:ScreenCaptureDialog.closeButton_QPushButton_2	{name='closeButton' type='QPushButton' visible='1' window=':ScreenCaptureDialog_ExportSnapshotDialog'}
+:ScreenCaptureDialog.fileNameEdit_QLineEdit	{name='fileNameEdit' type='QLineEdit' visible='1' window=':ScreenCaptureDialog_ScreenCaptureDialog'}
+:ScreenCaptureDialog.folderNameEdit_QLineEdit	{name='folderNameEdit' type='QLineEdit' visible='1' window=':ScreenCaptureDialog_ExportSnapshotDialog'}
 :ScreenCaptureDialog_ExportSnapshotDialog	{name='ExportSnapshotDialog' type='ExportSnapshotDialog' visible='1' windowTitle='ScreenCaptureDialog'}
 :ScreenCaptureDialog_ScreenCaptureDialog	{name='ScreenCaptureDialog' type='ScreenCaptureDialog' visible='1' windowTitle='ScreenCaptureDialog'}
 :Visualize_TabItem	{container=':Form_QTabBar' text='Visualize' type='TabItem'}
