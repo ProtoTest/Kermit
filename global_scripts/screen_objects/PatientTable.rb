@@ -6,6 +6,7 @@ require findFile("scripts", "kermit_core\\Element.rb")
 require findFile("scripts", "screen_objects\\BaseScreenObject.rb")
 require findFile("scripts", "screen_objects\\AddTargets.rb")
 require findFile("scripts", "screen_objects\\WarningDialogPopup.rb")
+require findFile("scripts", "screen_objects\\PatientCTPlans.rb")
 
 ########################################################################################
 #
@@ -43,105 +44,6 @@ class TableHeader < BaseScreenObject
   end
 end
 
-########################################################################################
-#
-#  Cat Scan Row component
-#   Stores object elements of the CT row for a patient
-#
-#  @author Matt Siwiec
-#  @notes Inherits from Element
-#
-########################################################################################
-class CTRow < Element
-  attr_reader :createPlanButton
-
-  def initialize(objectString)
-    super("PatientRow", objectString)
-
-    #CT Row Children
-      #QHboxLayout, iconLabel, modalityLabel(type), dateLabel, imageCountLabel, compatibilityLabel, ratingLabel, infoLabel(link), newPlanButton
-
-    objectChildren = getChildren
-
-    if objectChildren
-      # For elements whose text changes, need to use the real object name
-      @icon = Element.new("Row Icon Label", ObjectMap.symbolicName(objectChildren[1]))
-      @type = Element.new("Row_Type_Label", ObjectMap.symbolicName(objectChildren[2]))
-      @date = Element.new("Date Label", ObjectMap.symbolicName(objectChildren[3]))
-      @imageCountLabel = Element.new("Image Count Label", ObjectMap.symbolicName(objectChildren[4]))
-      @compatibilityLabel = Element.new("Compatibility Label", ObjectMap.symbolicName(objectChildren[5]))
-      @ratingLabel = Element.new("Rating Label", ObjectMap.symbolicName(objectChildren[6]))
-      @createPlanButton = Element.new("Create New Plan Button", ObjectMap.symbolicName(objectChildren[7]))
-    end
-  end
-
-  # override base class dClick. Doing this b/c the test to time opening the CT scan
-  # is wasting ~1000+ milliseconds on moving the mouse to click on the center of the row
-  def dClick
-    # double click the date label instead
-    @date.dClick
-  end
-
-  def saveCompatibilitySnapshot(filename)
-    @compatibilityLabel.click
-    screenshotButton = Element.new("ScreenShot Button","{name='captureScreenButton' type='QPushButton' visible='0' window=':CompatibilityDialog_CompatibilityDialog'}")
-    screenshotButton.click
-    ScreenCapturePopup.new.saveScreenshot(filename)
-  end
-  
-  def getImageCount
-    return @imageCountLabel.getText
-  end
-end
-
-########################################################################################
-#
-#  Plan Row component
-#   Stores object elements of a Plan row for a patient
-#
-#  @author Matt Siwiec
-#  @notes Inherits from Element
-#
-########################################################################################
-class PlanRow  < Element
-
-  def initialize(objectString)
-
-    super("PlanRow", objectString)
-
-    #Plan Row Children
-      #QHboxLayout, iconLabel, planLabel(type), dateLabel, planStausLabel, planStatusContentsLabel,
-      #byLabel, byContentsLabel, openPlanButton
-
-    objectChildren = getChildren
-
-    @icon = Element.new("Row Icon Label", ObjectMap.symbolicName(objectChildren[1]))
-    @type = Element.new("Row_Type_Label", ObjectMap.symbolicName(objectChildren[2]))
-    @date = Element.new("Date Label", ObjectMap.symbolicName(objectChildren[3]))
-    @byLabel = Element.new("Info Link", ObjectMap.symbolicName(objectChildren[4]))
-    @byContentsLabel = Element.new("Info Link", ObjectMap.symbolicName(objectChildren[5]))
-    @openPlanButton = Element.new("Button", ObjectMap.symbolicName(objectChildren[6]))
-  end
-
-  # Deletes the plan
-  def deletePlan
-    self.click
-
-    # Send the Delete key
-    type(waitForObject(self.symbolicName), "<Delete>")
-    snooze 1
-
-    # Select the 'Delete' button from the warning dialog
-    popup = WarningDialogPopup.new
-    popup.clickBtn("Delete")
-  end
-
-  # Opens up the plan
-  def openPlan
-    @openPlanButton.click
-  end
-end
-
 
 ########################################################################################
 #
@@ -151,32 +53,36 @@ end
 #     Does not currently handle multiple CT rows.
 #
 #  @author    Matt Siwiec
-#  @notes     In order to get access to the rows objects, the patient name must be 'clicked'
+#  @notes     In order to get access to the rows objects (CT's and Plans), the patient name must be 'clicked'
 #             to open the sub-tree of patient details
-#	10/04/2013 SethUrban Changed all clicks and dclicks to reference element instead of BasePageObject
+#
+#   Basically an array of multiple CT's and associated array of plans:
+#     patientDetails = [ [ct, [plans], [ct, [plans] ]
+#
 #
 ########################################################################################
 class PatientDetails < BaseScreenObject
-  attr_reader :CTRow, :planRows
+  attr_reader :patientCTPlans
 
   def initialize
-    # using real name for squish here as the symbolic names differ across liver and lung applications
-    @CTRow = CTRow.new("{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' type='QFrame' visible='1'}")
-    @planRows = getPlanRows
+    # Array of patient CTs and plans
+    # Each element in the array has a PatientCTPlans object containign ONE CT and multiple plans created for that CT
+    @patientCTPlans = Array.new
+    initPatientCTsAndPlans
   end
 
   # Clicks on the create new plan button
   def clickCreateNewPlan
-    Log.Trace(@CTRow.createPlanButton.to_s)
-    Log.Trace(@CTRow.createPlanButton.onScreen?.to_s)
-    @CTRow.createPlanButton.click
+    Log.Trace(@patientCTPlans.first.ct.createPlanButton.to_s)
+    Log.Trace(@patientCTPlans.first.ct.createPlanButton.onScreen?.to_s)
+    @patientCTPlans.first.ct.createPlanButton.click
 	  return AddTargets.new
   end
 
   # Double clicks the patient's CT scan to open it
   def openCT(timer=nil)
     timer.start if not timer.nil?
-    @CTRow.dClick
+    @patientCTPlans.first.ct.dClick
     timer.stop if !timer.nil? && CTImageDisplayed?
   end
 
@@ -191,8 +97,13 @@ class PatientDetails < BaseScreenObject
   end
 
   # Returns the count of plans for the patient
-  def getPlanCount
-    return @planRows.size
+  def getPlanCount  # DEPCRECATED
+    return @patientCTPlans.first.plans.size
+  end
+
+  # Returns the count of CTs for the patient
+  def getCTCount
+    return @patientCTPlans.size
   end
 
 
@@ -200,27 +111,59 @@ class PatientDetails < BaseScreenObject
 
   private
 
-  # Returns an array of the plan rows for the patient
-  def getPlanRows
+  #
+  # Returns an array of the CT/Plan container objects for the patient
+  #
+  ## For each addtional row in patientdetails (could be a CT row or a Plan row)
+  #   Initialze the data stucture (CTAndPlans - 1 CT, multiple Rows)
+  #   Send the object string up to the row factory and return a CT or Plan row // row = RowFactory(realObjectString)
+  #   If the class returned is CTRow
+  #     Create a new CTPlans class (initialize it with the CT row), add it to the CTPlans array collection
+  #   Else the class return is PlanRow
+  #     Add the PlanRow to the CTPlans class (last element in the CTPlans array collection)
+  #   End
+  # end
+  def initPatientCTsAndPlans
     rows = Array.new
     startIndex = 2
 
+    # There MUST be at least ONE CT for a patient in the database
+    ct = RowFactory.create("{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' type='QFrame'  visible='1'}")
+    raise "Failed to verify the patient has at least one CT" if not ct.class.eql?(CTRow)
+    patient_ct_and_plans = PatientCTPlans.new(ct)
+
+    # add the ct/plan object to the patient details list
+    @patientCTPlans << patient_ct_and_plans
+
     begin
+      # loop through the rest of the list of patient rows
       begin
         # each patient plan row is indexed via the 'occurrence' property
-        rowName = "{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' occurrence='%s' type='QFrame'  visible='1'}" % startIndex
+        row_real_name = "{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' occurrence='%s' type='QFrame'  visible='1'}" % startIndex
 
-        row = waitForObject(rowName, 500)
-        rows << PlanRow.new(rowName)
+        # send the row through the Factory and get a CTRow or a PlanRow
+        row = RowFactory.create(row_real_name)
+
+        # add the plan to the container, if it is a plan row
+        patient_ct_and_plans.addPlan(row)  if row.class.eql?(PlanRow)
+
+        # Create a new PatientCTPlans object if the row is a CT row
+        if row.class.eql?(CTRow)
+          # new CT and set of plans
+          patient_ct_and_plans = PatientCTPlans.new(row)
+
+          # add the ct/plan object to the patient details list
+          @patientCTPlans << patient_ct_and_plans
+        end
+
         startIndex += 1
 
       end while (1)
     rescue Exception => e
-      # don't care, this is used as the condition to break from the while
+      # no more rows, save the CT and plans to the list
     end
 
-    Log.Trace("#{self.class.name}::#{__method__}(): Found #{rows.size} plan rows")
-    return rows
+    Log.Trace("#{self.class.name}::#{__method__}(): Parsed CT and Plans for patient")
   end
 
 end
@@ -246,11 +189,11 @@ class Patient < BaseScreenObject
 
     @patientElement = Element.new(name, objectString)
   end
-  
+
   def getProperties
     return Squish::Object.properties(waitForObject(@patientElement.symbolicName))
   end
-  
+
   def onScreen?
     @patientElement.onScreen?
   end
