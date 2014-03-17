@@ -12,30 +12,25 @@
 class LogCommandBuilder
   def initialize
   end
-  
+
   def click(element)
-    _return = "MouseClick on: \"" + element.name + " " + element.symbolicName + "\""
-    return _return
+    return "MouseClick on: \"" + element.name + " " + element.symbolicName + "\""
   end
 
   def dClick(element)
-    _return = "MouseDoubleClick on: \"" + element.name + " " + element.symbolicName  + "\""
-    return _return
+    return "MouseDoubleClick on: \"" + element.name + " " + element.symbolicName  + "\""
   end
 
   def type(element, someText)
-    _return = "Type \"" + someText + "\" into: \"" + element.name + " " + element.symbolicName + "\""
-    return _return
+    return "Type \"" + someText + "\" into: \"" + element.name + " " + element.symbolicName + "\""
   end
-  
+
   def move(element)
-    _return = "Move mouse to " + element.name + " " + element.symbolicName
-    return _return
+    return "Move mouse to " + element.name + " " + element.symbolicName
   end
 
   def moveTarget(element, direct, amount)
-    _return = "Moved Target in" + element.symbolicName + " "  + direct + " " + amount.to_s + " pixels"
-    return _return
-  end  
-  
+    return "Moved Target in" + element.symbolicName + " "  + direct + " " + amount.to_s + " pixels"
+  end
+
 end
