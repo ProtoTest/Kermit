@@ -15,9 +15,7 @@ require findFile("scripts", "screen_objects\\AppHeaderFooter.rb")
 require findFile("scripts", "screen_objects\\PatientTable.rb")
 require findFile("scripts", "screen_objects\\ScreenCapturePopup.rb")
 
-#
-# TODO: create functionality to load images via, CD, USB, HDD
-#
+
 class MainScreen < BaseScreenObject
   attr_reader :patientTable, :appHeaderFooter
 
@@ -85,7 +83,7 @@ class MainScreen < BaseScreenObject
       # +1 is for the CT row
       scrollToPatientIndex(patientRowIndex + 1 + newPlanCount)
       # Delete the plan
-      details.planRows.first.deletePlan
+      details.patientCTPlans.first.deletePlan
       # Open patient details to verify new row created
       details = patient.openPatientDetails
       # Verify the plan was deleted
@@ -96,6 +94,23 @@ class MainScreen < BaseScreenObject
 
     return MainScreen.new
   end
+
+  # Clicks on sourceBtn, waits for the patients in the import screen to load, then
+  # scrolls down to the patient (referenced by patientIndex), clicks on that patient
+  # once to return the patient details
+  def get_patient_details_for_import(sourceBtn, importScreen, patientList, patientIndex)
+    # Don't reload the patient list each time, as it can take a while with a long list.
+    sourceBtn.click
+    # We need to re-wait each time we return to the import source patient table
+    # since it isn't cached by Upslope.
+    waitForPatientList
+    importScreen.patientTable.scrollToRowByIndex(patientIndex)
+    patient = patientList[patientIndex]
+    return patient.openPatientDetails
+  end
+
+  # set the method visibility to private
+  private :get_patient_details_for_import
 
   # Import the first CT series for each patient in the import source.
   # Valid sources are :hdd, :cd, :usb.
@@ -110,19 +125,22 @@ class MainScreen < BaseScreenObject
       importScreen = MainScreen.new
       patientList = importScreen.getPatientList
       @systemBtn.click
-      (0...patientList.size).each do |index|
-        # Don't reload the patient list each time, as it can take a while with a long list.
-        sourceBtn.click
-        # We need to re-wait each time we return to the import source patient table
-        # since it isn't cached by Upslope.
-        waitForPatientList
-        importScreen.patientTable.scrollToRowByIndex(index)
-        patient = patientList[index]
-        details = patient.openPatientDetails
-        # Double clicking on a CT row triggers Upslope to import that CT series to the System patient table.
-        # This currently only imports one CT series, but patients can have multiple series.
-        # TODO - do we need to import every CT series?
-        details.CTRow.dClick
+
+      (0...patientList.size).each do |patient_index|
+        details = get_patient_details_for_import(sourceBtn, importScreen, patientList, patient_index)
+
+        # if there are multiple CT's for this patient, import each CT
+        details.patientCTPlans.each_with_index do |ct_plan_obj, ct_index|
+          # import the CT for the patient by double clicking on the row
+          details.patientCTPlans[ct_index].ct.dClick
+
+          # check to see if this CT for the patient is the last one in the list
+          # if it is not, repeat the script steps to get back to the patient details to import the next CT
+          if ct_index < details.patientCTPlans.count
+            details = get_patient_details_for_import(sourceBtn, importScreen, patientList, patient_index)
+          end
+        end
+
       end
       Log.TestLog("Imported #{patientList.size} patients")
     rescue Exception => e
@@ -172,27 +190,27 @@ class MainScreen < BaseScreenObject
   # Click on the patient in the patient table and open the first plan
   # Param: patientName - Patient name string
   def openPlanForPatientName(patientName)
-    clickPatientByName(patientName).planRows.first.openPlan
+    clickPatientByName(patientName).patientCTPlans.first.plans.first.openPlan
     return AddTargets.new
   end
 
   # Click on the patient in the patient table and open the first plan
   # Param: patientID - Patient ID string
   def openPlanForPatientID(patientID)
-    clickPatientByID(patientID).planRows.first.openPlan
+    clickPatientByID(patientID).patientCTPlans.first.plans.first.openPlan
     return AddTargets.new
   end
 
   # Click on the patient in the patient table and delete the first plan
   # Param: patientName - Patient name string
   def deletePlanForPatientName(patientName)
-    clickPatientByName(patientName).planRows.first.deletePlan
+    clickPatientByName(patientName).patientCTPlans.first.deletePlan
   end
 
   # Click on the patient in the patient table and delete the first plan
   # Param: patientID - Patient ID string
   def deletePlanForPatientID(patientID)
-    clickPatientByID(patientID).planRows.first.deletePlan
+    clickPatientByID(patientID).patientCTPlans.first.deletePlan
   end
 
   # Click on the patient in the patient table and create a plan
@@ -210,7 +228,7 @@ class MainScreen < BaseScreenObject
   def deletePatientPlans(patientID)
     details = clickPatientByID(patientID)
     while (details.getPlanCount > 0)
-      details.planRows.first.deletePlan
+      details.patientCTPlans.first.deletePlan
       details = clickPatientByID(patientID)
     end
   end

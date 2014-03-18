@@ -96,9 +96,14 @@ class PatientDetails < BaseScreenObject
     end
   end
 
-  # Returns the count of plans for the patient
-  def getPlanCount  # DEPCRECATED
-    return @patientCTPlans.first.plans.size
+  # Returns the total count of plans for all of the patient CT's
+  def getPlanCount
+    num_plans = 0
+
+    @patientCTPlans.each do |ct_plan|
+      num_plans += ct_plan.plans.count
+    end
+    return num_plans
   end
 
   # Returns the count of CTs for the patient

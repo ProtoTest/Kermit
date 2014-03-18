@@ -1,3 +1,6 @@
+require findFile("scripts", "kermit_core\\Element.rb")
+require findFile("scripts", "screen_objects\\WarningDialogPopup.rb")
+
 ########################################################################################
 #
 #  Cat Scan Row component
@@ -85,12 +88,14 @@ class PlanRow  < Element
   end
 
   # Deletes the plan
-  def deletePlan
+  def delete
     self.click
 
+    Log.Trace("Fucking Attempting to type <Delete> on #{self.symbolicName.to_s}")
     # Send the Delete key
-    type(waitForObject(self.symbolicName), "<Delete>")
+    type( waitForObject(self.symbolicName), "<Delete>" )
     snooze 1
+    Log.Trace("Fucking type'd <Delete>")
 
     # Select the 'Delete' button from the warning dialog
     popup = WarningDialogPopup.new
@@ -154,7 +159,14 @@ class PatientCTPlans < Element
     @plans << plan
   end
 
+  def deletePlan
+    if @plans.first
+      @plans.first.delete
+      @plans.delete_at(0)
+    end
+  end
+
   def getPlanCount
-    return @plans.size
+    @plans.size
   end
 end
