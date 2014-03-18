@@ -1,3 +1,7 @@
+# encoding: UTF-8
+require 'squish'
+include Squish
+
 require findFile("scripts", "kermit_core\\Element.rb")
 require findFile("scripts", "screen_objects\\WarningDialogPopup.rb")
 
@@ -91,9 +95,8 @@ class PlanRow  < Element
   def delete
     self.click
 
-    Log.Trace("Fucking Attempting to type <Delete> on #{self.symbolicName.to_s}")
     # Send the Delete key
-    type( waitForObject(self.symbolicName), "<Delete>" )
+    Squish::type(waitForObject(self.symbolicName), "<Delete>")
     snooze 1
     Log.Trace("Fucking type'd <Delete>")
 
