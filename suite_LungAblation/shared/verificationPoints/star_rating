@@ -1,0 +1,12 @@
+<?xml version = '1.0' encoding = 'UTF-8' standalone = 'no'?>
+<VerificationPoint type="Screenshot" version="3" >
+ <Description/>
+ <Verification type="PNG" object=":frame.ratingLabel_QLabel" >iVBORw0KGgoAAAANSUhEUgAAAFsAAAAjCAMAAADMmYYHAAABJlBMVEV1oAt3og57pxN9phl/qxiBrBuCqSKDrh+DsB6FqyeGqyqHrCuHsiWHtCKIrSyIrS2LuCiNsDWOtjKPsjmPvS2RtjqRvDKTuD6Xv0CYwEGZxD6culKevFSxyHeyy3iz0XO0y3q0zXq1znu21Ha3y4W3zoK40X+5zYe5zoW50Oy50YO6zoi60oS71YW80Yi81YO81oa+0oy+0uu/1OvA05TC1JbC1ZXE1enE1pnE15jG1aLG2ZnH2JvH2enI16TJ2aHLy8vL26PMzMzM2arNzc3N2OXPz8/Q4avR0dHR3rPS0tLS2ePT4LbU1NTU4bLU4rbV1dXX19fX473X5bnZ2dnZ5L/a4sbb29vc5Mjc58Ld5c3d5sje5c7e6sTh6NHi6dTj6N3o79giVfOUAAABfUlEQVR4nO2V11rCQBBGV7GAiqIgKlbsI4qKBbFGDBqDvQvW938JE3ay2ewYuPIGMzfJd/bfk9lNY/B3xQJ34P4f7jMySAgBOTJHIpI7da/mUteNQJG4JeK6VxIzSmwtMdkAPGhl8CfCXR2OJd89sepILHlXF4CuGYpbJsK9FI1GVz2xZYvM1wVlTVMa9xDu/rzYGQiHwz175x/IHbLtEAKs23ZqmfS8pPYSy7011NnmVvvgHCUE5Exdc6tolIAS2/010SrXNMBB2kPSGwRAXpPL7pSS2p4shlqcCmVry8mqhABw29TFffQSvt+bEcYrUsBcQSUEgIEi98FQCD4nozixX+TGVELAM5ouwYeguwsn9opct0oIcLo0Sd+m7H5jTn1jrCJIxQeA2F3hVgh3P1lT+gr2qq8w9iLIiQ+wTbdwo7hlwt27rGPfOjzG2TrGDjl5jbMFHwC4dFMTb49CuHs2g6NHU3iScS5yPO4D3I9pCX4nTfDfCdyBu+ncPyBp8jIKWURFAAAAAElFTkSuQmCC<Mask>
+   <Rect width="85" x="3" y="10" height="15" type="negative" />
+  </Mask>
+  <Algorithm name="nchcompare" description="Normalized Color Histograms" >
+   <Parameter name="bincount" description="Bin Count" >11</Parameter>
+   <Parameter name="threshold" description="Threshold" >0.014</Parameter>
+  </Algorithm>
+ </Verification>
+</VerificationPoint>

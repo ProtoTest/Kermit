@@ -12,7 +12,7 @@ SEND_EMAIL = false
 # Logging initialization
 
 # output trace logs
-LOG_TRACE= false
+LOG_TRACE= true
 
 @@logCmd = LogCommandBuilder.new
 Log = @@logFile = TestLogger.new
@@ -23,5 +23,18 @@ MAX_NUM_VISIBLE_TABLE_ROWS = 15
 # 10 second timeout for squish to find and wait for objects
 OBJECT_WAIT_TIMEOUT = 10000
 
-# Colors to match when verifying image slider position in the plan editor views.
-IMAGE_SLIDER_COLORS = ["0FFE0FFF".to_i(16), "1EFD1EFF".to_i(16)]
+########################
+# Smoke Test Variables #
+########################
+
+# Number of tabs to create in the smoke test tab test case
+TABS_TO_CREATE = 100
+
+NUMBER_OF_SNAPSHOTS_TO_TAKE = 100
+
+UNICODE_DATAPOINTS = [(0x0040...0x007e).to_a,
+                      (0x00c0...0x02Af).to_a,
+                      (0x1d00...0x1dbf).to_a,
+                      (0x1e00...0x1eff).to_a,
+                      (0x2100...0x24ef).to_a,
+                      (0x2c60...0x2c7f).to_a].flatten

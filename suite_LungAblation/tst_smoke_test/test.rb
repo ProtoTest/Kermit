@@ -16,12 +16,23 @@ def main
   # TestConfig
   installEventHandlers()
 
-  testImageCount(MainScreen.new, patients_under_test[1,1])
+  patients_smoke_test(MainScreen.new, patients_under_test)
   
   # Run target test on one patient with 20 targets
   #testTargets(MainScreen.new, patients_under_test[0,1], 20)
   
   #testSearchBox(patients_under_test)
+end
+
+def patients_smoke_test(main_screen, patient_id_list)
+  main_screen.getPatientList.each do |patient|
+    next if ! patient_id_list.include?(patient.id)
+    testExportImages(main_screen, patient)
+    testImageCount(main_screen, patient)
+    testTabCount(main_screen, patient, TABS_TO_CREATE)
+    testStarExists(main_screen, patient)
+    testCrud(main_screen, patient)
+  end
 end
 
 # Requires the external ruby configuration properly set, and the external ruby must have chunky_png installed.
@@ -31,66 +42,76 @@ end
 #
 # Parameters: mainScreen - the initialized MainScreen object.
 #             patients_list - a list of patient id's to run the test on.
-def testImageCount(mainScreen, patients_list)
-  mainScreen.getPatientList.each do |patient|
-    if patients_list.include?(patient.id)
-      details = patient.openPatientDetails
-      Log.TestLog("#{details.CTRow.getImageCount.class.name}")
-      
-      imageCount = Integer(details.CTRow.getImageCount.to_s.split[0])
-      addTargetsScreen = details.clickCreateNewPlan
-      addTargetsScreen.imageArea.click
-      # fails if the images label says there are 20 more images than actually present.
-      for n in (0..((imageCount/2)+10))
-        nativeType("<PageDown>") 
-      end
-      for n in (0..(imageCount/2))
-        nativeType("<PageUp>") 
-      end
-
-      pixelColor = addTargetsScreen.imageArea.getPixelColor([0,113]).to_i
-      Log.TestVerify(IMAGE_SLIDER_COLORS.include?(pixelColor), "Green line is in the center of the image slider (Checking that #{pixelColor} is in #{IMAGE_SLIDER_COLORS}")
-
-      addTargetsScreen.clickLoadImages
-      mainScreen.deletePatientPlans(patient.id)
-    end
+def testImageCount(mainScreen, patient)
+  details = patient.openPatientDetails
+  Log.TestLog("#{details.patientCTPlans.first.ct.getImageCount.class.name}")
+  
+  imageCount = Integer(details.patientCTPlans.first.ct.getImageCount.to_s.split[0])
+  addTargetsScreen = details.clickCreateNewPlan
+  addTargetsScreen.imageArea.click
+  # fails if the images label says there are 20 more images than actually present.
+  for n in (0..(imageCount/2))
+    nativeType("<PageDown>") 
   end
+  Test.vp("image_slider_bottom")
+  for n in (0..(imageCount/2))
+    nativeType("<PageUp>") 
+  end
+  
+  Test.vp("image_slider_centered")
+  #pixelColor = addTargetsScreen.imageArea.getPixelColor([0,113]).to_i
+  
+  #Log.TestVerify(IMAGE_SLIDER_COLORS.include?(pixelColor), "Green line is in the center of the image slider (Checking that #{pixelColor} is in #{IMAGE_SLIDER_COLORS}")
+  
+  addTargetsScreen.clickLoadImages
+  mainScreen.deletePatientPlans(patient.id)
+
 end
 
-def testTargets(mainScreen, patients_list, targetsPerPatient)
-  Log.TestLog("#{mainScreen.getPatientList}")
-  mainScreen.getPatientList.each_with_index do |patient, index|
-    Log.TestLog("Running loop!")
-    if patients_list.include?(patient.id)
-      Log.TestLog("Testing creation of ${targetsPerPatient} targets for patient ${patient.id}")
-      begin
-        addTargetsScreen = patient.openPatientDetails.clickCreateNewPlan
-        addTargets(addTargetsScreen, targetsPerPatient)
-      rescue Exception => e
-        Log.TestFail("Creation of targets failed for patient #{patient.id}: #{e.message}")
-      ensure
-        mainScreen = MainScreen.new
-        mainScreen.deletePatientPlans(patient.id)
-      end
-    end
+def testTabCount(main_screen, patients, targets)
+
+  Log.TestLog("Testing creation of ${targetsPerPatient} targets for patient ${patient.id}")
+  begin
+    add_targets_screen = patient.openPatientDetails.clickCreateNewPlan
+    addTargets(addTargetsScreen, targets)
+  rescue Exception => e
+    Log.TestFail("Creation of targets failed for patient #{patient.id}: #{e.message}")
+  ensure
+    add_targets_screen.clickLoadImages
+    main_screen = MainScreen.new
+    main_screen.deletePatientPlans(patient.id)
   end
 end
 
 def addTargets(add_targets_screen, count)
-  begin
-    (1..count).each do | n |
-      targetName = "target#{n}"
-      add_targets_screen.addTarget(targetName, "Note: ${targetName}")
-      add_targets_screen = add_targets_screen.clickVisualize
-      Log.TestLog("Verifying #{targetName}")
-      add_targets_screen.clickTargetTabByName(targetName)
-      add_targets_screen.clickVisualize
-    end
-  ensure
-    add_targets_screen.clickLoadImages
+  (1..count).each do | n |
+    targetName = "target#{n}"
+    add_targets_screen.addTarget(targetName, "Note: ${targetName}")
+    add_targets_screen = add_targets_screen.clickVisualize
+    Log.TestLog("Verifying #{targetName}")
+    add_targets_screen.clickTargetTabByName(targetName)
+    add_targets_screen.clickVisualize
   end
 end
-  
+
+def testStarExists(main_screen, patient)
+  patient.openPatientDetails.patientCTPlans.first.ct.click
+  Test.vp("star_rating")
+  patient.closePatientDetails
+end
+
+def randomUnicodeString(char_set, length)
+  return Array.new(length) { char_set[rand(char_set.size)].chr('UTF-8') }.join()
+end
+
+def testCrud(main_screen, patient)
+  add_targets = patient.openPatientDetails.clickCreateNewPlan
+  edit_target = add_targets.addTarget(randomUnicodeString(UNICODE_DATAPOINTS, 20),randomUnicodeString(UNICODE_DATAPOINTS, 20))
+  edit_ablation = edit_target.clickAddAblationZones.clickAddAblation
+  edit_ablation.enterAblationZoneInfo(1+rand(2), 1+rand(3), 1+rand(3))
+  edit_ablation.appHeaderFooter.clickLoadImagesRadio
+  main_screen.deletePatientPlans(patient.id)
+end
   
 
 def testSearchBox(patients_list)
@@ -106,4 +127,25 @@ def testSearchBox(patients_list)
     Log.TestVerify(patientsList.count == 1, "Verify one unique result.")
     Log.TestVerify(patientsList[0].id == patient, "Verify the found patient matches #{patient}")
   end
+end
+
+def testExportImages(main_screen, patient)
+  begin
+     # construct the main application page
+     main_screen = MainScreen.new
+  
+     add_targets_screen = main_screen.createPlanForPatientID(patient.id)
+  
+     # take all of the snapshots
+     NUMBER_OF_SNAPSHOTS_TO_TAKE.times do
+       add_targets_screen.appHeaderFooter.captureScreen(randomUnicodeString(UNICODE_DATAPOINTS, 20))
+     end
+  
+     add_targets_screen.appHeaderFooter.clickExportRadio.exportToUSB.verifyExportSuccessful
+  
+   rescue Exception => e
+     Log.TestFail("Export Images Test: #{e.message}\n#{e.backtrace.inspect}")
+  ensure
+    add_targets_screen.appHeaderFooter.clickLoadImagesRadio
+  end  
 end

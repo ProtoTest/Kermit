@@ -45,6 +45,7 @@ class EditAblation < BaseScreenObject
     @appHeaderFooter = AppHeaderFooterEdit.new
     # use the object real name for elements where the text can change
     @deleteAblationBtn = Element.new("Delete Ablation Zone Button", ":Form.Delete Ablation Zone_QPushButton")
+    @zoneChart = Element.new("Zone Chart Dropdown", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='zoneChartButton' type='QPushButton' visible='1'}")
     @power = Element.new("Power dropdown button", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='powerButton' type='QPushButton' visible='1'}")
     @time = Element.new("Ablation Zone Time", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='timeValueLabel' type='QLabel' visible='1'}")
     @diameter = Element.new("Ablation Zone Diameter", "{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='diameterValueLabel' type='QLabel' visible='1'}")
@@ -103,7 +104,7 @@ class EditAblation < BaseScreenObject
   def enterAblationZoneInfo(doseTableOption, powerOption, needleOption)
     case doseTableOption
       when DoseTableOptions::LUNG, DoseTableOptions::LIVER
-        @doseTable.click
+        @zoneChart.click
         snooze 1
         doseTableOption.times { nativeType("<Down>"); snooze 1 }
         nativeType("<Return>")

@@ -70,18 +70,18 @@ class MainScreen < BaseScreenObject
       #Go back to the patient tree
       @appHeaderFooter.clickLoadImagesRadio
       #Scroll to the patient (if needed) and open up the patient details - displaying all the available plans for this patient
-      details = scrollToPatientIndex(index).openPatientDetails(patient)
+     details = scrollToPatientIndex(index).openPatientDetails(patient)
       #Test to make sure that the original plan count is increased by one
       Log.TestVerify(origPlanCount+1 == details.getPlanCount, "Verify Plan count increased by one")
       #Determine the patient row index for the new plan
-      patientRowIndex = index % (MAX_NUM_VISIBLE_TABLE_ROWS - 1)
+     patientRowIndex = index % (MAX_NUM_VISIBLE_TABLE_ROWS - 1)
 
       Log.Trace("#{self.class.name}::#{__method__}(): patientRowIndex: #{patientRowIndex}")
       newPlanCount = details.getPlanCount
       Log.Trace("#{self.class.name}::#{__method__}(): New Plan count is " + newPlanCount.to_s)
       # Scroll down to the last plan row to delete it
       # +1 is for the CT row
-      scrollToPatientIndex(patientRowIndex + 1 + newPlanCount)
+      scrollToPatientIndex(patientRowIndex + 1 )
       # Delete the plan
       details.patientCTPlans.first.deletePlan
       # Open patient details to verify new row created

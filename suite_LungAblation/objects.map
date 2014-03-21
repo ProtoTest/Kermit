@@ -17,6 +17,7 @@
 :Form.Form_ViewsAreaForm	{container=':Form_MainForm' name='ViewsAreaForm' type='ViewsAreaForm' visible='1' windowTitle='Form'}
 :Form.Hard Drive_QToolButton	{container=':Form_LoadImagesTreeForm' name='hardDriveButton' text='Hard Drive' type='QToolButton' visible='1'}
 :Form.LocalizerForm_LocalizerForm	{container=':stackedWidget.Form_MPRViewWidget' name='LocalizerForm' type='LocalizerForm' visible='1' windowTitle='LocalizerForm'}
+:Form.Lung (ex vivo)_QPushButton	{container=':stackedWidget.Form_AddAblationZonesSidePanelForm2' name='zoneChartButton' text='Lung (ex vivo)' type='QPushButton' visible='1'}
 :Form.System_QToolButton	{container=':Form_LoadImagesTreeForm' name='systemButton' text='System' type='QToolButton' visible='1'}
 :Form.USB_QToolButton	{container=':Form_LoadImagesTreeForm' name='usbButton' text='USB' type='QToolButton' visible='1'}
 :Form.captureScreenButton_QPushButton	{container=':Form_HeaderForm' name='captureScreenButton' type='QPushButton' visible='1'}
@@ -75,6 +76,7 @@
 :customTreeWidget.frame_QFrame	{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' type='QFrame' visible='1'}
 :customTreeWidget_QScrollBar	{container=':Form.customTreeWidget_CustomTreeWidget' type='QScrollBar' unnamed='1' visible='1'}
 :frame.263 Images_QLabel	{container=':customTreeWidget.frame_QFrame' name='imagesLabel' text='263 Images' type='QLabel' visible='1'}
+:frame.ratingLabel_QLabel	{container=':customTreeWidget.frame_QFrame' name='ratingLabel' type='QLabel' visible='1'}
 :stackedWidget.Form_AddAblationZonesSidePanelForm1	{container=':Form.stackedWidget_QStackedWidget' name='AddAblationZonesSidePanelForm1' type='AddAblationZonesSidePanelForm1' visible='1' windowTitle='Form'}
 :stackedWidget.Form_AddAblationZonesSidePanelForm2	{container=':Form.stackedWidget_QStackedWidget' name='AddAblationZonesSidePanelForm2' type='AddAblationZonesSidePanelForm2' visible='1' windowTitle='Form'}
 :stackedWidget.Form_AddTargetsSidePanelForm1	{container=':Form.stackedWidget_QStackedWidget' name='AddTargetsSidePanelForm1' type='AddTargetsSidePanelForm1' visible='1' windowTitle='Form'}

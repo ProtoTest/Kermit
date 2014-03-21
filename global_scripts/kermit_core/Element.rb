@@ -127,6 +127,7 @@ class Element
 
   # Single click on the element
   def click
+    Log.Trace("Clicking on #{@symbolicName}")
     mouseClick(waitForObject(@symbolicName))
     Log.AppendLog(@@logCmd.click(self))
   end
@@ -208,11 +209,6 @@ class Element
       mouseRelease()
     end
     Log.AppendLog(@@logCmd.moveTarget(element, direction, amount), snagScreenshot(element))
-  end
-
-  def getPixelColor(pixelLocation)
-    pngFile = Log.testLogLocation + snagScreenshot
-    return ext_getPixelColor(pixelLocation, pngFile)
   end
 
   # Take a screenshot of the just the element

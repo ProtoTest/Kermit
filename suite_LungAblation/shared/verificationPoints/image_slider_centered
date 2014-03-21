@@ -1,0 +1,10 @@
+<?xml version = '1.0' encoding = 'UTF-8' standalone = 'no'?>
+<VerificationPoint version="3" type="Screenshot" >
+ <Description/>
+ <Verification type="PNG" object=":LocalizerForm.verticalSlider_QSlider" >iVBORw0KGgoAAAANSUhEUgAAAOQAAADkCAMAAAC/iXi/AAAACVBMVEUP/g8e/R7w8PBlCOdaAAABF0lEQVR4nO3SgQ3AMAzDsGz/H90vWkAhL7AAz7/AvB5wg8gKkRUiK0RWiKwQWSGyQmSFyAqRFSIrRFaIrBBZIbJCZIXICpEVIitEVoisEFkhskJkhcgKkRUiK0RWiKwQWSGyQmSFyAqRFSIrRFaIrBBZIbJCZIXICpEVIitEVoisEFkhskJkhcgKkRUiK0RWiKwQWbEj8ltgVnh9pRtEVoisEFkhskJkhcgKkRUiK0RWiKwQWSGyQmSFyAqRFSIrRFaIrBBZIbJCZIXICpEVIitEVoisEFkhskJkhcgKkRUiK0RWiKwQWSGyQmSFyAqRFSIrRFaIrBBZIbJCZIXICpEVIitEVoisEFkhskJkhcgKkRUiK0RWHJiCk4TWRJXuAAAAAElFTkSuQmCC<Mask/>
+  <Algorithm name="simplecompare" description="Simple comparison (pixel by pixel)" >
+   <Parameter name="threshold" description="Threshold" >1.35</Parameter>
+   <Parameter name="tolerance" description="Tolerance" >0</Parameter>
+  </Algorithm>
+ </Verification>
+</VerificationPoint>

@@ -43,7 +43,7 @@ class AddTargets < BaseScreenObject
   end
 
   def clickLoadImages
-    @appHeaderFooterEdit.clickBackButton
+    @appHeaderFooter.clickLoadImagesRadio
     return MainScreen.new
   end
 
