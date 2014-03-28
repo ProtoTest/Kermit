@@ -114,7 +114,7 @@ class MainScreen < BaseScreenObject
 
   # Import the first CT series for each patient in the import source.
   # Valid sources are :hdd, :cd, :usb.
-  def importPatients(source)
+  def importPatients(source, count=Nil)
     begin
       sourceBtn = getImportSourceBtn(source)
       sourceBtn.click
@@ -126,7 +126,11 @@ class MainScreen < BaseScreenObject
       patientList = importScreen.getPatientList
       @systemBtn.click
 
-      (0...patientList.size).each do |patient_index|
+      if count == Nil 
+        count = patientList.size
+      end
+      
+      (0...count).each do |patient_index|
         details = get_patient_details_for_import(sourceBtn, importScreen, patientList, patient_index)
 
         # if there are multiple CT's for this patient, import each CT
@@ -143,6 +147,7 @@ class MainScreen < BaseScreenObject
 
       end
       Log.TestLog("Imported #{patientList.size} patients")
+      return patientList[0,count]
     rescue Exception => e
       Log.TestFail("Failed to import patients: #{e.message}")
     end

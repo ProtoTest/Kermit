@@ -8,7 +8,7 @@ require findFile("scripts", "screen_objects\\MainScreen.rb")
 
 def main
   # Patients from the sample data installer.
-  patients_under_test = ['1.3.6.1.4.1.9328.50.1.0072', '1.3.6.1.4.1.9328.50.3.0537', '44444', 'MR15124', 'LIDC-IDRI-0031', 'LIDC-IDRI-0072', 'LIDC-IDRI-0118']
+  patients_under_test = ['COVIDIEN','LIDC-IDRI-0001', 'LIDC-IDRI-0002', 'LIDC-IDRI-0008']
   
   
   startApplication("LungAblation")
@@ -27,11 +27,16 @@ end
 def patients_smoke_test(main_screen, patient_id_list)
   main_screen.getPatientList.each do |patient|
     next if ! patient_id_list.include?(patient.id)
-    testExportImages(main_screen, patient)
-    testImageCount(main_screen, patient)
+    Log.Trace("Tabs Test")
     testTabCount(main_screen, patient, TABS_TO_CREATE)
+    Log.Trace("Export Test")
+    testExportImages(main_screen, patient)
+    Log.Trace("Stars Test")
     testStarExists(main_screen, patient)
+    Log.Trace("Crud Test")
     testCrud(main_screen, patient)
+    Log.Trace("Images Count Test")
+    testImageCount(main_screen, patient)
   end
 end
 
@@ -43,13 +48,10 @@ end
 # Parameters: mainScreen - the initialized MainScreen object.
 #             patients_list - a list of patient id's to run the test on.
 def testImageCount(mainScreen, patient)
-  details = patient.openPatientDetails
-  Log.TestLog("#{details.patientCTPlans.first.ct.getImageCount.class.name}")
-  
+  details = patient.openPatientDetails  
   imageCount = Integer(details.patientCTPlans.first.ct.getImageCount.to_s.split[0])
   addTargetsScreen = details.clickCreateNewPlan
   addTargetsScreen.imageArea.click
-  # fails if the images label says there are 20 more images than actually present.
   for n in (0..(imageCount/2))
     nativeType("<PageDown>") 
   end
@@ -59,27 +61,26 @@ def testImageCount(mainScreen, patient)
   end
   
   Test.vp("image_slider_centered")
-  #pixelColor = addTargetsScreen.imageArea.getPixelColor([0,113]).to_i
-  
-  #Log.TestVerify(IMAGE_SLIDER_COLORS.include?(pixelColor), "Green line is in the center of the image slider (Checking that #{pixelColor} is in #{IMAGE_SLIDER_COLORS}")
   
   addTargetsScreen.clickLoadImages
   mainScreen.deletePatientPlans(patient.id)
+  patient.closePatientDetails
 
 end
 
-def testTabCount(main_screen, patients, targets)
+def testTabCount(main_screen, patient, targets)
 
   Log.TestLog("Testing creation of ${targetsPerPatient} targets for patient ${patient.id}")
   begin
     add_targets_screen = patient.openPatientDetails.clickCreateNewPlan
-    addTargets(addTargetsScreen, targets)
+    addTargets(add_targets_screen, targets)
   rescue Exception => e
     Log.TestFail("Creation of targets failed for patient #{patient.id}: #{e.message}")
   ensure
-    add_targets_screen.clickLoadImages
+    main_screen.appHeaderFooter.clickLoadImagesRadio
     main_screen = MainScreen.new
     main_screen.deletePatientPlans(patient.id)
+    patient.closePatientDetails
   end
 end
 
@@ -95,7 +96,9 @@ def addTargets(add_targets_screen, count)
 end
 
 def testStarExists(main_screen, patient)
-  patient.openPatientDetails.patientCTPlans.first.ct.click
+  Log.Trace("checking ratings on #{patient.id}")
+  details = patient.openPatientDetails
+  details.patientCTPlans.first.ct.click
   Test.vp("star_rating")
   patient.closePatientDetails
 end
@@ -105,12 +108,17 @@ def randomUnicodeString(char_set, length)
 end
 
 def testCrud(main_screen, patient)
+  Log.Trace("1")
   add_targets = patient.openPatientDetails.clickCreateNewPlan
+  Log.Trace("2")
+
   edit_target = add_targets.addTarget(randomUnicodeString(UNICODE_DATAPOINTS, 20),randomUnicodeString(UNICODE_DATAPOINTS, 20))
   edit_ablation = edit_target.clickAddAblationZones.clickAddAblation
   edit_ablation.enterAblationZoneInfo(1+rand(2), 1+rand(3), 1+rand(3))
   edit_ablation.appHeaderFooter.clickLoadImagesRadio
   main_screen.deletePatientPlans(patient.id)
+  patient.closePatientDetails
+
 end
   
 
@@ -132,10 +140,9 @@ end
 def testExportImages(main_screen, patient)
   begin
      # construct the main application page
-     main_screen = MainScreen.new
-  
-     add_targets_screen = main_screen.createPlanForPatientID(patient.id)
-  
+     Log.Trace("Testing large number of screenshots for patient #{patient.id}")
+     add_targets_screen = patient.openPatientDetails.clickCreateNewPlan
+       
      # take all of the snapshots
      NUMBER_OF_SNAPSHOTS_TO_TAKE.times do
        add_targets_screen.appHeaderFooter.captureScreen(randomUnicodeString(UNICODE_DATAPOINTS, 20))
@@ -146,6 +153,6 @@ def testExportImages(main_screen, patient)
    rescue Exception => e
      Log.TestFail("Export Images Test: #{e.message}\n#{e.backtrace.inspect}")
   ensure
-    add_targets_screen.appHeaderFooter.clickLoadImagesRadio
+    main_screen.appHeaderFooter.clickLoadImagesRadio
   end  
 end

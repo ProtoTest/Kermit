@@ -27,7 +27,10 @@ class AddTargets < BaseScreenObject
     @targetTabsContainer = Element.new("Target Tabs Bar Container", "{container=':Form_MainForm' type='QTabBar' unnamed='1' visible='1'}")
     @visualizeBtn = Element.new("Visualize Tab Button", ":Visualize_TabItem")
     @addTargetBtn = Element.new("Add a Target Button", ":Form.Add a Target_QPushButton")
+    @singleSliceBtn = Element.new("Single Slice Button", ":Form.Single Slice_QPushButton")
     @imageArea = Element.new("CT Image Area", ":LocalizerForm.verticalSlider_QSlider")
+    verifyElementsPresent([@singleSliceBtn], self.class.name)
+    @singleSliceBtn.click
     @elements = [@addTargetBtn, @visualizeBtn, @targetTabsContainer, @imageArea]
     waitForObject(@targetTabsContainer.symbolicName, 90000)
     verifyElementsPresent(@elements, self.class.name)
