@@ -9,6 +9,7 @@ require findFile("scripts", "screen_objects\\MainScreen.rb")
 def main
   # Patients from the sample data installer.
   patients_under_test = ['COVIDIEN','LIDC-IDRI-0001', 'LIDC-IDRI-0002', 'LIDC-IDRI-0008']
+  load_count_from_media = 3
   
   
   startApplication("LungAblation")
@@ -16,13 +17,28 @@ def main
   # TestConfig
   installEventHandlers()
 
-  patients_smoke_test(MainScreen.new, patients_under_test)
+  main_screen = MainScreen.new
+
+  from_media_smoke_test(MainScreen.new, load_count_from_media)
+  #patients_smoke_test(MainScreen.new, patients_under_test)
   
   # Run target test on one patient with 20 targets
   #testTargets(MainScreen.new, patients_under_test[0,1], 20)
   
   #testSearchBox(patients_under_test)
 end
+
+def from_media_smoke_test(main_screen, load_count)
+  [:hdd, :cd, :usb].each do | source |
+    Log.Trace("Loading from #{source}")
+    patients_under_test = main_screen.importPatients(source, load_count)
+    patient_ids = patients_under_test.map  { |patient| patient.id }
+    Log.Trace("#{patient_ids}")
+    patients_smoke_test(main_screen, patient_ids)
+    main_screen.deletePatients(patients_under_test)
+  end
+end
+  
 
 def patients_smoke_test(main_screen, patient_id_list)
   main_screen.getPatientList.each do |patient|

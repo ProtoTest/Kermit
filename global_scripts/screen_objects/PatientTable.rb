@@ -227,14 +227,11 @@ class Patient < BaseScreenObject
   end
 
   def deletePatient
-    @patientElement.click
-    # Rather than instantiate PatientDetails, just select the ctrow directly.
-    ctrow = CTRow.new("{container=':Form.customTreeWidget_CustomTreeWidget' name='frame' type='QFrame' visible='1'}")
-    ctrow.click
-    type(waitForObject(ctrow.symbolicName), "<Delete>")
-    # Select the 'Delete' button from the warning dialog
-    popup = WarningDialogPopup.new
-    popup.clickBtn("Delete")
+    begin
+      details = openPatientDetails
+      details.patientCTPlans[0].ct.delete
+    end while details.patientCTPlans.size > 1
+
   end
 
   def to_s

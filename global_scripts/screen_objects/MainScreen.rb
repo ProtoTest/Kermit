@@ -114,7 +114,7 @@ class MainScreen < BaseScreenObject
 
   # Import the first CT series for each patient in the import source.
   # Valid sources are :hdd, :cd, :usb.
-  def importPatients(source, count=Nil)
+  def importPatients(source, count=nil)
     begin
       sourceBtn = getImportSourceBtn(source)
       sourceBtn.click
@@ -126,7 +126,11 @@ class MainScreen < BaseScreenObject
       patientList = importScreen.getPatientList
       @systemBtn.click
 
-      if count == Nil 
+      if patientList.size == 0
+        Log.TestLog("No patients to import from #{source}")
+        return []
+      end
+      if count == nil 
         count = patientList.size
       end
       
@@ -146,7 +150,8 @@ class MainScreen < BaseScreenObject
         end
 
       end
-      Log.TestLog("Imported #{patientList.size} patients")
+      @systemBtn.click
+      Log.TestLog("Imported #{count} patients")
       return patientList[0,count]
     rescue Exception => e
       Log.TestFail("Failed to import patients: #{e.message}")
@@ -154,14 +159,17 @@ class MainScreen < BaseScreenObject
   end
 
   # Delete all patients from the System patient table.
-  def deletePatients
+  def deletePatients(patients = nil)
+    if patients == nil 
+      patients = getPatientList
+    end
     begin
       # Delete the first patient in the table repeatedly for the total patient count.
       patientCount = getPatientList.size
-      (0...patientCount).each do |i|
-        @patientTable.deletePatient(0)
+      patients.each do | patient |
+        patient.deletePatient
       end
-      Log.TestLog("Deleted #{patientCount} patients")
+      Log.TestLog("Deleted #{patients.size} patients")
     rescue Exception => e
       Log.TestFail("Failed to delete patients: #{e.message}")
     end

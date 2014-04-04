@@ -56,6 +56,19 @@ class CTRow < Element
   def getImageCount
     return @imageCountLabel.getText
   end
+  
+  def delete
+    self.click
+  
+    # Send the Delete key
+    Squish::type(waitForObject(self.symbolicName), "<Delete>")
+    snooze 1
+    Log.Trace("Fucking type'd <Delete>")
+  
+    # Select the 'Delete' button from the warning dialog
+    popup = WarningDialogPopup.new
+    popup.clickBtn("Delete")
+  end
 end
 
 ########################################################################################
@@ -125,7 +138,8 @@ class RowFactory
 
       # The row type (either CT or PLAN)
       rowType = Element.new("Patient Row Type", ObjectMap.symbolicName(objectChildren[2]))
-
+      Log.Trace("Row: #{rowType}")
+      Log.Trace("Row text: #{rowType.getText}")
       if rowType.getText.eql?("CT")
         Log.Trace("#{self.class.name}::#{__method__}(): Returning a CTRow Object")
         return CTRow.new(objectString)
