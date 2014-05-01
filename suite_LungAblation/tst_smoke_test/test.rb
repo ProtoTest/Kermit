@@ -9,7 +9,9 @@ require findFile("scripts", "screen_objects\\MainScreen.rb")
 def main
   # Patients from the sample data installer.
   patients_under_test = ['COVIDIEN','LIDC-IDRI-0001', 'LIDC-IDRI-0002', 'LIDC-IDRI-0008']
-  load_count_from_media = 3
+  
+  # number of patients to import from each media source 
+  load_count_from_media = 1
   
   
   startApplication("LungAblation")
@@ -20,18 +22,17 @@ def main
   main_screen = MainScreen.new
 
   from_media_smoke_test(MainScreen.new, load_count_from_media)
-  #patients_smoke_test(MainScreen.new, patients_under_test)
   
-  # Run target test on one patient with 20 targets
-  #testTargets(MainScreen.new, patients_under_test[0,1], 20)
   
-  #testSearchBox(patients_under_test)
+  # Finalize the test run
+  completeTest
 end
 
 def from_media_smoke_test(main_screen, load_count)
   [:hdd, :cd, :usb].each do | source |
     Log.Trace("Loading from #{source}")
     patients_under_test = main_screen.importPatients(source, load_count)
+    Log.Trace("Loaded #{patients_under_test}")
     patient_ids = patients_under_test.map  { |patient| patient.id }
     Log.Trace("#{patient_ids}")
     patients_smoke_test(main_screen, patient_ids)
@@ -41,8 +42,13 @@ end
   
 
 def patients_smoke_test(main_screen, patient_id_list)
+  Log.Trace("Testing #{patient_id_list}")
+  main_screen = MainScreen.new
   main_screen.getPatientList.each do |patient|
+    Log.Trace("Testing #{patient.id}")
     next if ! patient_id_list.include?(patient.id)
+    Log.Trace("Images Count Test")
+    testImageCount(main_screen, patient)
     Log.Trace("Tabs Test")
     testTabCount(main_screen, patient, TABS_TO_CREATE)
     Log.Trace("Export Test")
@@ -51,8 +57,6 @@ def patients_smoke_test(main_screen, patient_id_list)
     testStarExists(main_screen, patient)
     Log.Trace("Crud Test")
     testCrud(main_screen, patient)
-    Log.Trace("Images Count Test")
-    testImageCount(main_screen, patient)
   end
 end
 

@@ -28,9 +28,9 @@ OBJECT_WAIT_TIMEOUT = 10000
 ########################
 
 # Number of tabs to create in the smoke test tab test case
-TABS_TO_CREATE = 100
+TABS_TO_CREATE = 2
 
-NUMBER_OF_SNAPSHOTS_TO_TAKE = 100
+NUMBER_OF_SNAPSHOTS_TO_TAKE = 2
 
 UNICODE_DATAPOINTS = [(0x0040...0x007e).to_a,
                       (0x00c0...0x02Af).to_a,
